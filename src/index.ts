@@ -5,7 +5,7 @@ const importTranslation = require.context('../translations', false, /.json$/, 'l
 
 const backendDependencies = {
   fhir2: '^1.2.0',
-}
+};
 
 function setupOpenMRS() {
   const moduleName = '@openmrs/esm-template-app';
@@ -23,7 +23,7 @@ function setupOpenMRS() {
         load: getAsyncLifecycle(() => import('./greeter'), options),
         route: 'hello',
       },
-    ]
+    ],
   };
 }
 
