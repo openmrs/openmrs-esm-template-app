@@ -1,3 +1,9 @@
+/**
+ * Components that make queries delegate the query-making logic to a
+ * `.resource.ts` function. This component simply calls `getPatient`
+ * and sets a state variable using the result.
+ */
+
 import React, { useState } from 'react';
 import { Trans } from 'react-i18next';
 import { getPatient } from './patient-getter.resource';

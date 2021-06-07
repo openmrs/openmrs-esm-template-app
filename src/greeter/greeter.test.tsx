@@ -1,10 +1,10 @@
 import React from 'react';
 import { render, cleanup } from '@testing-library/react';
-import Root from './greeter';
+import { Greeter } from './greeter';
 
-describe(`<Root />`, () => {
+describe(`<Greeter />`, () => {
   afterEach(cleanup);
   it(`renders without dying`, () => {
-    render(<Root />);
+    render(<Greeter />);
   });
 });
