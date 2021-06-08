@@ -42,8 +42,15 @@
   },
   "dependencies": {
     "@carbon/icons-react": "^10.33.0",
+    "@openmrs/esm-framework": "next",
     "carbon-components-react": "^7.36.0",
+    "i18next": "^20.3.1",
     "lodash-es": "^4.17.21",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-i18next": "^11.10.0",
+    "react-router-dom": "^5.2.0",
+    "rxjs": "^7.1.0",
     "systemjs-webpack-interop": "^2.3.7"
   },
   "peerDependencies": {
@@ -61,7 +68,6 @@
     "@babel/preset-react": "^7.13.13",
     "@babel/preset-typescript": "^7.13.0",
     "@babel/runtime": "^7.14.0",
-    "@openmrs/esm-framework": "next",
     "@testing-library/dom": "^7.31.2",
     "@testing-library/jest-dom": "^5.13.0",
     "@testing-library/react": "^11.2.7",
@@ -83,18 +89,12 @@
     "eslint-config-ts-react-important-stuff": "^3.0.0",
     "eslint-plugin-prettier": "^3.4.0",
     "husky": "^6.0.0",
-    "i18next": "^20.3.1",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^27.0.4",
     "jest-cli": "^27.0.4",
     "openmrs": "next",
     "prettier": "^2.3.0",
     "pretty-quick": "^3.1.0",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "react-i18next": "^11.10.0",
-    "react-router-dom": "^5.2.0",
-    "rxjs": "^7.1.0",
     "typescript": "^4.3.2"
   }
 }
