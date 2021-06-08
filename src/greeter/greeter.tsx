@@ -1,3 +1,8 @@
+/**
+ * This component demonstrates usage of the config object. Its structure
+ * comes from `../config-schema.ts`. For more information about the
+ * configuration system, please see that file.
+ */
 import { useConfig } from '@openmrs/esm-framework';
 import React from 'react';
 import { Trans } from 'react-i18next';
