@@ -31,6 +31,8 @@ own microfrontend.
   just replace all instances of `template` with your microfrontend's name.
   However, if you're writing a microfrontend for a specific organization or
   implementation, you will probably need to configure GitHub Actions differently.
+1. Delete the contents of this README and write a short explanation of what
+  you intend to build. Links to planning or design documents can be very helpful.
 
 At this point, you should be able to write your first page as a React application.
 
