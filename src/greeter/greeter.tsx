@@ -15,7 +15,7 @@ export const Greeter: React.FC = () => {
   return (
     <div className={styles.greeting}>
       {config.casualGreeting ? <Trans key="casualGreeting">hey</Trans> : <Trans key="formalGreeting">hello</Trans>}{' '}
-      {config.whoToGreet.join(', ')}
+      {config.whoToGreet.join(', ')}!
     </div>
   );
 };

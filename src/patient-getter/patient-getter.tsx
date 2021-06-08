@@ -16,7 +16,11 @@ export function PatientGetter() {
       <button onClick={() => getPatient(patientName).then(setPatient)}>
         <Trans key="getPatient">Get a patient named</Trans> 'test'
       </button>
-      <div>{JSON.stringify(patient)}</div>
+      <div>
+        {patient
+          ? `${patient.name[0].given} ${patient.name[0].family} / ${patient.gender} / ${patient.birthDate}`
+          : null}
+      </div>
     </div>
   );
 }
