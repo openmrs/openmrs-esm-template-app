@@ -15,6 +15,7 @@
     "prettier": "prettier --config prettier.config.js --write \"src/**/*.{ts,tsx}\"",
     "typescript": "tsc",
     "test": "jest --config jest.config.json",
+    "coverage": "npm run test -- --coverage",
     "prepare": "husky install"
   },
   "husky": {
