@@ -23,7 +23,7 @@ const importTranslation = require.context('../translations', false, /.json$/, 'l
  */
 const backendDependencies = {
   fhir2: '^1.2.0',
-  'webservices.rest': '^2.2.0'
+  'webservices.rest': '^2.2.0',
 };
 
 /**
@@ -31,7 +31,7 @@ const backendDependencies = {
  * load-time (such as defining the config schema) and then returns an
  * object which describes how the React application(s) should be
  * rendered.
- * 
+ *
  * In this example, our return object contains a single page definition.
  * It tells the app shell that the default export of `greeter.tsx`
  * should be rendered when the route matches `hello`. The full route

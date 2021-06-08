@@ -6,12 +6,12 @@ import { openmrsFetch, fhir } from '@openmrs/esm-framework';
  * API for the first patient found. OpenMRS API endpoints are generally
  * hit using `openmrsFetch`. For FHIR endpoints we use the FHIR API
  * object.
- * 
+ *
  * See the `fhir` object API docs: https://github.com/openmrs/openmrs-esm-core/blob/master/packages/framework/esm-api/docs/API.md#fhir
  * See the docs for the underlying fhir.js Client object: https://github.com/FHIR/fhir.js#api
  * See the OpenMRS FHIR Module docs: https://wiki.openmrs.org/display/projects/OpenMRS+FHIR+Module
  * See the OpenMRS REST API docs: https://rest.openmrs.org/#openmrs-rest-api
- * 
+ *
  * @param query A patient name or ID
  * @returns The first matching patient
  */
