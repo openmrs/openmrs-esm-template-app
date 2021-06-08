@@ -15,7 +15,7 @@ import { PatientGetter } from './patient-getter/patient-getter';
 
 const Hello: React.FC = () => {
   return (
-    <div className={styles.container}>
+    <div className={`omrs-main-content ${styles.container}`}>
       <Greeter />
       <PatientGetter />
     </div>

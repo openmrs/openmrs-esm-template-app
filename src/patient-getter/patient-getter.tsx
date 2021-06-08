@@ -4,6 +4,7 @@
  * and sets a state variable using the result.
  */
 
+import { Button, Tile } from 'carbon-components-react';
 import React, { useState } from 'react';
 import { Trans } from 'react-i18next';
 import { getPatient } from './patient-getter.resource';
@@ -13,14 +14,14 @@ export function PatientGetter() {
   const patientName = 'test';
   return (
     <div>
-      <button onClick={() => getPatient(patientName).then(setPatient)}>
+      <Button onClick={() => getPatient(patientName).then(setPatient)}>
         <Trans key="getPatient">Get a patient named</Trans> 'test'
-      </button>
-      <div>
+      </Button>
+      <Tile>
         {patient
           ? `${patient.name[0].given} ${patient.name[0].family} / ${patient.gender} / ${patient.birthDate}`
           : null}
-      </div>
+      </Tile>
     </div>
   );
 }
