@@ -4,9 +4,10 @@
  * and sets a state variable using the result.
  */
 
-import { Button, Tile } from 'carbon-components-react';
 import React, { useState } from 'react';
 import { Trans } from 'react-i18next';
+import Button from 'carbon-components-react/es/components/Button';
+import Tile from 'carbon-components-react/es/components/Tile';
 import { getPatient } from './patient-getter.resource';
 
 export function PatientGetter() {
