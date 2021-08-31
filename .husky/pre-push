@@ -3,4 +3,6 @@
 
 set -e  # die on error
 
-npx pretty-quick --staged
+npm run lint
+npm run test
+npm run typescript
