@@ -55,6 +55,23 @@ function setupOpenMRS() {
         route: 'hello',
       },
     ],
+    extensions: [
+      {
+        id: 'Red box',
+        load: getAsyncLifecycle(() => import('./boxes/extensions/red-box'), options),
+        slot: 'Boxes',
+      },
+      {
+        id: 'Blue box',
+        load: getAsyncLifecycle(() => import('./boxes/extensions/blue-box'), options),
+        slot: 'Boxes',
+      },
+      {
+        id: 'Brand box',
+        load: getAsyncLifecycle(() => import('./boxes/extensions/brand-box'), options),
+        slot: 'Boxes',
+      },
+    ],
   };
 }
 
