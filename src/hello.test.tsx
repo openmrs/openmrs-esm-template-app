@@ -20,11 +20,11 @@
  * Kent C. Dodds is the inventor of `@testing-library`:
  *   https://testing-library.com/docs/guiding-principles
  */
-import React from 'react';
-import { render, cleanup } from '@testing-library/react';
-import Hello from './hello';
-import { useConfig } from '@openmrs/esm-framework';
-import { Config } from './config-schema';
+import React from "react";
+import { render, cleanup } from "@testing-library/react";
+import Hello from "./hello";
+import { useConfig } from "@openmrs/esm-framework";
+import { Config } from "./config-schema";
 
 /**
  * This is an idiomatic way of dealing with mocked files. Note that
@@ -38,7 +38,7 @@ const mockUseConfig = useConfig as jest.Mock;
 describe(`<Hello />`, () => {
   afterEach(cleanup);
   it(`renders without dying`, () => {
-    const config: Config = { casualGreeting: false, whoToGreet: ['World'] };
+    const config: Config = { casualGreeting: false, whoToGreet: ["World"] };
     mockUseConfig.mockReturnValue(config);
     render(<Hello />);
   });

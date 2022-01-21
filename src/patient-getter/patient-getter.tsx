@@ -4,15 +4,15 @@
  * and sets a state variable using the result.
  */
 
-import React, { useState } from 'react';
-import { Trans } from 'react-i18next';
-import Button from 'carbon-components-react/es/components/Button';
-import { Tile } from 'carbon-components-react/es/components/Tile';
-import { getPatient } from './patient-getter.resource';
+import React, { useState } from "react";
+import { Trans } from "react-i18next";
+import Button from "carbon-components-react/es/components/Button";
+import { Tile } from "carbon-components-react/es/components/Tile";
+import { getPatient } from "./patient-getter.resource";
 
 export function PatientGetter() {
   const [patient, setPatient] = useState<fhir.Patient>();
-  const patientName = 'test';
+  const patientName = "test";
   return (
     <div>
       <Button onClick={() => getPatient(patientName).then(setPatient)}>
