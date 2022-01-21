@@ -12,12 +12,17 @@ import React from 'react';
 import styles from './hello.css';
 import { Greeter } from './greeter/greeter';
 import { PatientGetter } from './patient-getter/patient-getter';
+import { Boxes } from './boxes/slot/boxes';
 
 const Hello: React.FC = () => {
   return (
     <div className={`omrs-main-content ${styles.container}`}>
+      {/* Greeter: demonstrates the configuration system */}
       <Greeter />
+      {/* PatientGetter: demonstrates data fetching */}
       <PatientGetter />
+      {/* Boxes: demonstrates the extension system */}
+      <Boxes />
     </div>
   );
 };

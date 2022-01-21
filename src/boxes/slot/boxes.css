@@ -1,0 +1,23 @@
+/* General features of extension styling are controlled
+ * at the slot level. The boxes should know as little as
+ * possible about the context where they are used, so
+ * they do not set their own sizes.
+ *
+ * `> * > *` is used to target the outermost DOM node of
+ * the extension.
+ */
+
+.box > * > * {
+  height: 4em;
+  width: 4em;
+}
+
+.boxes {
+  margin: 2em 0 0 1em;
+  display: flex;
+  gap: 1em;
+}
+
+.container {
+  max-width: 40em;
+}
