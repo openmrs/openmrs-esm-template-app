@@ -3,8 +3,9 @@
 dist/
 node_modules/
 
-# dotfiles
+# dotfiles and generated
 .*
+yarn.lock
 
 # by file type
 **/*.css

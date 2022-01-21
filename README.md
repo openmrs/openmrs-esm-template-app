@@ -14,6 +14,14 @@ section can help you get started developing microfrontends in general. The
 section provides information about how to use this repository to create your
 own microfrontend.
 
+## Running this code
+
+The server can be run as suggested in the
+[Setup](https://openmrs.github.io/openmrs-esm-core/#/getting_started/setup) 
+section of the Developer Documentation. Once it is running, a browser window
+should open with the OpenMRS 3 application. Log in and then navigate to
+`/openmrs/spa/hello`.
+
 ## Adapting the code
 
 1. Start by finding and replacing all instances of "template" with the name
