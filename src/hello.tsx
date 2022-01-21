@@ -8,11 +8,11 @@
  *   https://openmrs.github.io/openmrs-esm-core/#/main/config
  */
 
-import React from 'react';
-import styles from './hello.css';
-import { Greeter } from './greeter/greeter';
-import { PatientGetter } from './patient-getter/patient-getter';
-import { Boxes } from './boxes/slot/boxes';
+import React from "react";
+import styles from "./hello.css";
+import { Greeter } from "./greeter/greeter";
+import { PatientGetter } from "./patient-getter/patient-getter";
+import { Boxes } from "./boxes/slot/boxes";
 
 const Hello: React.FC = () => {
   return (

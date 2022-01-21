@@ -12,7 +12,7 @@
     "build": "webpack --mode production",
     "analyze": "webpack --mode=production --env.analyze=true",
     "lint": "eslint src --ext js,jsx,ts,tsx",
-    "prettier": "prettier --config prettier.config.js --write \"src/**/*.{ts,tsx}\"",
+    "prettier": "prettier --write \"src/**/*.{ts,tsx}\"",
     "typescript": "tsc",
     "test": "jest --config jest.config.json",
     "coverage": "npm run test -- --coverage",
