@@ -47,7 +47,7 @@
     "lodash-es": "^4.17.15"
   },
   "peerDependencies": {
-    "@openmrs/esm-framework": "3.x",
+    "@openmrs/esm-framework": "^3.14.0-pre",
     "carbon-components": "10.x",
     "carbon-icons": "7.x",
     "dayjs": "1.x",
