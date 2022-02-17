@@ -75,7 +75,8 @@ function setupOpenMRS() {
           () => import("./boxes/extensions/blue-box"),
           options
         ),
-        slots: ["Boxes"],
+        slot: "Boxes",
+        // same as `slots: ["Boxes"],`
       },
       {
         id: "Brand box",
