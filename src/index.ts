@@ -76,6 +76,7 @@ function setupOpenMRS() {
           options
         ),
         slot: "Boxes",
+        // same as `slots: ["Boxes"],`
       },
       {
         id: "Brand box",
