@@ -22,12 +22,12 @@ jobs:
       - name: Use Node.js
         uses: actions/setup-node@v1
         with:
-          node-version: "14.x"
-      - run: npm install
-      - run: npm run lint
-      - run: npm run coverage
-      - run: npm run typescript
-      - run: npm run build --if-present
+          node-version: "16.x"
+      - run: yarn
+      - run: yarn lint
+      - run: yarn coverage
+      - run: yarn typescript
+      - run: yarn build --if-present
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
@@ -72,9 +72,9 @@ jobs:
       - name: Use Node.js
         uses: actions/setup-node@v1
         with:
-          node-version: "14.x"
+          node-version: "16.x"
           registry-url: 'https://registry.npmjs.org'
-      - run: npm install
-      - run: npm publish --access public
+      - run: yarn
+      - run: yarn publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
