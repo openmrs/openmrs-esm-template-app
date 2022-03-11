@@ -27,7 +27,7 @@ jobs:
       - run: yarn lint
       - run: yarn coverage
       - run: yarn typescript
-      - run: yarn build --if-present
+      - run: yarn build
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
