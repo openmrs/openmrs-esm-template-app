@@ -3,6 +3,4 @@
 
 set -e  # die on error
 
-npm run lint
-npm run test
-npm run typescript
+yarn verify
