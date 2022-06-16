@@ -58,13 +58,10 @@
     "rxjs": "6.x"
   },
   "devDependencies": {
-    "@babel/core": "^7.14.3",
-    "@babel/plugin-proposal-class-properties": "^7.13.0",
-    "@babel/preset-env": "^7.14.4",
-    "@babel/preset-react": "^7.13.13",
-    "@babel/preset-typescript": "^7.13.0",
-    "@babel/runtime": "^7.14.0",
     "@openmrs/esm-framework": "next",
+    "@swc/cli": "^0.1.57",
+    "@swc/core": "^1.2.203",
+    "@swc/jest": "^0.2.21",
     "@testing-library/dom": "^7.31.2",
     "@testing-library/jest-dom": "^5.13.0",
     "@testing-library/react": "^11.2.7",
@@ -77,10 +74,7 @@
     "@types/react-router": "^5.1.14",
     "@types/react-router-dom": "^5.1.7",
     "@types/webpack-env": "^1.16.0",
-    "@typescript-eslint/parser": "^5.14.0",
-    "babel-eslint": "^10.1.0",
-    "babel-jest": "^27.0.2",
-    "babel-preset-minify": "^0.5.1",
+    "@typescript-eslint/parser": "^5.28.0",
     "concurrently": "^6.2.0",
     "eslint": "^7.27.0",
     "eslint-config-prettier": "^8.3.0",
@@ -98,6 +92,12 @@
     "react-i18next": "^11.7.0",
     "react-router-dom": "^5.2.0",
     "rxjs": "^6.5.4",
-    "typescript": "^4.3.2"
+    "swc-loader": "^0.2.3",
+    "typescript": "^4.3.2",
+    "webpack": "^5.73.0",
+    "webpack-cli": "^4.10.0"
+  },
+  "resolutions": {
+    "**/@types/react": "^16.13.1"
   }
 }
