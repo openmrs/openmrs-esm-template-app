@@ -9,6 +9,16 @@ import { getAsyncLifecycle, defineConfigSchema } from "@openmrs/esm-framework";
 import { configSchema } from "./config-schema";
 
 /**
+ * This tells the app shell the version of this app. We inject this variable
+ * via the Webpack DefinePlugin, so first, in order to keep TypeScript happy,
+ * we need to tell it that this is an available variable in this scope. At
+ * build-time the __VERSION__ variable is replaced with the version from
+ * package.json
+ */
+declare var __VERSION__: string;
+const version = __VERSION__;
+
+/**
  * This tells the app shell how to obtain translation files: that they
  * are JSON files in the directory `../translations` (which you should
  * see in the directory structure).
@@ -90,4 +100,4 @@ function setupOpenMRS() {
   };
 }
 
-export { backendDependencies, importTranslation, setupOpenMRS };
+export { backendDependencies, importTranslation, setupOpenMRS, version };
