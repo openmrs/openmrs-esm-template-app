@@ -47,6 +47,8 @@ should open with the OpenMRS 3 application. Log in and then navigate to
 
 At this point, you should be able to write your first page as a React application.
 
+Check out the [Module Management app](https://github.com/openmrs/openmrs-esm-module-management-app) for an example of a non-trivial app built using the template.
+
 ## Integrating it into your application
 
 Please see [Creating a Microfrontend](https://openmrs.github.io/openmrs-esm-core/#/main/creating_a_microfrontend).
