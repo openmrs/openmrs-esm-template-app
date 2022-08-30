@@ -6,8 +6,7 @@
 
 import React, { useState } from "react";
 import { Trans } from "react-i18next";
-import Button from "carbon-components-react/es/components/Button";
-import { Tile } from "carbon-components-react/es/components/Tile";
+import { Button, Tile } from "@carbon/react";
 import { getPatient } from "./patient-getter.resource";
 
 export function PatientGetter() {

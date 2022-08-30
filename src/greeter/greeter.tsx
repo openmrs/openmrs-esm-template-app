@@ -3,8 +3,8 @@
  * comes from `../config-schema.ts`. For more information about the
  * configuration system, please see that file.
  */
-import { useConfig } from "@openmrs/esm-framework";
 import React from "react";
+import { useConfig } from "@openmrs/esm-framework";
 import { Trans } from "react-i18next";
 import { Config } from "../config-schema";
 import styles from "./greeter.css";
