@@ -48,7 +48,7 @@ const backendDependencies = {
  * rendered.
  *
  * In this example, our return object contains a single page definition.
- * It tells the app shell that the default export of `greeter.tsx`
+ * It tells the app shell that the default export of `hello.tsx`
  * should be rendered when the route matches `hello`. The full route
  * will be `openmrsSpaBase() + 'hello'`, which is usually
  * `/openmrs/spa/hello`.
