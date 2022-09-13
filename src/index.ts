@@ -72,7 +72,7 @@ function setupOpenMRS() {
     ],
     extensions: [
       {
-        id: "Red box",
+        name: "Red box",
         load: getAsyncLifecycle(
           () => import("./boxes/extensions/red-box"),
           options
@@ -80,7 +80,7 @@ function setupOpenMRS() {
         slot: "Boxes",
       },
       {
-        id: "Blue box",
+        name: "Blue box",
         load: getAsyncLifecycle(
           () => import("./boxes/extensions/blue-box"),
           options
@@ -89,7 +89,7 @@ function setupOpenMRS() {
         // same as `slots: ["Boxes"],`
       },
       {
-        id: "Brand box",
+        name: "Brand box",
         load: getAsyncLifecycle(
           () => import("./boxes/extensions/brand-box"),
           options
