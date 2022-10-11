@@ -1,5 +1,5 @@
 import React from "react";
-import { render, cleanup, screen, getByText } from "@testing-library/react";
+import { render, cleanup, screen } from "@testing-library/react";
 import { useConfig } from "@openmrs/esm-framework";
 import { Greeter } from "./greeter";
 import { Config } from "../config-schema";
