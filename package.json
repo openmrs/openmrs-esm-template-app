@@ -72,6 +72,7 @@
     "@types/webpack-env": "^1.16.0",
     "@typescript-eslint/parser": "^5.40.0",
     "concurrently": "^7.4.0",
+    "css-loader": "^6.7.2",
     "eslint": "^8.25.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-config-ts-react-important-stuff": "^3.0.0",
