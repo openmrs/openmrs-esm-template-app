@@ -55,8 +55,7 @@ jobs:
       # - run: yarn build
       # - run: git config user.email "info@openmrs.org" && git config user.name "OpenMRS CI"
       # - run: git add . && git commit -m "Prerelease version" --no-verify
-      # - run: yarn config set npmAuthToken "${NODE_AUTH_TOKEN}" && yarn npm publish --tag next
-      # - run: yarn publish --access public --tag next
+      # - run: yarn config set npmAuthToken "${NODE_AUTH_TOKEN}" && yarn npm publish --access public --tag next
       #   env:
       #     NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
       # - name: Upload Artifacts
