@@ -42,16 +42,22 @@ export function startupApp() {
  * will be `openmrsSpaBase() + 'hello'`, which is usually
  * `/openmrs/spa/hello`.
  */
-export const hello = () => getAsyncLifecycle(() => import("./hello"), options);
+export const hello = getAsyncLifecycle(() => import("./hello"), options);
 
 /**
  * The following are named exports for the extensions defined in this frontend modules. See the `routes.json` file to see how these are used.
  */
-export const redBox = () =>
-  getAsyncLifecycle(() => import("./boxes/extensions/red-box"), options);
+export const redBox = getAsyncLifecycle(
+  () => import("./boxes/extensions/red-box"),
+  options
+);
 
-export const blueBox = () =>
-  getAsyncLifecycle(() => import("./boxes/extensions/blue-box"), options);
+export const blueBox = getAsyncLifecycle(
+  () => import("./boxes/extensions/blue-box"),
+  options
+);
 
-export const brandBox = () =>
-  getAsyncLifecycle(() => import("./boxes/extensions/brand-box"), options);
+export const brandBox = getAsyncLifecycle(
+  () => import("./boxes/extensions/brand-box"),
+  options
+);
