@@ -10,7 +10,7 @@ import { Button, Tile } from "@carbon/react";
 import { getPatient } from "./patient-getter.resource";
 
 export function PatientGetter() {
-  const [patient, setPatient] = useState<fhir.Patient>();
+  const [patient, setPatient] = useState(null);
   const patientName = "test";
   return (
     <div>
