@@ -1,4 +1,39 @@
 {
   "parser": "@typescript-eslint/parser",
-  "extends": ["ts-react-important-stuff", "plugin:prettier/recommended"]
+  "plugins": [
+    "@typescript-eslint"
+  ],
+  "root": true,
+  "extends": [
+    "eslint:recommended",
+    "plugin:prettier/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "ts-react-important-stuff"
+  ],
+  "rules": {
+    "no-restricted-imports": [
+      "error",
+      {
+        "paths": [
+          {
+            "name": "lodash",
+            "message": "Import specific methods from `lodash`. e.g. `import map from 'lodash/map'`"
+          },
+          {
+            "name": "lodash-es",
+            "importNames": ["default"],
+            "message": "Import specific methods from `lodash-es`. e.g. `import { map } from 'lodash-es'`"
+          },
+          {
+            "name": "carbon-components-react",
+            "message": "Import from `@carbon/react` directly. e.g. `import { Toggle } from '@carbon/react'`"
+          },
+          {
+            "name": "@carbon/icons-react",
+            "message": "Import from `@carbon/react/icons`. e.g. `import { ChevronUp } from '@carbon/react/icons'`"
+          }
+        ]
+      }
+    ]
+  }
 }

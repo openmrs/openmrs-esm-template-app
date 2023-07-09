@@ -1,0 +1,19 @@
+@use '@carbon/styles/scss/type';
+
+.container {
+  max-width: 50em;
+
+  > * + * {
+    margin-top: 1em;
+  }
+}
+
+.greeting {
+  text-transform: capitalize;
+}
+
+.tile {
+  border: 1px solid lightgray;
+  max-width: 15em;
+  @include type.type-style('heading-compact-01');
+}

@@ -1,0 +1,14 @@
+@use '@carbon/styles/scss/type';
+
+.container {
+  padding: 2em;
+}
+
+.welcome {
+  @include type.type-style('heading-04');
+  margin: 1em 0; 
+}
+
+.explainer {
+  margin-bottom: 2rem;
+}

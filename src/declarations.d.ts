@@ -3,4 +3,4 @@ declare module "*.css";
 declare module "*.scss";
 declare module "*.png";
 
-declare type SideNavProps = {};
+declare type SideNavProps = object;

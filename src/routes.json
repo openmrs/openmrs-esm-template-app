@@ -23,8 +23,8 @@
   ],
   "pages": [
     {
-      "component": "hello",
-      "route": "hello"
+      "component": "root",
+      "route": "root"
     }
   ]
 }

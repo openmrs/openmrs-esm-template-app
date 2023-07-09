@@ -1,4 +1,12 @@
+/**
+ * @returns {Promise<import('jest').Config>}
+ */
 module.exports = {
+  collectCoverageFrom: [
+    "**/src/**/*.component.tsx",
+    "!**/node_modules/**",
+    "!**/src/declarations.d.ts",
+  ],
   transform: {
     "^.+\\.tsx?$": ["@swc/jest"],
   },
