@@ -1,12 +1,13 @@
+@use '@carbon/styles/scss/spacing';
 @use '@carbon/styles/scss/type';
 
 .container {
-  padding: 2em;
+  padding: spacing.$spacing-07;
 }
 
 .welcome {
   @include type.type-style('heading-04');
-  margin: 1em 0; 
+  margin: spacing.$spacing-05 0; 
 }
 
 .explainer {

@@ -1,12 +1,13 @@
+@use '@carbon/styles/scss/spacing';
 @use '@carbon/styles/scss/type';
 
 .container {
-  padding: 2em;
+  padding: spacing.$spacing-07;
 }
 
 .heading {
   @include type.type-style('heading-04');
-  margin: 1em 0;
+  margin: spacing.$spacing-05 0;
 }
 
 .explainer {
@@ -14,23 +15,24 @@
 }
 
 .resources {
-  margin-top: 4em;
-  margin-bottom: 3em;
+  margin-top: spacing.$spacing-10;
+  margin-bottom: spacing.$spacing-09;
 
   > * + * {
-    margin-top: 1em; 
+    margin-right: spacing.$spacing-05; 
   }
 }
 
 .cardsContainer {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
-  column-gap: 1.5em;
+  column-gap: spacing.$spacing-06;
+  margin-top: spacing.$spacing-07;
   max-width: 75%;
 }
 
 .card {
-  margin: 0.5em 0;
+  margin: spacing.$spacing-03 0;
   display: flex;
   align-items: center;
 
@@ -39,7 +41,7 @@
   }
 
   svg {
-    margin-left: 0.25em;
+    margin-left: spacing.$spacing-02;
   }
 }
 
@@ -51,7 +53,7 @@
 .title {
   display: flex;
   align-items: center;
-  margin-bottom: 1em;
+  margin-bottom: spacing.$spacing-05;
 
   h4 {
     @include type.type-style('heading-02');

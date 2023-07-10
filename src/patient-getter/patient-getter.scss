@@ -1,15 +1,16 @@
+@use '@carbon/styles/scss/spacing';
 @use '@carbon/styles/scss/type';
 
 .container {
-  margin-top: 3em;
+  margin-top: spacing.$spacing-09;
 
   > * + * {
-    margin-top: 1.5em;
+    margin-top: spacing.$spacing-06;
   }
 }
 
 .tile {
   border: 1px solid lightgray;
-  max-width: 20em;
+  max-width: 20rem;
   @include type.type-style('heading-compact-01');
 }
