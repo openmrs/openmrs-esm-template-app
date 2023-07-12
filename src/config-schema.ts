@@ -42,5 +42,5 @@ export const configSchema = {
 
 export type Config = {
   casualGreeting: boolean;
-  whoToGreet: Array<String>;
+  whoToGreet: Array<string>;
 };

@@ -10,7 +10,7 @@ import { configSchema } from "./config-schema";
 const moduleName = "@openmrs/esm-template-app";
 
 const options = {
-  featureName: "hello-world",
+  featureName: "root-world",
   moduleName,
 };
 
@@ -37,27 +37,30 @@ export function startupApp() {
 }
 
 /**
- * This named export tells the app shell that the default export of `hello.tsx`
- * should be rendered when the route matches `hello`. The full route
- * will be `openmrsSpaBase() + 'hello'`, which is usually
- * `/openmrs/spa/hello`.
+ * This named export tells the app shell that the default export of `root.component.tsx`
+ * should be rendered when the route matches `root`. The full route
+ * will be `openmrsSpaBase() + 'root'`, which is usually
+ * `/openmrs/spa/root`.
  */
-export const hello = getAsyncLifecycle(() => import("./hello"), options);
+export const root = getAsyncLifecycle(
+  () => import("./root.component"),
+  options
+);
 
 /**
  * The following are named exports for the extensions defined in this frontend modules. See the `routes.json` file to see how these are used.
  */
 export const redBox = getAsyncLifecycle(
-  () => import("./boxes/extensions/red-box"),
+  () => import("./boxes/extensions/red-box.component"),
   options
 );
 
 export const blueBox = getAsyncLifecycle(
-  () => import("./boxes/extensions/blue-box"),
+  () => import("./boxes/extensions/blue-box.component"),
   options
 );
 
 export const brandBox = getAsyncLifecycle(
-  () => import("./boxes/extensions/brand-box"),
+  () => import("./boxes/extensions/brand-box.component"),
   options
 );

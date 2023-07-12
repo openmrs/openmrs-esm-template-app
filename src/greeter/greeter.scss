@@ -1,0 +1,20 @@
+@use '@carbon/styles/scss/spacing';
+@use '@carbon/styles/scss/type';
+
+.container {
+  max-width: 50rem;
+
+  > * + * {
+    margin-top: spacing.$spacing-05;
+  }
+}
+
+.greeting {
+  text-transform: capitalize;
+}
+
+.tile {
+  border: 1px solid lightgray;
+  max-width: 15rem;
+  @include type.type-style('heading-compact-01');
+}

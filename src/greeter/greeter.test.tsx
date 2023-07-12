@@ -1,29 +1,30 @@
 import React from "react";
-import { render, cleanup, screen } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { useConfig } from "@openmrs/esm-framework";
-import { Greeter } from "./greeter";
 import { Config } from "../config-schema";
+import Greeter from "./greeter.component";
 
 const mockUseConfig = useConfig as jest.Mock;
 
-describe(`<Greeter />`, () => {
-  afterEach(cleanup);
-  it(`displays the expected default text`, () => {
-    const config: Config = { casualGreeting: false, whoToGreet: ["World"] };
-    mockUseConfig.mockReturnValue(config);
-    render(<Greeter />);
-    expect(screen.getByText(/world/i)).toHaveTextContent("hello World!");
-  });
+it("displays the expected default text", () => {
+  const config: Config = { casualGreeting: false, whoToGreet: ["World"] };
+  mockUseConfig.mockReturnValue(config);
 
-  it(`will casually greet my friends`, () => {
-    const config: Config = {
-      casualGreeting: true,
-      whoToGreet: ["Ariel", "Barak", "Callum"],
-    };
-    mockUseConfig.mockReturnValue(config);
-    render(<Greeter />);
-    expect(screen.getByText(/ariel/i)).toHaveTextContent(
-      "hey Ariel, Barak, Callum!"
-    );
-  });
+  render(<Greeter />);
+
+  expect(screen.getByText(/world/i)).toHaveTextContent("hello World!");
+});
+
+it("casually greets my friends", () => {
+  const config: Config = {
+    casualGreeting: true,
+    whoToGreet: ["Ariel", "Barak", "Callum"],
+  };
+  mockUseConfig.mockReturnValue(config);
+
+  render(<Greeter />);
+
+  expect(screen.getByText(/ariel/i)).toHaveTextContent(
+    "hey Ariel, Barak, Callum!"
+  );
 });
