@@ -88,7 +88,7 @@ Refer to [this documentation](https://playwright.dev/docs/debug) on how to debug
 
 ## Configuration
 
-This is very much underdeveloped/WIP. At the moment, there exists a (git-shared) `.env`
+This is very much underdeveloped/WIP. At the moment, there exists a (git-shared) `example.env`
 file which can be used for configuring certain test attributes. This is most likely
 about to change in the future. Stay tuned for updates!
 
