@@ -47,6 +47,11 @@ export const root = getAsyncLifecycle(
   options
 );
 
+export const findPatient = getAsyncLifecycle(
+  () => import("./find-patient/find-patient.component"),
+  options
+);
+
 /**
  * The following are named exports for the extensions defined in this frontend modules. See the `routes.json` file to see how these are used.
  */

@@ -25,6 +25,11 @@
     {
       "component": "root",
       "route": "root"
+    },
+    {
+      "component": "findPatient",
+      "route": "find-patient"
     }
+
   ]
 }
