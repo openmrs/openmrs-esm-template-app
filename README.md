@@ -6,9 +6,9 @@ This repository provides a starting point for creating your own
 [OpenMRS Microfrontend](https://wiki.openmrs.org/display/projects/OpenMRS+3.0%3A+A+Frontend+Framework+that+enables+collaboration+and+better+User+Experience).
 
 For more information, please see the
-[OpenMRS Frontend Developer Documentation](https://openmrs.github.io/openmrs-esm-core/#/).
+[OpenMRS Frontend Developer Documentation](https://o3-docs.openmrs.org/#/).
 
-In particular, the [Setup](https://openmrs.github.io/openmrs-esm-core/#/getting_started/setup) section can help you get started developing microfrontends in general. The [Creating a microfrontend](https://openmrs.github.io/openmrs-esm-core/#/main/creating_a_microfrontend) section provides information about how to use this repository to create your own microfrontend.
+In particular, the [Setup](https://o3-docs.openmrs.org/docs/frontend-modules/setup) section can help you get started developing microfrontends in general. The [Creating a microfrontend](https://o3-docs.openmrs.org/docs/recipes/create-a-frontend-module) section provides information about how to use this repository to create your own microfrontend.
 
 ## Running this code
 
@@ -43,4 +43,4 @@ Check out the [Medication dispensing app](https://github.com/openmrs/openmrs-esm
 
 ## Integrating it into your application
 
-Please see [Creating a Microfrontend](https://openmrs.github.io/openmrs-esm-core/#/main/creating_a_microfrontend).
+Please see [Creating a Frontend Module](https://o3-docs.openmrs.org/docs/recipes/create-a-frontend-module).
