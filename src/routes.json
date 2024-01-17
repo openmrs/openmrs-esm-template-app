@@ -19,6 +19,11 @@
       "name": "Brand box",
       "component": "blueBox",
       "slot": "Boxes"
+    },
+    {
+      "name": "active-visits-table",
+      "component": "activeVisitsTable",
+      "slot": "homepage-widgets-slot"
     }
   ],
   "pages": [

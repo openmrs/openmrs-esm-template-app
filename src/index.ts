@@ -4,7 +4,11 @@
  * connects the app shell to the React application(s) that make up this
  * microfrontend.
  */
-import { getAsyncLifecycle, defineConfigSchema } from "@openmrs/esm-framework";
+import {
+  getAsyncLifecycle,
+  defineConfigSchema,
+  getSyncLifecycle,
+} from "@openmrs/esm-framework";
 import { configSchema } from "./config-schema";
 
 const moduleName = "@openmrs/esm-template-app";
@@ -64,3 +68,9 @@ export const brandBox = getAsyncLifecycle(
   () => import("./boxes/extensions/brand-box.component"),
   options
 );
+
+export const activeVisitsTable = getAsyncLifecycle(
+  () => import("./visits/visits.component"),
+  options
+);
+``;
