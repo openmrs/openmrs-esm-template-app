@@ -1,11 +1,6 @@
 import React from "react";
 import { useActiveVisits } from "./visits.resource";
-import {
-  ConfigurableLink,
-  ErrorState,
-  formatDatetime,
-  parseDate,
-} from "@openmrs/esm-framework";
+import { ErrorState, formatDatetime, parseDate } from "@openmrs/esm-framework";
 import { useTranslation } from "react-i18next";
 import styles from "./visits.scss";
 import {
@@ -19,12 +14,9 @@ import {
   TableHeader,
   TableBody,
   TableCell,
-  TableExpandHeader,
 } from "@carbon/react";
 
-interface ActiveVisitsTableProps {}
-
-const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = () => {
+const ActiveVisitsTable: React.FC = () => {
   const { t } = useTranslation();
   const { visits, isLoadingVisits, errorFetchingVisits, isValidating } =
     useActiveVisits();
@@ -61,8 +53,6 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = () => {
       key: "visitType",
     },
   ];
-
-  console.log({ visits });
 
   const rows = visits?.map((visit) => ({
     age: visit?.patient?.person?.age,
