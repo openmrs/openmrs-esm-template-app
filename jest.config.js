@@ -3,9 +3,11 @@
  */
 module.exports = {
   collectCoverageFrom: [
-    "**/src/**/*.component.tsx",
-    "!**/node_modules/**",
-    "!**/src/declarations.d.ts",
+    '**/src/**/*.component.tsx',
+    '!**/node_modules/**',
+    '!**/vendor/**',
+    '!**/src/**/*.test.*',
+    '!**/src/declarations.d.ts',
     '!**/e2e/**',
   ],
   transform: {
