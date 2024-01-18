@@ -1,6 +1,8 @@
 /**
  * @returns {Promise<import('jest').Config>}
  */
+const path = require('path');
+
 module.exports = {
   collectCoverageFrom: [
     '**/src/**/*.component.tsx',
