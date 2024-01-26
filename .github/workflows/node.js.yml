@@ -98,6 +98,6 @@ jobs:
       # - name: Trigger RefApp Build
       #   uses: fjogeleit/http-request-action@master
       #   with:
-      #     url: https://ci.openmrs.org/rest/api/latest/queue/REFAPP-D3X
+      #     url: https://ci.openmrs.org/rest/api/latest/queue/O3-BP
       #     method: "POST"
       #     customHeaders: '{ "Authorization": "Bearer ${{ secrets.BAMBOO_TOKEN }}" }'
