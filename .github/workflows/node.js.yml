@@ -18,16 +18,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Use Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: "18.x"
+          node-version: "18"
       - run: yarn install --immutable
       - run: yarn verify
       - run: yarn build
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: dist
           path: |
@@ -42,13 +42,13 @@ jobs:
 
     steps:
       - run: echo "Uncomment the lines below and delete this one."
-      # - uses: actions/checkout@v2
+      # - uses: actions/checkout@v4
       # - name: Download Artifacts
-      #   uses: actions/download-artifact@v3
+      #   uses: actions/download-artifact@v4
       # - name: Use Node.js
-      #   uses: actions/setup-node@v3
+      #   uses: actions/setup-node@v4
       #   with:
-      #     node-version: "18.x"
+      #     node-version: "18"
       #     registry-url: "https://registry.npmjs.org"
       # - run: yarn install --immutable
       # - run: yarn version "$(node -e "console.log(require('semver').inc(require('./package.json').version, 'patch'))")-pre.${{ github.run_number }}"
@@ -59,7 +59,7 @@ jobs:
       #   env:
       #     NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
       # - name: Upload Artifacts
-      #   uses: actions/upload-artifact@v3
+      #   uses: actions/upload-artifact@v4
       #   with:
       #     name: dist
       #     path: |
@@ -73,19 +73,19 @@ jobs:
     if: ${{ github.event_name == 'release' }}
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Download Artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
       - name: Use Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: "18.x"
+          node-version: "18"
           registry-url: 'https://registry.npmjs.org'
       - run: yarn install --immutable
       - run: yarn config set npmAuthToken "${NODE_AUTH_TOKEN}" &&  yarn npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
-  
+
   deploy:
     runs-on: ubuntu-latest
 
@@ -96,7 +96,7 @@ jobs:
     steps:
       - run: echo "Uncomment the lines below and delete this one."
       # - name: Trigger RefApp Build
-      #   uses: fjogeleit/http-request-action@master
+      #   uses: fjogeleit/http-request-action@v1
       #   with:
       #     url: https://ci.openmrs.org/rest/api/latest/queue/O3-BP
       #     method: "POST"
