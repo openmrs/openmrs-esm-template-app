@@ -7,7 +7,7 @@ import React from "react";
 import { Tile } from "@carbon/react";
 import { Trans, useTranslation } from "react-i18next";
 import { useConfig } from "@openmrs/esm-framework";
-import { Config } from "../config-schema";
+import { type Config } from "../config-schema";
 import styles from "./greeter.scss";
 
 const Greeter: React.FC = () => {

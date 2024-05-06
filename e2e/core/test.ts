@@ -1,5 +1,5 @@
-import { APIRequestContext, Page, test as base } from '@playwright/test';
-import { api } from '../fixtures';
+import { APIRequestContext, Page, test as base } from "@playwright/test";
+import { api } from "../fixtures";
 
 // This file sets up our custom test harness using the custom fixtures.
 // See https://playwright.dev/docs/test-fixtures#creating-a-fixture for details.
@@ -16,5 +16,5 @@ export interface CustomWorkerFixtures {
 }
 
 export const test = base.extend<CustomTestFixtures, CustomWorkerFixtures>({
-  api: [api, { scope: 'worker' }],
+  api: [api, { scope: "worker" }],
 });
