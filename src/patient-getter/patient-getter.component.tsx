@@ -9,11 +9,11 @@
  * made. This component renders a loading indicator while `isLoading` is true.
  */
 
-import React, { useState } from "react";
-import { Button, InlineLoading, Tile } from "@carbon/react";
-import { useTranslation } from "react-i18next";
-import { usePatient } from "./patient-getter.resource";
-import styles from "./patient-getter.scss";
+import React, { useState } from 'react';
+import { Button, InlineLoading, Tile } from '@carbon/react';
+import { useTranslation } from 'react-i18next';
+import { usePatient } from './patient-getter.resource';
+import styles from './patient-getter.scss';
 
 function PatientGetter() {
   const { t } = useTranslation();
@@ -22,23 +22,10 @@ function PatientGetter() {
 
   return (
     <div className={styles.container}>
-      <h5>{t("dataFetching", "Data fetching")}</h5>
-      <p>
-        {t(
-          "patientGetterExplainer",
-          "Try clicking the button below to fetch a patient from the backend"
-        )}
-        :
-      </p>
-      <Button onClick={() => setPatientName("test")}>
-        {t("getPatient", "Get a patient named")} 'test'
-      </Button>
-      {isLoading ? (
-        <InlineLoading
-          description={t("loading", "Loading") + "..."}
-          role="progressbar"
-        />
-      ) : null}
+      <h5>{t('dataFetching', 'Data fetching')}</h5>
+      <p>{t('patientGetterExplainer', 'Try clicking the button below to fetch a patient from the backend')}:</p>
+      <Button onClick={() => setPatientName('test')}>{t('getPatient', 'Get a patient named')} 'test'</Button>
+      {isLoading ? <InlineLoading description={t('loading', 'Loading') + '...'} role="progressbar" /> : null}
       {patient ? (
         <Tile className={styles.tile}>
           {patient
