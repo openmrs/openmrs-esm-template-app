@@ -1,5 +1,5 @@
-import useSWR from "swr";
-import { fhirBaseUrl, openmrsFetch } from "@openmrs/esm-framework";
+import useSWR from 'swr';
+import { fhirBaseUrl, openmrsFetch } from '@openmrs/esm-framework';
 
 /**
  * This hook searches for a patient using the provided search term from the
