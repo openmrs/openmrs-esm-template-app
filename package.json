@@ -1,6 +1,6 @@
 {
   "name": "@openmrs/esm-template-app",
-  "version": "3.0.0",
+  "version": "4.0.0",
   "license": "MPL-2.0",
   "description": "An OpenMRS seed application for building microfrontends",
   "browser": "dist/openmrs-esm-template-app.js",
@@ -101,5 +101,5 @@
     "packages/**/src/**/*.{ts,tsx}": "eslint --cache --fix --max-warnings 0",
     "*.{css,scss,ts,tsx}": "prettier --write --list-different"
   },
-  "packageManager": "yarn@4.2.1"
+  "packageManager": "yarn@4.2.2"
 }
