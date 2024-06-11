@@ -21,6 +21,7 @@ module.exports = {
     '@openmrs/esm-utils': '@openmrs/esm-framework/mock',
     '\\.(s?css)$': 'identity-obj-proxy',
     '^lodash-es/(.*)$': 'lodash/$1',
+    'lodash-es': 'lodash',
     '^dexie$': require.resolve('dexie'),
   },
   setupFilesAfterEnv: ['<rootDir>/src/setup-tests.ts'],
