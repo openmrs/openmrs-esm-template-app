@@ -3745,7 +3745,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@openmrs/esm-framework@npm:5.6.1-pre.1895, @openmrs/esm-framework@npm:^5.6.1-pre.1895":
+"@openmrs/esm-framework@npm:5.6.1-pre.1895, @openmrs/esm-framework@npm:next":
   version: 5.6.1-pre.1895
   resolution: "@openmrs/esm-framework@npm:5.6.1-pre.1895"
   dependencies:
@@ -3921,7 +3921,7 @@ __metadata:
   resolution: "@openmrs/esm-template-app@workspace:."
   dependencies:
     "@carbon/react": "npm:^1.33.1"
-    "@openmrs/esm-framework": "npm:^5.6.1-pre.1895"
+    "@openmrs/esm-framework": "npm:next"
     "@openmrs/esm-styleguide": "npm:next"
     "@playwright/test": "npm:^1.42.1"
     "@swc/cli": "npm:^0.3.12"
@@ -3954,7 +3954,7 @@ __metadata:
     jest-environment-jsdom: "npm:^29.7.0"
     lint-staged: "npm:^15.2.2"
     lodash-es: "npm:^4.17.21"
-    openmrs: "npm:^5.6.1-pre.1895"
+    openmrs: "npm:next"
     prettier: "npm:^2.8.8"
     react: "npm:^18.2.0"
     react-dom: "npm:^18.2.0"
@@ -13909,7 +13909,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"openmrs@npm:^5.6.1-pre.1895":
+"openmrs@npm:next":
   version: 5.6.1-pre.1895
   resolution: "openmrs@npm:5.6.1-pre.1895"
   dependencies:
