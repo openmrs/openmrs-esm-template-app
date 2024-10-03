@@ -2,29 +2,13 @@
   "$schema": "https://json.openmrs.org/routes.schema.json",
   "backendDependencies": {
     "fhir2": ">=1.2",
-    "webservices.rest": "^2.24.0"
+    "webservices.rest": "^2.2.0"
   },
   "extensions": [
     {
-      "name": "Red box",
-      "component": "redBox",
-      "slot": "Boxes"
-    },
-    {
-      "name": "Blue box",
-      "component": "blueBox",
-      "slot": "Boxes"
-    },
-        {
-      "name": "Brand box",
-      "component": "blueBox",
-      "slot": "Boxes"
-    }
-  ],
-  "pages": [
-    {
-      "component": "root",
-      "route": "root"
+      "name": "patient-billing-status-overview-widget",
+      "component": "patientBillingStatusOverview",
+      "slot": "patient-chart-summary-dashboard-slot"
     }
   ]
 }
