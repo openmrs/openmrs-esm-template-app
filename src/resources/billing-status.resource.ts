@@ -40,6 +40,16 @@ const generateDummyData = (patientUuid: string) => {
       approved: true,
     },
     {
+      id: 'line5',
+      date: '2023-02-15',
+      visit: visits[1],
+      document: 'INV-005',
+      order: 'ORDER-005',
+      tags: ['INVOICE', 'PAID'],
+      displayName: 'X-Ray',
+      approved: true,
+    },
+    {
       id: 'line4',
       date: '2023-02-16',
       visit: visits[1],

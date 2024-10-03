@@ -91,32 +91,35 @@
 }
 
 .expandedTile {
-  display: flex;
-  flex-flow: row nowrap;
+  display: grid;
+  grid-template-columns: auto 2fr 1fr;
   align-items: center;
   padding: layout.$spacing-02;
-  border-bottom: 1px solid colors.$gray-30;
+  background-color: vars.$ui-02;
+}
+
+.expandedWhiteBgTile {
+  background-color: vars.$ui-01;
 }
 
 .statusIcon {
-  flex: 0 0 auto;
+  grid-column: 1;
   margin-right: layout.$spacing-05;
 }
 
 .nameSection {
-  flex: 1 1 auto;
+  grid-column: 2;
 }
 
 .documentSection {
-  flex: 0 0 auto;
+  grid-column: 3;
   margin-right: layout.$spacing-05;
 }
 
-//.approveIcon {
-//  padding: layout.$spacing-02;
-//  border-radius: 50%;
-//  fill: $ui-03;
-//  background-color: $color-blue-60-2;
-//  margin-left: layout.$spacing-03;
-//  margin-right: layout.$spacing-02;
-//}
+.approvedIcon {
+  fill: vars.$support-02;
+}
+
+.warningIcon {
+  fill: vars.$carbon--red-50;
+}

@@ -27,6 +27,7 @@ import {
   Tile,
 } from '@carbon/react';
 import { useBillingStatus } from '../resources/billing-status.resource';
+import classNames from 'classnames';
 
 interface PatientBillingStatusSummaryProps {
   patient: fhir.Patient;
@@ -72,6 +73,7 @@ const PatientBillingStatusSummary: React.FC<PatientBillingStatusSummaryProps> = 
       <DataTable
         aria-label={t('orderBillingStatuses', 'Order Billing Statuses')}
         data-floating-menu-container
+        size={isTablet ? 'lg' : 'sm'}
         overflowMenuOnHover={!isTablet}
         isSortable
         rows={paginatedRows}
@@ -90,7 +92,7 @@ const PatientBillingStatusSummary: React.FC<PatientBillingStatusSummaryProps> = 
           <>
             <TableContainer {...getTableContainerProps()}>
               <Table {...getTableProps()} className={styles.table}>
-                <TableHead>
+                <TableHead className={classNames(styles.productiveHeading01, styles.text02)}>
                   <TableRow>
                     <TableExpandHeader enableToggle {...getExpandHeaderProps()} />
                     {headers.map((header: { header: string }) => (
@@ -99,7 +101,7 @@ const PatientBillingStatusSummary: React.FC<PatientBillingStatusSummaryProps> = 
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {rows.map((row: { id: React.Key; cells: { value: any }[]; isExpanded: any }) => (
+                  {rows.map((row: { id: React.Key; cells: { value: any }[]; isExpanded: any }, index) => (
                     <React.Fragment key={row.id}>
                       <TableExpandRow className={styles.row} {...getRowProps({ row })}>
                         <TableCell>{row.cells[0].value}</TableCell>
@@ -111,25 +113,9 @@ const PatientBillingStatusSummary: React.FC<PatientBillingStatusSummaryProps> = 
                           )}
                         </TableCell>
                       </TableExpandRow>
-                      {row.isExpanded && paginatedRows.find((r) => r.id === row.id)?.lines?.length > 0 ? (
+                      {row.isExpanded ? (
                         <TableExpandedRow colSpan={headers.length + 2}>
-                          <div className={styles.expandedContent}>
-                            {paginatedRows
-                              .find((r) => r.id === row.id)
-                              ?.lines?.map((line) => (
-                                <div key={line.id} className={styles.expandedTile}>
-                                  <div className={styles.statusIcon}>
-                                    {line.approved ? (
-                                      <CheckmarkFilledIcon className={styles.approvedIcon} />
-                                    ) : (
-                                      <CloseFilledIcon className={styles.warningIcon} />
-                                    )}
-                                  </div>
-                                  <div className={styles.nameSection}>{line.displayName}</div>
-                                  <div className={styles.documentSection}>{line.document}</div>
-                                </div>
-                              ))}
-                          </div>
+                          <ExpandedRowContent rowId={row.id} rowIndex={index} parentTableRows={tableRows} />
                         </TableExpandedRow>
                       ) : (
                         <TableExpandedRow className={styles.hiddenRow} colSpan={headers.length + 2} />
@@ -164,4 +150,55 @@ const PatientBillingStatusSummary: React.FC<PatientBillingStatusSummaryProps> = 
   );
 };
 
+const ExpandedRowContent = ({ rowId, rowIndex, parentTableRows }) => {
+  const { t } = useTranslation();
+  const headers = [
+    { key: 'approved', header: 'status' },
+    { key: 'displayName', header: 'Order' },
+    { key: 'document', header: 'Document' },
+  ];
+
+  const orders = useMemo(() => {
+    const row = parentTableRows.find((row) => row.id === rowId);
+    if (row && row.lines) {
+      return row.lines;
+    }
+    return [];
+  }, [rowId, parentTableRows]);
+
+  if (orders.length === 0) {
+    return (
+      <div className={styles.tileContainer}>
+        <Tile className={styles.emptyStateTile}>
+          <div className={styles.tileContent}>
+            <p className={styles.content}>{t('noMatchingOrdersToDisplay', 'No billing status to display')}</p>
+          </div>
+        </Tile>
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      {orders.map((order, index) => (
+        <div
+          key={order.id}
+          className={classNames(styles.expandedTile, {
+            [styles.expandedWhiteBgTile]: index % 2 === (rowIndex % 2 === 0 ? 0 : 1),
+          })}
+        >
+          <div className={styles.statusIcon}>
+            {order.approved ? (
+              <CheckmarkFilledIcon className={styles.approvedIcon} />
+            ) : (
+              <CloseFilledIcon className={styles.warningIcon} />
+            )}
+          </div>
+          <div className={styles.nameSection}>{order.displayName}</div>
+          <div className={styles.documentSection}>{order.document}</div>
+        </div>
+      ))}
+    </div>
+  );
+};
 export default PatientBillingStatusSummary;
