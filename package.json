@@ -1,9 +1,9 @@
 {
-  "name": "@openmrs/esm-template-app",
-  "version": "4.0.0",
+  "name": "@openmrs/esm-patient-billing-status-app",
+  "version": "1.0.0",
   "license": "MPL-2.0",
-  "description": "An OpenMRS seed application for building microfrontends",
-  "browser": "dist/openmrs-esm-template-app.js",
+  "description": "A microfrontend app for OpenMRS 3 to display the billing status of a patient on the patient chart",
+  "browser": "dist/openmrs-esm-patient-billing-status-app.js",
   "main": "src/index.ts",
   "source": true,
   "scripts": {
@@ -30,14 +30,14 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/openmrs/openmrs-esm-template-app.git"
+    "url": "git+https://github.com/openmrs/openmrs-esm-patient-billing-status-app.git"
   },
-  "homepage": "https://github.com/openmrs/openmrs-esm-template-app#readme",
+  "homepage": "https://github.com/openmrs/openmrs-esm-patient-billing-status-app#readme",
   "publishConfig": {
     "access": "public"
   },
   "bugs": {
-    "url": "https://github.com/openmrs/openmrs-esm-template-app/issues"
+    "url": "https://github.com/openmrs/openmrs-esm-patient-billing-status-app/issues"
   },
   "dependencies": {
     "@carbon/react": "^1.33.1",
@@ -53,6 +53,7 @@
   },
   "devDependencies": {
     "@openmrs/esm-framework": "next",
+    "@openmrs/esm-patient-common-lib": "next",
     "@openmrs/esm-styleguide": "next",
     "@playwright/test": "^1.42.1",
     "@swc/cli": "^0.3.12",
@@ -92,10 +93,12 @@
     "react-router-dom": "^6.14.1",
     "rxjs": "^6.6.7",
     "swc-loader": "^0.2.3",
+    "swr": "^2.2.4",
     "turbo": "^2.0.9",
     "typescript": "^4.9.5",
     "webpack": "^5.88.1",
-    "webpack-cli": "^5.1.4"
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^5.1.0"
   },
   "lint-staged": {
     "packages/**/src/**/*.{ts,tsx}": "eslint --cache --fix --max-warnings 0",
