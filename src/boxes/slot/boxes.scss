@@ -6,24 +6,24 @@
  * `> * > *` is used to target the outermost DOM node of
  * the extension.
  */
- @use '@carbon/styles/scss/spacing';
+ @use '@carbon/layout';
 
 .box > * > * {
-  height: spacing.$spacing-10;
-  width: spacing.$spacing-10;
+  height: layout.$spacing-10;
+  width: layout.$spacing-10;
 }
 
 .boxes {
-  margin: spacing.$spacing-07 0;
+  margin: layout.$spacing-07 0;
   display: flex;
-  gap: spacing.$spacing-05;
+  gap: layout.$spacing-05;
 }
 
 .container {
   max-width: 50rem;
-  margin-top: spacing.$spacing-09;
+  margin-top: layout.$spacing-09;
 
   > * + * {
-    margin-top: spacing.$spacing-06;
+    margin-top: layout.$spacing-06;
   }
 }

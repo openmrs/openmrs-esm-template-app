@@ -1,11 +1,11 @@
-@use '@carbon/styles/scss/spacing';
-@use '@carbon/styles/scss/type';
+@use '@carbon/layout';
+@use '@carbon/type';
 
 .container {
-  margin-top: spacing.$spacing-09;
+  margin-top: layout.$spacing-09;
 
   > * + * {
-    margin-top: spacing.$spacing-06;
+    margin-top: layout.$spacing-06;
   }
 }
 
