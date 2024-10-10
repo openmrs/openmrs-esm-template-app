@@ -1,13 +1,13 @@
-@use '@carbon/styles/scss/spacing';
-@use '@carbon/styles/scss/type';
+@use '@carbon/layout';
+@use '@carbon/type';
 
 .container {
-  padding: spacing.$spacing-07;
+  padding: layout.$spacing-07;
 }
 
 .heading {
   @include type.type-style('heading-04');
-  margin: spacing.$spacing-05 0;
+  margin: layout.$spacing-05 0;
 }
 
 .explainer {
@@ -15,24 +15,24 @@
 }
 
 .resources {
-  margin-top: spacing.$spacing-10;
-  margin-bottom: spacing.$spacing-09;
+  margin-top: layout.$spacing-10;
+  margin-bottom: layout.$spacing-09;
 
   > * + * {
-    margin-right: spacing.$spacing-05; 
+    margin-right: layout.$spacing-05;
   }
 }
 
 .cardsContainer {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
-  column-gap: spacing.$spacing-06;
-  margin-top: spacing.$spacing-07;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  column-gap: layout.$spacing-06;
+  margin-top: layout.$spacing-07;
   max-width: 75%;
 }
 
 .card {
-  margin: spacing.$spacing-03 0;
+  margin: layout.$spacing-03 0;
   display: flex;
   align-items: center;
 
@@ -41,7 +41,7 @@
   }
 
   svg {
-    margin-left: spacing.$spacing-02;
+    margin-left: layout.$spacing-02;
   }
 }
 
@@ -53,7 +53,7 @@
 .title {
   display: flex;
   align-items: center;
-  margin-bottom: spacing.$spacing-05;
+  margin-bottom: layout.$spacing-05;
 
   h4 {
     @include type.type-style('heading-02');

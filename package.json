@@ -40,7 +40,7 @@
     "url": "https://github.com/openmrs/openmrs-esm-template-app/issues"
   },
   "dependencies": {
-    "@carbon/react": "^1.33.1",
+    "@carbon/react": "^1.68.0",
     "lodash-es": "^4.17.21"
   },
   "peerDependencies": {
@@ -74,6 +74,7 @@
     "dotenv": "^16.0.3",
     "eslint": "^8.50.0",
     "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-jest-dom": "^5.4.0",
     "eslint-plugin-prettier": "^5.1.3",
     "eslint-plugin-react-hooks": "^4.6.2",
     "husky": "^8.0.3",
