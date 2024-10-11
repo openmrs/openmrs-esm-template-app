@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import { getDefaultsFromConfigSchema, useConfig } from '@openmrs/esm-framework';
-import { Config, configSchema } from '../config-schema';
+import { useConfig } from '@openmrs/esm-framework';
+import { Config } from '../config-schema';
 import Greeter from './greeter.component';
 
 const mockUseConfig = jest.mocked(useConfig<Config>);
