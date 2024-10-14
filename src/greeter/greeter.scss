@@ -1,11 +1,11 @@
-@use '@carbon/styles/scss/spacing';
-@use '@carbon/styles/scss/type';
+@use '@carbon/layout';
+@use '@carbon/type';
 
 .container {
   max-width: 50rem;
 
   > * + * {
-    margin-top: spacing.$spacing-05;
+    margin-top: layout.$spacing-05;
   }
 }
 

@@ -2,9 +2,9 @@
  * necessary. Here, the extensions set only their colors.
  * Their sizes and other general features of their display
  * is controlled by the slot. */
- 
- @import "~@openmrs/esm-styleguide/src/vars";
- 
+@use "@carbon/layout";
+@use '@openmrs/esm-styleguide/src/vars' as *;
+
  .blue {
   background-color: darkblue;
 }
@@ -19,5 +19,5 @@
 .brand {
   @include brand-01(background-color);
   color: white;
-  padding: 8px;
+  padding: layout.$spacing-03;
 }

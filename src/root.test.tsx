@@ -34,7 +34,7 @@ import Root from './root.component';
  * mock file. This line just tells TypeScript that the object is, in
  * fact, a mock, and so will have methods like `mockReturnValue`.
  */
-const mockUseConfig = useConfig as jest.Mock;
+const mockUseConfig = jest.mocked(useConfig<Config>);
 
 it('renders a landing page for the Template app', () => {
   const config: Config = { casualGreeting: false, whoToGreet: ['World'] };
