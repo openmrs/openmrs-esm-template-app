@@ -6,25 +6,25 @@
   },
   "extensions": [
     {
-      "name": "Red box",
-      "component": "redBox",
-      "slot": "Boxes"
+      "component": "billingDashboardLink",
+      "name": "billing-home-left-panel-link",
+      "slot": "homepage-dashboard-slot",
+      "meta": {
+        "name": "billing",
+        "title": "Billing",
+        "slot": "billing-app-slot"
+      }
     },
     {
-      "name": "Blue box",
-      "component": "blueBox",
-      "slot": "Boxes"
-    },
-        {
-      "name": "Brand box",
-      "component": "blueBox",
-      "slot": "Boxes"
+      "component": "root",
+      "name": "billing-root",
+      "slot": "billing-app-slot"
     }
   ],
   "pages": [
     {
       "component": "root",
-      "route": "root"
+      "route": "home/billing"
     }
   ]
 }
