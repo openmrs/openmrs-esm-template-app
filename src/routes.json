@@ -20,11 +20,5 @@
       "name": "billing-root",
       "slot": "billing-app-slot"
     }
-  ],
-  "pages": [
-    {
-      "component": "root",
-      "route": "home/billing"
-    }
   ]
 }
