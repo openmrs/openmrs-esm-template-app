@@ -2,14 +2,10 @@
 @use '@carbon/type';
 
 .container {
+  height: 100%;
+  overflow-y: auto;
+}
+
+.content {
   padding: layout.$spacing-07;
-}
-
-.welcome {
-  @include type.type-style('heading-04');
-  margin: layout.$spacing-05 0;
-}
-
-.explainer {
-  margin-bottom: layout.$spacing-07;
 }

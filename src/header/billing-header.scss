@@ -1,0 +1,123 @@
+@use '@carbon/layout';
+@use '@carbon/type';
+@use '@carbon/colors';
+
+.headerWrapper {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: colors.$white-0;
+  border-bottom: 1px solid colors.$gray-20;
+}
+
+.headerContainer {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+.headerContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: layout.$spacing-05 layout.$spacing-05 layout.$spacing-03;
+}
+
+.leftSection {
+  display: flex;
+  align-items: center;
+  gap: layout.$spacing-03;
+}
+
+.rightSection {
+  display: flex;
+  align-items: center;
+  gap: layout.$spacing-05;
+}
+
+.headerIcon {
+  width: 92;
+  height: 92;
+}
+
+.location {
+  @include type.type-style('body-compact-01');
+  color: colors.$gray-70;
+}
+
+.navigationContainer {
+  :global(.cds--tabs) {
+    width: 100%;
+  }
+
+  :global(.cds--tab) {
+    height: 3rem;
+    max-width: none;
+    padding: 0 layout.$spacing-05;
+    background: transparent;
+    
+    &:hover {
+      background: colors.$gray-10;
+    }
+  }
+
+  :global(.cds--tab--selected) {
+    border-bottom: 2px solid colors.$blue-60;
+  }
+}
+
+.secondaryNavigation {
+  background: colors.$gray-10;
+  border-top: 1px solid colors.$gray-20;
+
+  :global(.cds--tab) {
+    height: 2.5rem;
+    padding: 0 layout.$spacing-04;
+    font-size: 0.875rem;
+  }
+}
+
+:global(.cds--date-picker-input__wrapper) {
+  display: flex;
+  align-items: center;
+  
+  span {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+}
+
+:global(.cds--date-picker) {
+  width: auto;
+  
+  .cds--date-picker__input {
+    width: 10rem;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    
+    &:focus {
+      outline: none;
+    }
+    
+    &::placeholder {
+      color: colors.$gray-70;
+    }
+  }
+  
+  .cds--date-picker__icon {
+    position: absolute;
+    right: 1rem;
+    fill: currentColor;
+    width: 16px;
+    height: 16px;
+  }
+}
+:global(.cds--date-picker__input.active) {
+  background-color: transparent;
+  border: none;
+}
+:global(.cds--tab-content) {
+  display: none;
+}
