@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import BillingHeader from './header/BillingHeader';
 import styles from './billing.scss';
-import GlobalBillHeaderCards from './search-bill-header/search-bill-header.component';
+import GlobalBillHeaderCards from './bill-tabs/search-bill-header.component';
+import SearchGlobalBill from './bill-tabs/search-global-bill.component';
+import BillConfirmation from './bill-tabs/bill-confirmation.component';
 
 const Billing: React.FC = () => {
   const { t } = useTranslation();
@@ -21,6 +23,16 @@ const Billing: React.FC = () => {
       {activeTab === 0 && (
         <div className={styles.billHeaderCardsContainer}>
           <GlobalBillHeaderCards />
+        </div>
+      )}
+      {activeTab === 1 && (
+        <div className={styles.billHeaderCardsContainer}>
+          <BillConfirmation />
+        </div>
+      )}
+      {activeTab === 2 && (
+        <div className={styles.billHeaderCardsContainer}>
+          <SearchGlobalBill />
         </div>
       )}
     </div>
