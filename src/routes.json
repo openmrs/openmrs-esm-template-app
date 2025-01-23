@@ -12,13 +12,32 @@
       "meta": {
         "name": "billing",
         "title": "Billing",
-        "slot": "billing-app-slot"
+        "slot": "billing-app-slot",
+        "isFolder": true
       }
     },
     {
       "component": "root",
       "name": "billing-root",
       "slot": "billing-app-slot"
+    },
+    {
+      "name": "department-link",
+      "slot": "billing-app-slot",
+      "component": "departmentLink",
+      "meta": {
+        "slot": "billing-submenu-slot",
+        "path": "department"
+      }
+    },
+    {
+      "name": "service-link",
+      "slot": "billing-app-slot",
+      "component": "serviceLink",
+      "meta": {
+        "slot": "billing-submenu-slot",
+        "path": "service"
+      }
     }
   ]
 }

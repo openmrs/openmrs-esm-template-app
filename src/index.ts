@@ -15,7 +15,6 @@ export function startupApp() {
   defineConfigSchema(moduleName, configSchema);
 }
 
-// Update the import path here
 export const root = getAsyncLifecycle(() => import('./billing.component'), options);
 
 export const billingDashboardLink = getSyncLifecycle(
