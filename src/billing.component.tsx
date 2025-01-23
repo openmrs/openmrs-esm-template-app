@@ -14,15 +14,15 @@ const Billing: React.FC = () => {
 
   return (
     <div className={styles.billingWrapper}>
-      {' '}
       <div className={styles.container}>
         <BillingHeader onTabChange={handleTabChange} />
         <div className={styles.content}>{/* Add your tab content here */}</div>
       </div>
-      <div className={styles.billHeaderCardsContainer}>
-        {' '}
-        <GlobalBillHeaderCards />
-      </div>
+      {activeTab === 0 && (
+        <div className={styles.billHeaderCardsContainer}>
+          <GlobalBillHeaderCards />
+        </div>
+      )}
     </div>
   );
 };
