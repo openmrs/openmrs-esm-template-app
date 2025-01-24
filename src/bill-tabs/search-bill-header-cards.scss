@@ -49,7 +49,7 @@
 .searchButton {
   margin-top: 1rem;
   padding: 0.5rem 1rem;
-  background-color: #28a745; /* Green */
+  background-color: #28a745;
   color: #ffffff;
   border: none;
   border-radius: 4px;
@@ -59,7 +59,7 @@
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
 
   &:hover {
-    background-color: #ff9900; /* Orange */
+    background-color: #ff9900; 
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
   }
 
@@ -69,7 +69,7 @@
   }
 
   &:active {
-    background-color: #cc7a00; /* Slightly darker orange for active state */
+    background-color: #cc7a00;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   }
 }
@@ -87,4 +87,68 @@
   font-size: 1.2rem;
   font-weight: bold;
   color: #525252;
+}
+
+.results {
+  margin-top: 2rem;
+
+  h4 {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #161616;
+    margin-bottom: 1rem;
+  }
+
+  .resultsTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+    font-size: 1rem;
+
+    thead {
+      background-color: #f4f4f4;
+
+      th {
+        text-align: left;
+        padding: 0.75rem;
+        font-weight: bold;
+        color: #525252;
+        border-bottom: 2px solid #e0e0e0;
+      }
+    }
+
+    tbody {
+      tr {
+        &:nth-child(even) {
+          background-color: #f9f9f9;
+        }
+
+        &:hover {
+          background-color: #e6f7ff;
+        }
+      }
+
+      td {
+        padding: 0.75rem;
+        border-bottom: 1px solid #e0e0e0;
+        color: #333333;
+
+        &:first-child {
+          font-weight: bold;
+        }
+
+        &:last-child {
+          text-align: center;
+        }
+      }
+    }
+  }
+
+  .noResults {
+    margin-top: 1rem;
+    color: #e74c3c;
+    font-size: 1rem;
+    font-weight: bold;
+    text-align: center;
+  }
 }
