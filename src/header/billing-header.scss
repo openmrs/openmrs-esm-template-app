@@ -32,7 +32,15 @@
 .rightSection {
   display: flex;
   align-items: center;
-  gap: layout.$spacing-05;
+  gap: layout.$spacing-03;
+  
+  :global(.cds--overflow-menu) {
+    height: 2rem;
+    
+    &:hover {
+      background: colors.$gray-10;
+    }
+  }
 }
 
 .headerIcon {

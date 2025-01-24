@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Tab, Tabs, TabList, DatePicker, DatePickerInput } from '@carbon/react';
+import { Tab, Tabs, TabList, DatePicker, DatePickerInput, OverflowMenu, OverflowMenuItem } from '@carbon/react';
 import PaymentsDeskIcon from '../images/payments-desk-icon.svg';
 import { Receipt, ManageProtection, Currency } from '@carbon/react/icons';
 import { useSession } from '@openmrs/esm-framework';
@@ -45,29 +45,38 @@ const BillingHeader: React.FC<BillingHeaderProps> = ({ onTabChange }) => {
                             <p className="eMASq3DjWJo-OD-HE5jNWQ==">Billing</p>
                         </div>
                     </div>
-                    <div className="cds--date-picker-input__wrapper">
-                        <span>
-                        <DatePicker
-                            datePickerType="single"
-                            dateFormat="d-M-Y"
-                            value={selectedDate}
-                            onChange={handleDateChange}
-                        >
-                            <DatePickerInput
-                                id="billing-date-picker"
-                                pattern="\d{1,2}\/\d{1,2}\/\d{4}"
-                                placeholder="DD-MMM-YYYY"
-                                labelText=""
-                                size="md"
-                                style={{
-                                    cursor: 'pointer',
-                                    backgroundColor: 'transparent',
-                                    border: 'none',
-                                    maxWidth: '10rem'
-                                }}
-                            />
-                        </DatePicker>
-                        </span>
+                    <div className={styles.rightSection}>
+                        <OverflowMenu size="sm" flipped>
+                            <OverflowMenuItem itemText="Department" />
+                            <OverflowMenuItem itemText="Service" />
+                            <OverflowMenuItem itemText="Facility Service Price" />
+                            <OverflowMenuItem itemText="Insurance" />
+                            <OverflowMenuItem itemText="Third Party" />
+                        </OverflowMenu>
+                        <div className="cds--date-picker-input__wrapper">
+                            <span>
+                            <DatePicker
+                                datePickerType="single"
+                                dateFormat="d-M-Y"
+                                value={selectedDate}
+                                onChange={handleDateChange}
+                            >
+                                <DatePickerInput
+                                    id="billing-date-picker"
+                                    pattern="\d{1,2}\/\d{1,2}\/\d{4}"
+                                    placeholder="DD-MMM-YYYY"
+                                    labelText=""
+                                    size="md"
+                                    style={{
+                                        cursor: 'pointer',
+                                        backgroundColor: 'transparent',
+                                        border: 'none',
+                                        maxWidth: '10rem'
+                                    }}
+                                />
+                            </DatePicker>
+                            </span>
+                        </div>
                     </div>
                 </div>
 
