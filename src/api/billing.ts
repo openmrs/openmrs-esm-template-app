@@ -130,9 +130,13 @@ export const getThirdParties = async (): Promise<Array<ThirdParty>> => {
 
 export async function fetchGlobalBillsByInsuranceCard(ipCardNumber: string) {
   try {
-    const response = await openmrsFetch(`${BASE_API_URL}?ipCardNumber=${ipCardNumber}&v=full`);
-    const data = await response.json();
+    const response = await openmrsFetch(`${BASE_API_URL}/globalBill?ipCardNumber=${ipCardNumber}&v=full`);
 
+    if (!response.ok) {
+      throw new Error('Failed to fetch data');
+    }
+
+    const data = await response.json();
     return data;
   } catch (error) {
     console.error('Error fetching global bills:', error);

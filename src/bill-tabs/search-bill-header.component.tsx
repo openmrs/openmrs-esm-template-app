@@ -14,30 +14,31 @@ const SearchBillHeaderCards: React.FC = () => {
   const [hasSearched, setHasSearched] = useState(false);
 
   const handleSearch = async (type: 'insurance' | 'bill') => {
-    try {
-      setErrorMessage('');
-      setSearchResult([]);
-      setHasSearched(true);
+    setErrorMessage('');
+    setSearchResult([]);
+    setHasSearched(true);
 
-      if (type === 'insurance') {
-        if (!insuranceCardNumber) {
-          setErrorMessage(t('enterValue', 'Please enter a value to search.'));
-          return;
-        }
-
-        const result = await fetchGlobalBillsByInsuranceCard(insuranceCardNumber);
-        setSearchResult(result.results || []);
-      } else if (type === 'bill') {
-        if (!billIdentifier) {
-          setErrorMessage(t('enterValue', 'Please enter a bill identifier.'));
-          return;
-        }
-
-        // Replace this with the actual API call for searching by bill identifier
-        setSearchResult([]); // This is a placeholder
+    if (type === 'insurance') {
+      if (!insuranceCardNumber) {
+        setErrorMessage(t('enterValue', 'Please enter a value to search.'));
+        return;
       }
-    } catch (error) {
-      setErrorMessage(t('errorFetchingData', 'Error fetching data.'));
+
+      const result = await fetchGlobalBillsByInsuranceCard(insuranceCardNumber);
+
+      if (result && result.results && result.results.length === 0) {
+        setErrorMessage(t('noResults', 'No results found.'));
+      } else {
+        setSearchResult(result.results || []);
+      }
+    } else if (type === 'bill') {
+      if (!billIdentifier) {
+        setErrorMessage(t('enterValue', 'Please enter a bill identifier.'));
+        return;
+      }
+
+      // Replace this with the actual API call for searching by bill identifier
+      setSearchResult([]); // This is a placeholder
     }
   };
 
