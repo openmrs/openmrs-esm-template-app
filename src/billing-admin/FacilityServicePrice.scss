@@ -1,0 +1,45 @@
+@use '@carbon/styles/scss/spacing';
+@use '@carbon/styles/scss/type';
+
+.container {
+  padding: spacing.$spacing-05;
+}
+
+.headerContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: spacing.$spacing-05;
+
+  h4 {
+    @include type.type-style('heading-compact-02');
+  }
+}
+
+.tableContainer {
+  height: calc(100vh - 200px);
+  overflow-y: auto;
+}
+
+.loadingMore {
+  display: flex;
+  justify-content: center;
+  padding: spacing.$spacing-05;
+}
+
+.actionsCell {
+  display: flex;
+  align-items: center;
+  gap: spacing.$spacing-03;
+
+  button {
+    display: inline-flex;
+    align-items: center;
+    min-width: 5rem;
+    justify-content: center;
+    
+    svg {
+      margin-right: spacing.$spacing-02;
+    }
+  }
+}

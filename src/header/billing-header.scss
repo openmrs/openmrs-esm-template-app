@@ -129,3 +129,25 @@
 :global(.cds--tab-content) {
   display: none;
 }
+
+:global(.cds--overflow-menu-options__option:focus) {
+  outline: none;
+}
+
+:global(.cds--overflow-menu-options__btn:focus) {
+  outline: none;
+}
+
+.selectedMenuItem {
+  background-color: var(--cds-layer-selected-01);
+  color: var(--cds-text-primary);
+  font-weight: 600;
+
+  &:hover {
+    background-color: var(--cds-layer-selected-hover);
+  }
+
+  &:focus {
+    outline: none;
+  }
+}

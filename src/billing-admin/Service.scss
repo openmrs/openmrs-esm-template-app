@@ -1,0 +1,17 @@
+@use '@carbon/styles/scss/spacing';
+@use '@carbon/styles/scss/type';
+
+.container {
+  padding: spacing.$spacing-05;
+}
+
+.headerContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: spacing.$spacing-05;
+
+  h4 {
+    @include type.type-style('heading-compact-02');
+  }
+}

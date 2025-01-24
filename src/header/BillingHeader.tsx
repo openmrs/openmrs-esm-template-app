@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Tab, Tabs, TabList, DatePicker, DatePickerInput, OverflowMenu, OverflowMenuItem } from '@carbon/react';
+import { Tab, Tabs, TabList, DatePicker, DatePickerInput, OverflowMenu, OverflowMenuItem, Button } from '@carbon/react';
 import PaymentsDeskIcon from '../images/payments-desk-icon.svg';
 import { Receipt, ManageProtection, Currency } from '@carbon/react/icons';
 import { useSession } from '@openmrs/esm-framework';
@@ -8,11 +8,18 @@ import styles from './billing-header.scss';
 
 interface BillingHeaderProps {
     onTabChange: (tabIndex: number) => void;
+    onMenuItemSelect: (item: string) => void;
+    activeAdminComponent: string | null;
+    activeTab: number;
 }
 
-const BillingHeader: React.FC<BillingHeaderProps> = ({ onTabChange }) => {
+const BillingHeader: React.FC<BillingHeaderProps> = ({ 
+    onTabChange, 
+    onMenuItemSelect, 
+    activeAdminComponent,
+    activeTab 
+}) => {
     const { t } = useTranslation();
-    const [selectedTab, setSelectedTab] = useState(0);
     const [selectedDate, setSelectedDate] = useState(new Date());
     const session = useSession();
 
@@ -20,7 +27,6 @@ const BillingHeader: React.FC<BillingHeaderProps> = ({ onTabChange }) => {
 
     const handleTabClick = (event: { selectedIndex: number }) => {
         const index = event.selectedIndex;
-        setSelectedTab(index);
         onTabChange(index);
     };
 
@@ -28,6 +34,10 @@ const BillingHeader: React.FC<BillingHeaderProps> = ({ onTabChange }) => {
         if (dates.length > 0) {
             setSelectedDate(dates[0]);
         }
+    };
+
+    const handleMenuItemClick = (itemText: string) => {
+        onMenuItemSelect(itemText);
     };
 
     return (
@@ -47,11 +57,14 @@ const BillingHeader: React.FC<BillingHeaderProps> = ({ onTabChange }) => {
                     </div>
                     <div className={styles.rightSection}>
                         <OverflowMenu size="sm" flipped>
-                            <OverflowMenuItem itemText="Department" />
-                            <OverflowMenuItem itemText="Service" />
-                            <OverflowMenuItem itemText="Facility Service Price" />
-                            <OverflowMenuItem itemText="Insurance" />
-                            <OverflowMenuItem itemText="Third Party" />
+                            {['Department', 'Service', 'Facility Service Price', 'Insurance', 'Third Party'].map((item) => (
+                                <OverflowMenuItem 
+                                    key={item}
+                                    itemText={item}
+                                    onClick={() => handleMenuItemClick(item)}
+                                    className={activeAdminComponent === item ? styles.selectedMenuItem : ''}
+                                />
+                            ))}
                         </OverflowMenu>
                         <div className="cds--date-picker-input__wrapper">
                             <span>
@@ -81,11 +94,29 @@ const BillingHeader: React.FC<BillingHeaderProps> = ({ onTabChange }) => {
                 </div>
 
                 <div className={styles.navigationContainer}>
-                    <Tabs selected={selectedTab} onChange={handleTabClick}>
+                    <Tabs 
+                        selected={activeAdminComponent ? -1 : activeTab} 
+                        onChange={handleTabClick}
+                    >
                         <TabList aria-label="Billing Navigation">
-                            <Tab renderIcon={Receipt}>{t('bill', 'Bill')}</Tab>
-                            <Tab renderIcon={ManageProtection}>{t('manageBill', 'Manage Bill')}</Tab>
-                            <Tab renderIcon={Currency}>{t('managePayments', 'Manage Payments')}</Tab>
+                            <Tab 
+                                renderIcon={Receipt}
+                                disabled={!!activeAdminComponent}
+                            >
+                                {t('bill', 'Bill')}
+                            </Tab>
+                            <Tab 
+                                renderIcon={ManageProtection}
+                                disabled={!!activeAdminComponent}
+                            >
+                                {t('manageBill', 'Manage Bill')}
+                            </Tab>
+                            <Tab 
+                                renderIcon={Currency}
+                                disabled={!!activeAdminComponent}
+                            >
+                                {t('managePayments', 'Manage Payments')}
+                            </Tab>
                         </TabList>
                     </Tabs>
                 </div>

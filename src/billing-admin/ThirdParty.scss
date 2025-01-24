@@ -1,0 +1,57 @@
+@use '@carbon/styles/scss/spacing';
+@use '@carbon/styles/scss/type';
+
+.container {
+  padding: spacing.$spacing-05;
+}
+
+.headerContainer {
+  margin-bottom: spacing.$spacing-05;
+
+  h4 {
+    @include type.type-style('heading-compact-02');
+  }
+}
+
+.form {
+  background-color: white;
+  padding: spacing.$spacing-05;
+  margin-bottom: spacing.$spacing-06;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+}
+
+.formContent {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: spacing.$spacing-05;
+  align-items: end;
+  max-width: 800px;
+}
+
+h5 {
+  @include type.type-style('heading-compact-01');
+  margin-bottom: spacing.$spacing-05;
+}
+
+.actionCell {
+  display: flex;
+  gap: spacing.$spacing-03;
+}
+
+.actionsCell {
+  display: flex;
+  align-items: center;
+  gap: spacing.$spacing-03;
+
+  button {
+    display: inline-flex;
+    align-items: center;
+    min-width: 5rem;
+    justify-content: center;
+    
+    svg {
+      margin-right: spacing.$spacing-02;
+    }
+  }
+}
