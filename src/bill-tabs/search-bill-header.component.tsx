@@ -9,40 +9,44 @@ const SearchBillHeaderCards: React.FC = () => {
   const [insuranceCardNumber, setInsuranceCardNumber] = useState('');
   const [billIdentifier, setBillIdentifier] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-
   const [searchResult, setSearchResult] = useState<any[]>([]);
   const [hasSearched, setHasSearched] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleSearch = async (type: 'insurance' | 'bill') => {
     setErrorMessage('');
     setSearchResult([]);
     setHasSearched(true);
+    setLoading(true);
 
-    if (type === 'insurance') {
-      if (!insuranceCardNumber) {
-        setErrorMessage(t('enterValue', 'Please enter a value to search.'));
-        return;
+    try {
+      if (type === 'insurance') {
+        if (!insuranceCardNumber) {
+          setErrorMessage(t('enterValue', 'Please enter a value to search.'));
+          return;
+        }
+        const result = await fetchGlobalBillsByInsuranceCard(insuranceCardNumber);
+        if (result?.results?.length === 0) {
+          setErrorMessage(t('noResults', 'No results found.'));
+        } else {
+          setSearchResult(result.results || []);
+        }
+      } else if (type === 'bill') {
+        if (!billIdentifier) {
+          setErrorMessage(t('enterValue', 'Please enter a bill identifier.'));
+          return;
+        }
+        // Replace this with the actual API call for searching by bill identifier
+        setSearchResult([]); // Placeholder logic for now
       }
-
-      const result = await fetchGlobalBillsByInsuranceCard(insuranceCardNumber);
-
-      if (result && result.results && result.results.length === 0) {
-        setErrorMessage(t('noResults', 'No results found.'));
-      } else {
-        setSearchResult(result.results || []);
-      }
-    } else if (type === 'bill') {
-      if (!billIdentifier) {
-        setErrorMessage(t('enterValue', 'Please enter a bill identifier.'));
-        return;
-      }
-
-      // Replace this with the actual API call for searching by bill identifier
-      setSearchResult([]); // This is a placeholder
+    } catch (error) {
+      setErrorMessage(t('errorFetchingData', 'An error occurred while fetching data.'));
+    } finally {
+      setLoading(false);
     }
   };
 
-  const renderResults = () => {
+  const renderResultsTable = () => {
     if (!hasSearched) {
       return null;
     }
@@ -52,48 +56,34 @@ const SearchBillHeaderCards: React.FC = () => {
     }
 
     return (
-      <div className={styles.results}>
-        <h4>
-          {t('resultFor', 'Result for')} "{insuranceCardNumber}": {searchResult.length}{' '}
-          {t('beneficiaries', 'beneficiaries')}
-        </h4>
-        <table className={styles.resultsTable}>
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>{t('insurancePolicyNo', 'Insurance Policy No.')}</th>
-              <th>{t('insurance', 'Insurance')}</th>
-              <th>{t('insuranceCardNo', 'Insurance Card No.')}</th>
-              <th>{t('patientNames', 'Patient Names')}</th>
-              <th>{t('age', 'Age')}</th>
-              <th>{t('gender', 'Gender')}</th>
-              <th>{t('birthdate', 'Birthdate')}</th>
+      <table className={styles.resultsTable}>
+        <thead>
+          <tr>
+            <th>Insurance Policy No.</th>
+            <th>Insurance</th>
+            <th>Insurance Card No.</th>
+            <th>Patient Names</th>
+            <th>Age</th>
+            <th>Gender</th>
+            <th>Birthdate</th>
+          </tr>
+        </thead>
+        <tbody>
+          {searchResult.map((result, index) => (
+            <tr key={index}>
+              <td>{result.insuranceCardNo || 'N/A'}</td>
+              <td>{result.insurance || 'N/A'}</td>
+              <td>{result.insuranceCardNo || 'N/A'}</td>
+              <td>{result.owner?.person?.display || 'N/A'}</td>
+              <td>{result.owner?.person?.age || 'N/A'}</td>
+              <td>{result.owner?.person?.gender || 'N/A'}</td>
+              <td>
+                {result.owner?.person?.birthdate ? new Date(result.owner.person.birthdate).toLocaleDateString() : 'N/A'}
+              </td>
             </tr>
-          </thead>
-          <tbody>
-            {searchResult.map((result, index) => {
-              const insurancePolicy = result.admission?.insurancePolicy || {};
-              const patientNames = result.creator?.display || t('notAvailable', 'N/A');
-              const age = result.age || t('notAvailable', 'N/A');
-              const gender = result.gender || t('notAvailable', 'N/A');
-              const birthdate = result.birthdate || t('notAvailable', 'N/A');
-
-              return (
-                <tr key={result.globalBillId || index}>
-                  <td>{index + 1}</td>
-                  <td>{insurancePolicy.insuranceCardNo || t('notAvailable', 'N/A')}</td>
-                  <td>{result.insurance?.name || t('notAvailable', 'N/A')}</td>
-                  <td>{insurancePolicy.insuranceCardNo || t('notAvailable', 'N/A')}</td>
-                  <td>{patientNames}</td>
-                  <td>{age}</td>
-                  <td>{gender}</td>
-                  <td>{birthdate}</td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </div>
+          ))}
+        </tbody>
+      </table>
     );
   };
 
@@ -111,14 +101,18 @@ const SearchBillHeaderCards: React.FC = () => {
             placeholder={t('searchPlaceholder', 'Enter card number to search')}
           />
         </div>
-        <button className={styles.searchButton} onClick={() => handleSearch('insurance')}>
-          {t('search', 'Search')}
+        <button
+          className={styles.searchButton}
+          onClick={() => handleSearch('insurance')}
+          disabled={loading} // Disable button while loading
+        >
+          {loading ? t('loading', 'Loading...') : t('search', 'Search')}
         </button>
       </div>
 
+      {loading && <div className={styles.loading}>{t('loading', 'Loading...')}</div>}
       {errorMessage && <div className={styles.error}>{errorMessage}</div>}
-
-      {renderResults()}
+      {renderResultsTable()}
 
       <div className={styles.orWrapper}>
         <span className={styles.orText}>{t('or', 'Or')}</span>

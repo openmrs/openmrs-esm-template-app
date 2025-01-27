@@ -128,18 +128,20 @@ export const getThirdParties = async (): Promise<Array<ThirdParty>> => {
   return response.data.results;
 };
 
-export async function fetchGlobalBillsByInsuranceCard(ipCardNumber: string) {
+export async function fetchGlobalBillsByInsuranceCard(insuranceCardNumber: string) {
   try {
-    const response = await openmrsFetch(`${BASE_API_URL}/globalBill?ipCardNumber=${ipCardNumber}&v=full`);
+    const response = await openmrsFetch(
+      `${BASE_API_URL}/insurancePolicy?insuranceCardNo=${insuranceCardNumber}&v=full`,
+    );
 
     if (!response.ok) {
-      throw new Error('Failed to fetch data');
+      const errorData = await response.json();
+      throw new Error(errorData.error?.message || 'Failed to fetch data');
     }
 
-    const data = await response.json();
-    return data;
+    return await response.json();
   } catch (error) {
     console.error('Error fetching global bills:', error);
-    throw error;
+    throw new Error(error.message || 'An unknown error occurred');
   }
 }
