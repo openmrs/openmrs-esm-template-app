@@ -12,9 +12,10 @@ import {
 } from '@carbon/react';
 import { useTranslation } from 'react-i18next';
 import { showToast } from '@openmrs/esm-framework';
-import { getServices, HopService } from '../api/billing';
+import { getServices, type HopService } from '../api/billing';
 import styles from './Service.scss';
 import BackButton from '../components/back-button';
+import BillingAdminHeader from './billing-admin-header/billing-admin-header.component';
 
 interface ServiceProps {
   onBack: () => void;
@@ -65,13 +66,12 @@ const Service: React.FC<ServiceProps> = ({ onBack }) => {
 
   return (
     <div className={styles.container}>
-      <div className={styles.headerContainer}>
-        <div className={styles.headerLeft}>
-          <BackButton onBack={onBack} />
-          <h4>{t('serviceManagement', 'Service Management')}</h4>
-        </div>
-        <Button>{t('addNewService', 'Add New Service')}</Button>
-      </div>
+      <BillingAdminHeader
+        title={t('serviceManagement', 'Service Management')}
+        onBack={onBack}
+        addButtonLabel={t('addNewService', 'Add New Service')}
+        onAdd={() => {/* TODO: Implement add */}}
+      />
       
       <DataTable rows={formatServicesForTable(services)} headers={headers}>
         {({ rows, headers, getHeaderProps, getTableProps }) => (

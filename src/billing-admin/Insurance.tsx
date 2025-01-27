@@ -12,10 +12,11 @@ import {
 } from '@carbon/react';
 import { useTranslation } from 'react-i18next';
 import { showToast } from '@openmrs/esm-framework';
-import { getInsurances, Insurance as InsuranceType } from '../api/billing';
+import { getInsurances, type Insurance as InsuranceType } from '../api/billing';
 import styles from './Insurance.scss';
 import { Edit, Add } from '@carbon/react/icons';
 import BackButton from '../components/back-button';
+import BillingAdminHeader from './billing-admin-header/billing-admin-header.component';
 
 interface InsuranceProps {
   onBack: () => void;
@@ -74,13 +75,12 @@ const Insurance: React.FC<InsuranceProps> = ({ onBack }) => {
 
   return (
     <div className={styles.container}>
-      <div className={styles.headerContainer}>
-        <div className={styles.headerLeft}>
-          <BackButton onBack={onBack} />
-          <h4>{t('insuranceManagement', 'Insurance Management')}</h4>
-        </div>
-        <Button>{t('addNewInsurance', 'Add New Insurance')}</Button>
-      </div>
+      <BillingAdminHeader
+        title={t('insuranceManagement', 'Insurance Management')}
+        onBack={onBack}
+        addButtonLabel={t('addNewInsurance', 'Add New Insurance')}
+        onAdd={() => {/* TODO: Implement add */}}
+      />
       
       <DataTable rows={formatInsurancesForTable(insurances)} headers={headers}>
         {({ rows, headers, getHeaderProps, getTableProps }) => (

@@ -16,9 +16,9 @@ import {
 import { Edit, TrashCan } from '@carbon/react/icons';
 import { useTranslation } from 'react-i18next';
 import { showToast } from '@openmrs/esm-framework';
-import { getThirdParties, ThirdParty as ThirdPartyType } from '../api/billing';
+import { getThirdParties, type ThirdParty as ThirdPartyType } from '../api/billing';
 import styles from './ThirdParty.scss';
-import BackButton from '../components/back-button';
+import BillingAdminHeader from './billing-admin-header/billing-admin-header.component';
 
 interface ThirdPartyProps {
   onBack: () => void;
@@ -58,8 +58,6 @@ const ThirdParty: React.FC<ThirdPartyProps> = ({ onBack }) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: Implement create third party
-    console.log('Create third party:', newThirdParty);
   };
 
   const formatTableData = (thirdParties: Array<ThirdPartyType>) => {
@@ -77,12 +75,12 @@ const ThirdParty: React.FC<ThirdPartyProps> = ({ onBack }) => {
 
   return (
     <div className={styles.container}>
-      <div className={styles.headerContainer}>
-        <div className={styles.headerLeft}>
-          <BackButton onBack={onBack} />
-          <h4>{t('thirdPartyManagement', 'Manage Third Parties')}</h4>
-        </div>
-      </div>
+      <BillingAdminHeader
+        title={t('thirdPartyManagement', 'Manage Third Parties')}
+        onBack={onBack}
+        addButtonLabel={t('addNewThirdParty', 'Add New Third Party')}
+        onAdd={() => {/* TODO: Implement add */}}
+      />
 
       <Form onSubmit={handleSubmit} className={styles.form}>
         <div className={styles.formContent}>

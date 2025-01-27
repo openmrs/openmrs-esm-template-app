@@ -12,9 +12,10 @@ import {
 } from '@carbon/react';
 import { useTranslation } from 'react-i18next';
 import { showToast } from '@openmrs/esm-framework';
-import { getDepartments, Department as DepartmentType } from '../api/billing';
+import { getDepartments, type Department as DepartmentType } from '../api/billing';
 import styles from './Department.scss';
 import BackButton from '../components/back-button';
+import BillingAdminHeader from './billing-admin-header/billing-admin-header.component';
 
 interface DepartmentProps {
   onBack: () => void;
@@ -65,13 +66,12 @@ const Department: React.FC<DepartmentProps> = ({ onBack }) => {
 
   return (
     <div className={styles.container}>
-      <div className={styles.headerContainer}>
-        <div className={styles.headerLeft}>
-          <BackButton onBack={onBack} />
-          <h4>{t('departmentManagement', 'Department Management')}</h4>
-        </div>
-        <Button>{t('addNewDepartment', 'Add New Department')}</Button>
-      </div>
+      <BillingAdminHeader
+        title={t('departmentManagement', 'Department Management')}
+        onBack={onBack}
+        addButtonLabel={t('addNewDepartment', 'Add New Department')}
+        onAdd={() => {/* TODO: Implement add */}}
+      />
       
       <DataTable rows={rows} headers={headers}>
         {({ rows, headers, getHeaderProps, getTableProps }) => (

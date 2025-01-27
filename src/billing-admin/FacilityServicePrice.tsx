@@ -8,15 +8,17 @@ import {
   TableBody,
   TableCell,
   Button,
+  ButtonSet,
   Loading,
   Tag,
 } from '@carbon/react';
 import { useTranslation } from 'react-i18next';
 import { showToast } from '@openmrs/esm-framework';
-import { getFacilityServicePrices, FacilityServicePrice as FacilityServicePriceType } from '../api/billing';
+import { getFacilityServicePrices, type FacilityServicePrice as FacilityServicePriceType } from '../api/billing';
 import styles from './FacilityServicePrice.scss';
 import { Edit, Add } from '@carbon/react/icons';
 import BackButton from '../components/back-button';
+import BillingAdminHeader from './billing-admin-header/billing-admin-header.component';
 
 interface FacilityServicePriceProps {
   onBack: () => void;
@@ -103,13 +105,12 @@ const FacilityServicePrice: React.FC<FacilityServicePriceProps> = ({ onBack }) =
 
   return (
     <div className={styles.container}>
-      <div className={styles.headerContainer}>
-        <div className={styles.headerLeft}>
-          <BackButton onBack={onBack} />
-          <h4>{t('facilityServiceManagement', 'Manage Facility Services')}</h4>
-        </div>
-        <Button>{t('addNewFacilityService', 'Add New Facility Service')}</Button>
-      </div>
+      <BillingAdminHeader
+        title={t('facilityServiceManagement', 'Manage Facility Services')}
+        onBack={onBack}
+        addButtonLabel={t('addNewFacilityService', 'Add New Facility Service')}
+        onAdd={() => {/* TODO: Implement add */}}
+      />
       
       <div className={styles.tableContainer} ref={tableRef} onScroll={handleScroll}>
         <DataTable rows={formatTableData(facilityServices)} headers={headers}>
@@ -137,24 +138,20 @@ const FacilityServicePrice: React.FC<FacilityServicePriceProps> = ({ onBack }) =
                       </Tag>
                     </TableCell>
                     <TableCell>
-                      <div className={styles.actionsCell}>
+                      <ButtonSet className={styles.actionsCell}>
                         <Button
                           kind="tertiary"
                           size="sm"
-                          renderIcon={(props) => <Edit size={16} {...props} />}
-                          onClick={() => {/* TODO: Implement edit */}}
-                        >
-                          {t('edit', 'Edit')}
-                        </Button>
+                          renderIcon={Edit}
+                          hasIconOnly
+                        />
                         <Button
                           kind="tertiary"
                           size="sm"
-                          renderIcon={(props) => <Add size={16} {...props} />}
-                          onClick={() => {/* TODO: Implement details */}}
-                        >
-                          {t('details', 'Details')}
-                        </Button>
-                      </div>
+                          renderIcon={Add}
+                          hasIconOnly
+                        />
+                      </ButtonSet>
                     </TableCell>
                   </TableRow>
                 ))}
