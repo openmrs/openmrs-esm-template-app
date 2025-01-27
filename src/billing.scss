@@ -2,13 +2,25 @@
 @use '@carbon/type';
 
 .billingWrapper {
-  width: 100%;
-  padding: layout.$spacing-03;
+  width: 85vw;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.scrollableContent {
+  flex: 1;
+  overflow: auto;
+  padding: layout.$spacing-05;
 }
 .container {
   width: 100%;
   overflow-y: auto;
-  position: relative;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: white;
 }
 
 .content {
@@ -17,4 +29,9 @@
 }
 .billHeaderCardsContainer {
   margin-top: layout.$spacing-05;
+}
+
+.adminContent {
+  width: 100%;
+  padding: 1rem;
 }
