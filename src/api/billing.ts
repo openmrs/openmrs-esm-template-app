@@ -145,3 +145,39 @@ export async function fetchGlobalBillsByInsuranceCard(insuranceCardNumber: strin
     throw new Error(error.message || 'An unknown error occurred');
   }
 }
+
+export interface PatientBill {
+  patientBillId: number;
+  amount: number;
+  createdDate: string;
+  status: string | null;
+  voided: boolean;
+  payments: Array<{
+    amountPaid: number;
+    dateReceived: string;
+    collector: {
+      uuid: string;
+      display: string;
+    };
+  }>;
+  phoneNumber: string | null;
+  transactionStatus: string | null;
+  paymentConfirmedBy: any | null;
+  paymentConfirmedDate: string | null;
+  links: Array<{
+    rel: string;
+    uri: string;
+    resourceAlias: string;
+  }>;
+}
+
+export interface PatientBillResponse {
+  results: Array<PatientBill>;
+}
+
+export const getPatientBills = async (startDate: string, endDate: string): Promise<PatientBillResponse> => {
+  const response = await openmrsFetch<PatientBillResponse>(
+    `${BASE_API_URL}/patientBill?startDate=${startDate}&endDate=${endDate}`
+  );
+  return response.data;
+};

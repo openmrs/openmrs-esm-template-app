@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import { fetchGlobalBillsByInsuranceCard } from '../api/billing';
 import styles from './search-bill-header-cards.scss';
 
 const SearchBillHeaderCards: React.FC = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   const [insuranceCardNumber, setInsuranceCardNumber] = useState('');
   const [billIdentifier, setBillIdentifier] = useState('');
@@ -46,6 +48,10 @@ const SearchBillHeaderCards: React.FC = () => {
     }
   };
 
+  const handleRowClick = (result) => {
+    navigate(`/invoice`, { state: { billData: result } });
+  };
+
   const renderResultsTable = () => {
     if (!hasSearched) {
       return null;
@@ -70,7 +76,12 @@ const SearchBillHeaderCards: React.FC = () => {
         </thead>
         <tbody>
           {searchResult.map((result, index) => (
-            <tr key={index}>
+            <tr 
+              key={index} 
+              onClick={() => handleRowClick(result)}
+              style={{ cursor: 'pointer' }}
+              className={styles.tableRow}
+            >
               <td>{result.insuranceCardNo || 'N/A'}</td>
               <td>{result.insurance || 'N/A'}</td>
               <td>{result.insuranceCardNo || 'N/A'}</td>

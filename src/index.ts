@@ -15,7 +15,8 @@ export function startupApp() {
   defineConfigSchema(moduleName, configSchema);
 }
 
-export const root = getAsyncLifecycle(() => import('./billing.component'), options);
+export const root = getAsyncLifecycle(() => import('./root.component'), options);
+export const Invoice = getAsyncLifecycle(() => import('./Invoice.component'), options);
 
 export const billingDashboardLink = getSyncLifecycle(
   createLeftPanelLink({

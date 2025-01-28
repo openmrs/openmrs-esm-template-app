@@ -132,6 +132,13 @@
   cursor: pointer;
 }
 
+.tableRow {
+  &:hover {
+    background-color: #f5f5f5;
+    transition: background-color 0.2s ease;
+  }
+}
+
 .noResults {
   margin-top: 1rem;
   color: #e74c3c;

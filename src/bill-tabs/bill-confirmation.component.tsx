@@ -1,9 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import styles from './bill-confirmation.scss';
 
 const BillConfirmation: React.FC = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
+
+  const handleOpen = () => {
+    if (startDate && endDate) {
+      navigate('/patient-bills', { state: { startDate, endDate } });
+    }
+  };
 
   return (
     <div>
@@ -14,14 +24,30 @@ const BillConfirmation: React.FC = () => {
           <div className={styles.dateWrapper}>
             <div className={styles.dateField}>
               <span className={styles.label}>{t('startDate', 'Start Date')}</span>
-              <input type="date" className={styles.inputField} />
+              <input 
+                type="date" 
+                className={styles.inputField}
+                value={startDate}
+                onChange={(e) => setStartDate(e.target.value)}
+              />
             </div>
             <div className={styles.dateField}>
               <span className={styles.label}>{t('endDate', 'End Date')}</span>
-              <input type="date" className={styles.inputField} />
+              <input 
+                type="date" 
+                className={styles.inputField}
+                value={endDate}
+                onChange={(e) => setEndDate(e.target.value)}
+              />
             </div>
           </div>
-          <button className={styles.openButton}>{t('open', 'Open')}</button>
+          <button 
+            className={styles.openButton}
+            onClick={handleOpen}
+            disabled={!startDate || !endDate}
+          >
+            {t('open', 'Open')}
+          </button>
         </div>
       </section>
 
