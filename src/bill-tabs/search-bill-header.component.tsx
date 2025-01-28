@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
 import { fetchGlobalBillsByInsuranceCard } from '../api/billing';
 import styles from './search-bill-header-cards.scss';
+import { navigate } from '@openmrs/esm-framework';
 
 const SearchBillHeaderCards: React.FC = () => {
   const { t } = useTranslation();
-  const navigate = useNavigate();
 
   const [insuranceCardNumber, setInsuranceCardNumber] = useState('');
   const [billIdentifier, setBillIdentifier] = useState('');
@@ -49,7 +48,7 @@ const SearchBillHeaderCards: React.FC = () => {
   };
 
   const handleRowClick = (result) => {
-    navigate(`/invoice`, { state: { billData: result } });
+    navigate({ to: window.getOpenmrsSpaBase() + `home/billing/invoice/${result.insuranceCardNo}` });
   };
 
   const renderResultsTable = () => {
@@ -57,7 +56,7 @@ const SearchBillHeaderCards: React.FC = () => {
       return null;
     }
 
-    if (searchResult.length === 0) {
+    if (!searchResult || searchResult.length === 0 || searchResult.every((item) => item === null)) {
       return <p className={styles.noResults}>{t('noResults', 'No results found.')}</p>;
     }
 
@@ -76,8 +75,8 @@ const SearchBillHeaderCards: React.FC = () => {
         </thead>
         <tbody>
           {searchResult.map((result, index) => (
-            <tr 
-              key={index} 
+            <tr
+              key={index}
               onClick={() => handleRowClick(result)}
               style={{ cursor: 'pointer' }}
               className={styles.tableRow}

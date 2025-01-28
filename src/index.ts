@@ -16,12 +16,11 @@ export function startupApp() {
 }
 
 export const root = getAsyncLifecycle(() => import('./root.component'), options);
-export const Invoice = getAsyncLifecycle(() => import('./Invoice.component'), options);
 
 export const billingDashboardLink = getSyncLifecycle(
   createLeftPanelLink({
     name: 'billing',
-    title: 'Billing'
+    title: 'Billing',
   }),
-  options
+  options,
 );

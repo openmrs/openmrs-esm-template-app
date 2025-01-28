@@ -177,7 +177,7 @@ export interface PatientBillResponse {
 
 export const getPatientBills = async (startDate: string, endDate: string): Promise<PatientBillResponse> => {
   const response = await openmrsFetch<PatientBillResponse>(
-    `${BASE_API_URL}/patientBill?startDate=${startDate}&endDate=${endDate}`
+    `${BASE_API_URL}/patientBill?startDate=${startDate}&endDate=${endDate}`,
   );
   return response.data;
 };
