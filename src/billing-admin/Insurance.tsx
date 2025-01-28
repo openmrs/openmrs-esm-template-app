@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import {
   DataTable,
   Table,
@@ -26,6 +26,7 @@ const Insurance: React.FC<InsuranceProps> = ({ onBack }) => {
   const { t } = useTranslation();
   const [insurances, setInsurances] = useState<Array<InsuranceType>>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const tableRef = useRef(null);
 
   const headers = [
     { key: 'id', header: '#' },
@@ -82,50 +83,52 @@ const Insurance: React.FC<InsuranceProps> = ({ onBack }) => {
         onAdd={() => {/* TODO: Implement add */}}
       />
       
-      <DataTable rows={formatInsurancesForTable(insurances)} headers={headers}>
-        {({ rows, headers, getHeaderProps, getTableProps }) => (
-          <Table {...getTableProps()}>
-            <TableHead>
-              <TableRow>
-                {headers.map((header) => (
-                  <TableHeader {...getHeaderProps({ header })}>{header.header}</TableHeader>
-                ))}
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {rows.map((row) => (
-                <TableRow key={row.id}>
-                  <TableCell>{row.cells[0].value}</TableCell>
-                  <TableCell>{row.cells[1].value}</TableCell>
-                  <TableCell>{row.cells[2].value}</TableCell>
-                  <TableCell>{row.cells[3].value}</TableCell>
-                  <TableCell>{row.cells[4].value}</TableCell>
-                  <TableCell>{row.cells[5].value}</TableCell>
-                  <TableCell>{row.cells[6].value}</TableCell>
-                  <TableCell>
-                    <div className={styles.actionsCell}>
-                      <Button
-                        kind="tertiary"
-                        size="sm"
-                        onClick={() => {/* TODO: Implement edit */}}
-                      >
-                        {t('edit', 'Edit')}
-                      </Button>
-                      <Button
-                        kind="tertiary"
-                        size="sm"
-                        onClick={() => {/* TODO: Implement add/view */}}
-                      >
-                        {t('addViewServices', 'Add / View')}
-                      </Button>
-                    </div>
-                  </TableCell>
+      <div className={styles.tableContainer} ref={tableRef}>
+        <DataTable rows={formatInsurancesForTable(insurances)} headers={headers}>
+          {({ rows, headers, getHeaderProps, getTableProps }) => (
+            <Table {...getTableProps()}>
+              <TableHead>
+                <TableRow>
+                  {headers.map((header) => (
+                    <TableHeader {...getHeaderProps({ header })}>{header.header}</TableHeader>
+                  ))}
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        )}
-      </DataTable>
+              </TableHead>
+              <TableBody>
+                {rows.map((row) => (
+                  <TableRow key={row.id}>
+                    <TableCell>{row.cells[0].value}</TableCell>
+                    <TableCell>{row.cells[1].value}</TableCell>
+                    <TableCell>{row.cells[2].value}</TableCell>
+                    <TableCell>{row.cells[3].value}</TableCell>
+                    <TableCell>{row.cells[4].value}</TableCell>
+                    <TableCell>{row.cells[5].value}</TableCell>
+                    <TableCell>{row.cells[6].value}</TableCell>
+                    <TableCell>
+                      <div className={styles.actionsCell}>
+                        <Button
+                          kind="tertiary"
+                          size="sm"
+                          onClick={() => {/* TODO: Implement edit */}}
+                        >
+                          {t('edit', 'Edit')}
+                        </Button>
+                        <Button
+                          kind="tertiary"
+                          size="sm"
+                          onClick={() => {/* TODO: Implement add/view */}}
+                        >
+                          {t('addViewServices', 'Add / View')}
+                        </Button>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          )}
+        </DataTable>
+      </div>
     </div>
   );
 };
