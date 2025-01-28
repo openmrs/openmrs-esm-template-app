@@ -5,6 +5,8 @@
 .headerWrapper {
   position: sticky;
   top: 0;
+  left: 0;
+  right: 0;
   z-index: 1;
   background: colors.$white-0;
   border-bottom: 1px solid colors.$gray-20;
@@ -12,8 +14,7 @@
 
 .headerContainer {
   width: 100%;
-  max-width: 1440px;
-  margin: 0 auto;
+  background-color: colors.$white-0;
 }
 
 .headerContent {
@@ -21,6 +22,7 @@
   justify-content: space-between;
   align-items: center;
   padding: layout.$spacing-05 layout.$spacing-05 layout.$spacing-03;
+  background-color: colors.$white-0;
 }
 
 .leftSection {

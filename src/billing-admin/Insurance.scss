@@ -3,6 +3,8 @@
 
 .container {
   padding: spacing.$spacing-05;
+  height: calc(100vh - 200px);
+  width: 100%;
 }
 
 .headerContainer {
@@ -17,28 +19,18 @@
 }
 
 .actionsCell {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: spacing.$spacing-03;
-  padding: 0 spacing.$spacing-05;
   white-space: nowrap;
 
   button {
-    display: inline-flex;
-    align-items: center;
-    padding: spacing.$spacing-03 spacing.$spacing-05;
-    margin-right: spacing.$spacing-03;
+    min-height: 2rem;
     height: 2rem;
-    min-width: 5rem;
-    justify-content: center;
+    padding: 0 spacing.$spacing-05;
+    margin-right: spacing.$spacing-03;
     
     &:last-child {
       margin-right: 0;
-    }
-
-    svg {
-      margin-right: spacing.$spacing-03;
-      flex-shrink: 0;
     }
   }
 }
