@@ -3748,6 +3748,7 @@ __metadata:
     eslint-plugin-jest-dom: "npm:^5.4.0"
     eslint-plugin-prettier: "npm:^5.1.3"
     eslint-plugin-react-hooks: "npm:^4.6.2"
+    fuzzy: "npm:^0.1.3"
     husky: "npm:^8.0.3"
     i18next: "npm:^23.2.8"
     i18next-parser: "npm:^9.0.2"
@@ -11226,6 +11227,13 @@ __metadata:
   version: 1.2.3
   resolution: "functions-have-names@npm:1.2.3"
   checksum: 10/0ddfd3ed1066a55984aaecebf5419fbd9344a5c38dd120ffb0739fac4496758dcf371297440528b115e4367fc46e3abc86a2cc0ff44612181b175ae967a11a05
+  languageName: node
+  linkType: hard
+
+"fuzzy@npm:^0.1.3":
+  version: 0.1.3
+  resolution: "fuzzy@npm:0.1.3"
+  checksum: 10/3cf399457f3f9832af5d72bdbf354b287d977fca6bd800fb457579a9ccf8d8faa297f70ab7fada0147591e022d817532072ab07f69490b84f5dda96051e8c3ab
   languageName: node
   linkType: hard
 
