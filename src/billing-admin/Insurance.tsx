@@ -14,8 +14,6 @@ import { useTranslation } from 'react-i18next';
 import { showToast } from '@openmrs/esm-framework';
 import { getInsurances, type Insurance as InsuranceType } from '../api/billing';
 import styles from './Insurance.scss';
-import { Edit, Add } from '@carbon/react/icons';
-import BackButton from '../components/back-button';
 import BillingAdminHeader from './billing-admin-header/billing-admin-header.component';
 
 interface InsuranceProps {

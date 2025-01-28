@@ -1,0 +1,94 @@
+@use '@carbon/styles/scss/spacing';
+@use '@carbon/styles/scss/type';
+
+.container {
+  padding: spacing.$spacing-05;
+  height: 100%;
+  width: 100%;
+  overflow-x: hidden;
+  position: relative;
+  background: white;
+}
+
+.headerContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: spacing.$spacing-05;
+
+  h4 {
+    @include type.type-style('heading-compact-02');
+  }
+}
+
+.tableContainer {
+  margin-top: 2rem;
+  padding: 1rem;
+  width: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: calc(100vh - 300px);
+  border: solid 1px #e0e0e0;
+
+  :global(.cds--data-table-container) {
+    overflow: auto;
+    width: 100%;
+    position: relative;
+  }
+
+  :global(.cds--table-header-label) {
+    white-space: normal;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    max-width: 100px;
+    text-align: left;
+  }
+
+  :global(.cds--data-table) {
+    width: 100%;
+    min-width: 100%;
+    position: relative;
+  }
+
+  :global(.cds--table-head) {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background: var(--cds-layer);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  }
+
+  :global(.cds--data-table td) {
+    max-width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  :global(.cds--data-table--zebra tbody tr:nth-child(even)) {
+    background-color: var(--cds-layer-hover);
+  }
+}
+
+.loadingMore {
+  display: flex;
+  justify-content: center;
+  padding: spacing.$spacing-05;
+}
+
+.actionsCell {
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+
+  :global(.cds--btn) {
+    min-height: 2rem;
+    height: 2rem;
+    width: 2rem;
+    padding-top: 7px;
+    
+    svg {
+      margin: 0;
+    }
+  }
+}

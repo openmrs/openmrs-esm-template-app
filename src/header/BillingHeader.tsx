@@ -11,13 +11,15 @@ interface BillingHeaderProps {
     onMenuItemSelect: (item: string) => void;
     activeAdminComponent: string | null;
     activeTab: number;
+    isAdminView?: boolean;
 }
 
 const BillingHeader: React.FC<BillingHeaderProps> = ({ 
     onTabChange, 
     onMenuItemSelect, 
     activeAdminComponent,
-    activeTab 
+    activeTab,
+    isAdminView = false 
 }) => {
     const { t } = useTranslation();
     const [selectedDate, setSelectedDate] = useState(new Date());
@@ -95,25 +97,25 @@ const BillingHeader: React.FC<BillingHeaderProps> = ({
 
                 <div className={styles.navigationContainer}>
                     <Tabs 
-                        selected={activeAdminComponent ? -1 : activeTab} 
+                        selected={activeAdminComponent || isAdminView ? -1 : activeTab} 
                         onChange={handleTabClick}
                     >
                         <TabList aria-label="Billing Navigation">
                             <Tab 
                                 renderIcon={Receipt}
-                                disabled={!!activeAdminComponent}
+                                disabled={!!activeAdminComponent || isAdminView}
                             >
                                 {t('bill', 'Bill')}
                             </Tab>
                             <Tab 
                                 renderIcon={ManageProtection}
-                                disabled={!!activeAdminComponent}
+                                disabled={!!activeAdminComponent || isAdminView}
                             >
                                 {t('manageBill', 'Manage Bill')}
                             </Tab>
                             <Tab 
                                 renderIcon={Currency}
-                                disabled={!!activeAdminComponent}
+                                disabled={!!activeAdminComponent || isAdminView}
                             >
                                 {t('managePayments', 'Manage Payments')}
                             </Tab>

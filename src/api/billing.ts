@@ -1,5 +1,7 @@
 import { openmrsFetch } from '@openmrs/esm-framework';
 
+const BASE_API_URL = '/ws/rest/v1/mohbilling';
+
 export interface Department {
   departmentId: number;
   name: string;
@@ -16,7 +18,7 @@ export interface DepartmentResponse {
 }
 
 export const getDepartments = async (): Promise<Array<Department>> => {
-  const response = await openmrsFetch<DepartmentResponse>('/ws/rest/v1/mohbilling/department');
+  const response = await openmrsFetch<DepartmentResponse>(`${BASE_API_URL}/department`);
   return response.data.results;
 };
 
@@ -36,7 +38,7 @@ export interface ServiceResponse {
 }
 
 export const getServices = async (): Promise<Array<HopService>> => {
-  const response = await openmrsFetch<ServiceResponse>('/ws/rest/v1/mohbilling/hopService');
+  const response = await openmrsFetch<ServiceResponse>(`${BASE_API_URL}/hopService`);
   return response.data.results;
 };
 
@@ -76,10 +78,10 @@ export interface PaginatedFacilityServicePriceResponse extends FacilityServicePr
 
 export const getFacilityServicePrices = async (
   startIndex: number = 0,
-  limit: number = 20
+  limit: number = 20,
 ): Promise<PaginatedFacilityServicePriceResponse> => {
   const response = await openmrsFetch<PaginatedFacilityServicePriceResponse>(
-    `/ws/rest/v1/mohbilling/facilityServicePrice?startIndex=${startIndex}&limit=${limit}`
+    `${BASE_API_URL}/facilityServicePrice?startIndex=${startIndex}&limit=${limit}`,
   );
   return response.data;
 };
@@ -102,7 +104,7 @@ export interface InsuranceResponse {
 }
 
 export const getInsurances = async (): Promise<Array<Insurance>> => {
-  const response = await openmrsFetch<InsuranceResponse>('/ws/rest/v1/mohbilling/insurance');
+  const response = await openmrsFetch<InsuranceResponse>(`${BASE_API_URL}/insurance`);
   return response.data.results;
 };
 
@@ -122,6 +124,60 @@ export interface ThirdPartyResponse {
 }
 
 export const getThirdParties = async (): Promise<Array<ThirdParty>> => {
-  const response = await openmrsFetch<ThirdPartyResponse>('/ws/rest/v1/mohbilling/thirdParty');
+  const response = await openmrsFetch<ThirdPartyResponse>(`${BASE_API_URL}/thirdParty`);
   return response.data.results;
+};
+
+export async function fetchGlobalBillsByInsuranceCard(insuranceCardNumber: string) {
+  try {
+    const response = await openmrsFetch(
+      `${BASE_API_URL}/insurancePolicy?insuranceCardNo=${insuranceCardNumber}&v=full`,
+    );
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.error?.message || 'Failed to fetch data');
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Error fetching global bills:', error);
+    throw new Error(error.message || 'An unknown error occurred');
+  }
+}
+
+export interface PatientBill {
+  patientBillId: number;
+  amount: number;
+  createdDate: string;
+  status: string | null;
+  voided: boolean;
+  payments: Array<{
+    amountPaid: number;
+    dateReceived: string;
+    collector: {
+      uuid: string;
+      display: string;
+    };
+  }>;
+  phoneNumber: string | null;
+  transactionStatus: string | null;
+  paymentConfirmedBy: any | null;
+  paymentConfirmedDate: string | null;
+  links: Array<{
+    rel: string;
+    uri: string;
+    resourceAlias: string;
+  }>;
+}
+
+export interface PatientBillResponse {
+  results: Array<PatientBill>;
+}
+
+export const getPatientBills = async (startDate: string, endDate: string): Promise<PatientBillResponse> => {
+  const response = await openmrsFetch<PatientBillResponse>(
+    `${BASE_API_URL}/patientBill?startDate=${startDate}&endDate=${endDate}`
+  );
+  return response.data;
 };
