@@ -108,12 +108,6 @@ const BillingHeader: React.FC<BillingHeaderProps> = ({
                                 {t('bill', 'Bill')}
                             </Tab>
                             <Tab 
-                                renderIcon={ManageProtection}
-                                disabled={!!activeAdminComponent || isAdminView}
-                            >
-                                {t('manageBill', 'Manage Bill')}
-                            </Tab>
-                            <Tab 
                                 renderIcon={Currency}
                                 disabled={!!activeAdminComponent || isAdminView}
                             >

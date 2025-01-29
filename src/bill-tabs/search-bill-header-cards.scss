@@ -74,6 +74,52 @@
   }
 }
 
+// Date-specific styles
+.dateWrapper {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 1rem;
+}
+
+.dateField {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.openButton {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: #0072c3;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    background-color: #005da6;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  }
+
+  &:focus {
+    outline: 2px solid #0072c3;
+    outline-offset: 2px;
+  }
+
+  &:active {
+    background-color: #004d8a;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+
+  &:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+}
+
 /* Styles for the "Or" text */
 .orWrapper {
   display: flex;

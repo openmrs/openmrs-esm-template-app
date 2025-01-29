@@ -51,17 +51,17 @@ const PatientBills: React.FC = () => {
       id: bill.patientBillId.toString(),
       no: index + 1,
       date: formatDate(new Date(bill.createdDate)),
-      department: '-', // Department info not available in API response
-      creator: bill.paymentConfirmedBy?.display || '-',
-      policyId: '-', // Policy ID not available in API response
-      beneficiary: '-', // Beneficiary info not available in API response
-      insuranceName: '-', // Insurance name not available in API response
+      department: bill.departmentName,
+      creator: bill.creator,
+      policyId: bill.policyIdNumber,
+      beneficiary: bill.beneficiaryName,
+      insuranceName: bill.insuranceName,
       total: bill.amount.toFixed(2),
       insuranceDue: '0',
       patientDue: bill.amount.toFixed(2),
       paidAmount: bill.payments?.[0]?.amountPaid.toFixed(2) || '0',
       phoneNumber: bill.phoneNumber || '-',
-      refId: '-',
+      refId: bill.patientBillId.toString(),
       billStatus: bill.status || 'Pending',
       payment: '-',
       viewBill: 'View',
@@ -77,7 +77,10 @@ const PatientBills: React.FC = () => {
   };
 
   useEffect(() => {
-    const { startDate, endDate } = location.state || {};
+    const searchParams = new URLSearchParams(window.location.search);
+    const startDate = searchParams.get('startDate');
+    const endDate = searchParams.get('endDate');
+
     if (!startDate || !endDate) {
       navigate('/');
       return;
@@ -85,6 +88,7 @@ const PatientBills: React.FC = () => {
 
     const loadBills = async () => {
       try {
+        setIsLoading(true);
         const response = await getPatientBills(startDate, endDate);
         setBills(response.results);
       } catch (error) {
@@ -99,7 +103,7 @@ const PatientBills: React.FC = () => {
     };
 
     loadBills();
-  }, [location.state, navigate, t]);
+  }, [navigate, t]);
 
   if (isLoading) {
     return <Loading />;

@@ -6,13 +6,26 @@ import { navigate } from '@openmrs/esm-framework';
 
 const SearchBillHeaderCards: React.FC = () => {
   const { t } = useTranslation();
-
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
   const [insuranceCardNumber, setInsuranceCardNumber] = useState('');
   const [billIdentifier, setBillIdentifier] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [searchResult, setSearchResult] = useState<any[]>([]);
   const [hasSearched, setHasSearched] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  const handleOpenBill = () => {
+    if (startDate && endDate) {
+      const queryParams = new URLSearchParams({
+        startDate: startDate,
+        endDate: endDate
+      }).toString();
+      
+      const url = `${window.getOpenmrsSpaBase()}home/billing/patient-bills?${queryParams}`;
+      navigate({ to: url });
+    }
+  };
 
   const handleSearch = async (type: 'insurance' | 'bill') => {
     setErrorMessage('');
@@ -99,6 +112,39 @@ const SearchBillHeaderCards: React.FC = () => {
 
   return (
     <section className={styles.container}>
+      {/* Open Bill Confirmation Section */}
+      <div className={styles.tile}>
+        <h3 className={styles.heading}>{t('openBillConfirmation', 'Open Bill Confirmation')}</h3>
+        <div className={styles.dateWrapper}>
+          <div className={styles.dateField}>
+            <span className={styles.label}>{t('startDate', 'Start Date')}</span>
+            <input 
+              type="date" 
+              className={styles.inputField}
+              value={startDate}
+              onChange={(e) => setStartDate(e.target.value)}
+            />
+          </div>
+          <div className={styles.dateField}>
+            <span className={styles.label}>{t('endDate', 'End Date')}</span>
+            <input 
+              type="date" 
+              className={styles.inputField}
+              value={endDate}
+              onChange={(e) => setEndDate(e.target.value)}
+            />
+          </div>
+        </div>
+        <button 
+          className={styles.openButton}
+          onClick={handleOpenBill}
+          disabled={!startDate || !endDate}
+        >
+          {t('open', 'Open')}
+        </button>
+      </div>
+
+      {/* Existing Insurance Policy Search Tile */}
       <div className={styles.tile}>
         <h3 className={styles.heading}>{t('findInsurancePolicy', 'Find An Existing Insurance Policy')}</h3>
         <div className={styles.searchWrapper}>

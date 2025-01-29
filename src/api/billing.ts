@@ -164,6 +164,11 @@ export interface PatientBill {
   transactionStatus: string | null;
   paymentConfirmedBy: any | null;
   paymentConfirmedDate: string | null;
+  creator: string;
+  departmentName: string;
+  policyIdNumber: string;
+  beneficiaryName: string;
+  insuranceName: string;
   links: Array<{
     rel: string;
     uri: string;
@@ -175,9 +180,14 @@ export interface PatientBillResponse {
   results: Array<PatientBill>;
 }
 
-export const getPatientBills = async (startDate: string, endDate: string): Promise<PatientBillResponse> => {
+export const getPatientBills = async (
+  startDate: string,
+  endDate: string,
+  startIndex: number = 0,
+  limit: number = 20
+): Promise<PatientBillResponse> => {
   const response = await openmrsFetch<PatientBillResponse>(
-    `${BASE_API_URL}/patientBill?startDate=${startDate}&endDate=${endDate}`,
+    `${BASE_API_URL}/patientBill?startDate=${startDate}&endDate=${endDate}&startIndex=${startIndex}&limit=${limit}&orderBy=createdDate&order=desc`
   );
   return response.data;
 };

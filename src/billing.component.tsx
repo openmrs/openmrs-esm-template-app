@@ -4,7 +4,6 @@ import BillingHeader from './header/BillingHeader';
 import styles from './billing.scss';
 import GlobalBillHeaderCards from './bill-tabs/search-bill-header.component';
 import SearchGlobalBill from './bill-tabs/search-global-bill.component';
-import BillConfirmation from './bill-tabs/bill-confirmation.component';
 import Department from './billing-admin/Department';
 import Service from './billing-admin/Service';
 import FacilityServicePrice from './billing-admin/FacilityServicePrice';
@@ -66,11 +65,6 @@ const Billing: React.FC = () => {
                 </div>
               )}
               {activeTab === 1 && (
-                <div className={styles.billHeaderCardsContainer}>
-                  <BillConfirmation />
-                </div>
-              )}
-              {activeTab === 2 && (
                 <div className={styles.billHeaderCardsContainer}>
                   <SearchGlobalBill />
                 </div>
