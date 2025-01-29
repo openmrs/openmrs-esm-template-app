@@ -116,6 +116,8 @@ const PatientBills: React.FC = () => {
         onMenuItemSelect={handleMenuItemSelect}
         activeAdminComponent={activeAdminComponent}
         activeTab={activeTab}
+        activeSubTab={0}
+        onSubTabChange={(tabIndex, subTabIndex) => {}}
         isAdminView={true} 
       />
       <div className={styles.container}>

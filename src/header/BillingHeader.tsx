@@ -8,17 +8,21 @@ import styles from './billing-header.scss';
 
 interface BillingHeaderProps {
     onTabChange: (tabIndex: number) => void;
+    onSubTabChange: (tabIndex: number, subTabIndex: number) => void;
     onMenuItemSelect: (item: string) => void;
     activeAdminComponent: string | null;
     activeTab: number;
+    activeSubTab: number;
     isAdminView?: boolean;
 }
 
 const BillingHeader: React.FC<BillingHeaderProps> = ({ 
     onTabChange, 
+    onSubTabChange,
     onMenuItemSelect, 
     activeAdminComponent,
     activeTab,
+    activeSubTab,
     isAdminView = false 
 }) => {
     const { t } = useTranslation();
@@ -30,6 +34,10 @@ const BillingHeader: React.FC<BillingHeaderProps> = ({
     const handleTabClick = (event: { selectedIndex: number }) => {
         const index = event.selectedIndex;
         onTabChange(index);
+    };
+
+    const handleSubTabClick = (mainTabIndex: number, subTabIndex: number) => {
+        onSubTabChange(mainTabIndex, subTabIndex);
     };
 
     const handleDateChange = (dates) => {
@@ -96,27 +104,49 @@ const BillingHeader: React.FC<BillingHeaderProps> = ({
                 </div>
 
                 <div className={styles.navigationContainer}>
-                    <Tabs 
-                        selected={activeAdminComponent || isAdminView ? -1 : activeTab} 
-                        onChange={handleTabClick}
-                    >
-                        <TabList aria-label="Billing Navigation">
-                            <Tab 
-                                renderIcon={Receipt}
-                                disabled={!!activeAdminComponent || isAdminView}
-                            >
-                                {t('bill', 'Bill')}
-                            </Tab>
-                            <Tab 
-                                renderIcon={Currency}
-                                disabled={!!activeAdminComponent || isAdminView}
-                            >
-                                {t('managePayments', 'Manage Payments')}
-                            </Tab>
-                        </TabList>
-                    </Tabs>
-                </div>
+                <Tabs 
+                    selected={activeAdminComponent || isAdminView ? -1 : activeTab} 
+                    onChange={handleTabClick}
+                    type="contained"
+                >
+                    <TabList aria-label="Billing Navigation" contained>
+                        <Tab 
+                            renderIcon={Receipt}
+                            disabled={!!activeAdminComponent || isAdminView}
+                        >
+                            {t('bill', 'Bill')}
+                        </Tab>
+                        <Tab 
+                            renderIcon={Currency}
+                            disabled={!!activeAdminComponent || isAdminView}
+                        >
+                            {t('managePayments', 'Manage Payments')}
+                        </Tab>
+                    </TabList>
+                </Tabs>
+
+                {!activeAdminComponent && !isAdminView && (
+                    <div className={styles.subTabsContainer}>
+                        {activeTab === 0 && (
+                            <Tabs selected={activeSubTab} onChange={(evt) => handleSubTabClick(0, evt.selectedIndex)} type="contained">
+                                <TabList aria-label="Bill Sub-navigation" contained>
+                                    <Tab>{t('billConfirmation', 'Bill Confirmation')}</Tab>
+                                    <Tab>{t('searchInsurancePolicy', 'Search Insurance Policy')}</Tab>
+                                </TabList>
+                            </Tabs>
+                        )}
+                        {activeTab === 1 && (
+                            <Tabs selected={activeSubTab} onChange={(evt) => handleSubTabClick(1, evt.selectedIndex)} type="contained">
+                                <TabList aria-label="Manage Payments Sub-navigation" contained>
+                                    <Tab>{t('searchGlobalBill', 'Search Global Bill')}</Tab>
+                                    <Tab>{t('searchConsommations', 'Search Consommations')}</Tab>
+                                </TabList>
+                            </Tabs>
+                        )}
+                    </div>
+                )}
             </div>
+        </div>
         </div>
     );
 };

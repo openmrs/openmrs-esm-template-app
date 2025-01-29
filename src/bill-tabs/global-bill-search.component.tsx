@@ -1,29 +1,26 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { navigate, showToast } from '@openmrs/esm-framework';
-import { getGlobalBillByIdentifier, getConsommationById } from '../api/billing';
-import styles from './search-global-bill.scss';
+import { getGlobalBillByIdentifier } from '../api/billing';
+import styles from './search-bill-header-cards.scss';
 
-const SearchGlobalBill: React.FC = () => {
+const GlobalBillSearch: React.FC = () => {
   const { t } = useTranslation();
   const [globalBillIdentifier, setGlobalBillIdentifier] = useState('');
-  const [consommationIdentifier, setConsommationIdentifier] = useState('');
   const [searchResult, setSearchResult] = useState<any[]>([]);
   const [hasSearched, setHasSearched] = useState(false);
-  const [isGlobalBillLoading, setIsGlobalBillLoading] = useState(false);
-  const [isConsommationLoading, setIsConsommationLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
   const handleGlobalBillSearch = async () => {
     setErrorMessage('');
     setSearchResult([]);
     setHasSearched(true);
-    setIsGlobalBillLoading(true);
+    setIsLoading(true);
 
     try {
       if (!globalBillIdentifier) {
         setErrorMessage(t('enterValue', 'Please enter a global bill identifier.'));
-        setIsGlobalBillLoading(false);
         return;
       }
 
@@ -47,70 +44,16 @@ const SearchGlobalBill: React.FC = () => {
         kind: 'error',
       });
     } finally {
-      setIsGlobalBillLoading(false);
-    }
-  };
-
-  const handleConsommationSearch = async () => {
-    setErrorMessage('');
-    setSearchResult([]);
-    setHasSearched(true);
-    setIsConsommationLoading(true);
-
-    try {
-      if (!consommationIdentifier) {
-        setErrorMessage(t('enterValue', 'Please enter a consommation identifier.'));
-        setIsConsommationLoading(false);
-        return;
-      }
-
-      const result = await getConsommationById(consommationIdentifier);
-      
-      if (!result) {
-        setErrorMessage(t('noResults', 'No results found.'));
-      } else {
-        // Transform consommation data to match table format
-        const transformedResult = [{
-          consommationId: result.consommationId,
-          billIdentifier: `CONS-${result.consommationId}`,
-          admission: {
-            insurancePolicy: {
-              insuranceCardNo: result.patientBill.policyIdNumber,
-              owner: {
-                display: result.patientBill.beneficiaryName
-              }
-            },
-            admissionDate: result.patientBill.createdDate,
-            dischargingDate: null
-          },
-          globalAmount: result.patientBill.amount,
-          closed: result.patientBill.payments?.length > 0,
-          department: result.department.name
-        }];
-        setSearchResult(transformedResult);
-      }
-    } catch (error) {
-      setErrorMessage(t('errorFetchingData', 'An error occurred while fetching data.'));
-      showToast({
-        title: t('error', 'Error'),
-        description: error.message,
-        kind: 'error',
-      });
-    } finally {
-      setIsConsommationLoading(false);
+      setIsLoading(false);
     }
   };
 
   const handleRowClick = (result) => {
-    if (result.consommationId) {
-      navigate({ to: `${window.getOpenmrsSpaBase()}home/billing/consommation/${result.consommationId}` });
-    } else {
-      navigate({ to: `${window.getOpenmrsSpaBase()}home/billing/invoice/${result.admission.insurancePolicy.insuranceCardNo}` });
-    }
+    navigate({ to: `${window.getOpenmrsSpaBase()}home/billing/invoice/${result.admission.insurancePolicy.insuranceCardNo}` });
   };
 
   const renderResultsTable = () => {
-    if (!hasSearched || isGlobalBillLoading || isConsommationLoading) {
+    if (!hasSearched || isLoading) {
       return null;
     }
 
@@ -142,7 +85,7 @@ const SearchGlobalBill: React.FC = () => {
               onClick={() => handleRowClick(result)}
               className={styles.tableRow}
             >
-              <td>{result.billIdentifier}</td>
+              <td>{result.billIdentifier || result.globalBillIdentifier}</td>
               <td>{result.admission.insurancePolicy.insuranceCardNo}</td>
               <td>{result.admission.insurancePolicy.owner.display}</td>
               <td>{result.department || 'N/A'}</td>
@@ -158,7 +101,6 @@ const SearchGlobalBill: React.FC = () => {
 
   return (
     <section className={styles.container}>
-      {/* Search Global Bill Tile */}
       <div className={styles.tile}>
         <h3 className={styles.heading}>{t('findGlobalBill', 'Search Global Bill')}</h3>
         <div className={styles.searchWrapper}>
@@ -173,39 +115,16 @@ const SearchGlobalBill: React.FC = () => {
           <button 
             className={styles.searchButton} 
             onClick={handleGlobalBillSearch} 
-            disabled={isGlobalBillLoading}
+            disabled={isLoading}
           >
-            {isGlobalBillLoading ? t('searching', 'Searching...') : t('search', 'Search')}
+            {isLoading ? t('searching', 'Searching...') : t('search', 'Search')}
           </button>
         </div>
       </div>
+      {errorMessage && <div className={styles.error}>{errorMessage}</div>}
       {renderResultsTable()}
-      <div className={styles.orWrapper}>
-        <span className={styles.orText}>{t('or', 'Or')}</span>
-      </div>
-
-      <div className={styles.tile}>
-        <h3 className={styles.heading}>{t('searchByConsommation', 'Search Consommation')}</h3>
-        <div className={styles.searchWrapper}>
-          <span className={styles.label}>{t('consommationIdentifier', 'Consommation Identifier')}</span>
-          <input
-            type="text"
-            className={styles.inputField}
-            value={consommationIdentifier}
-            onChange={(e) => setConsommationIdentifier(e.target.value)}
-            placeholder={t('consommationPlaceholder', 'Enter consommation ID to search')}
-          />
-          <button 
-            className={styles.searchButton} 
-            onClick={handleConsommationSearch} 
-            disabled={isConsommationLoading}
-          >
-            {isConsommationLoading ? t('searching', 'Searching...') : t('search', 'Search')}
-          </button>
-        </div>
-      </div>
     </section>
   );
 };
 
-export default SearchGlobalBill;
+export default GlobalBillSearch;

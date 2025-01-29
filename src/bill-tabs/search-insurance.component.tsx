@@ -5,10 +5,8 @@ import styles from './search-bill-header-cards.scss';
 import { isDesktop, navigate, useLayoutType } from '@openmrs/esm-framework';
 import { DataTableSkeleton, Layer, Tile } from '@carbon/react';
 
-const SearchBillHeaderCards: React.FC = () => {
+const SearchInsurance: React.FC = () => {
   const { t } = useTranslation();
-  const [startDate, setStartDate] = useState('');
-  const [endDate, setEndDate] = useState('');
   const [insuranceCardNumber, setInsuranceCardNumber] = useState('');
   const [billIdentifier, setBillIdentifier] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
@@ -17,18 +15,6 @@ const SearchBillHeaderCards: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const layout = useLayoutType();
   const responsiveSize = isDesktop(layout) ? 'sm' : 'lg';
-
-  const handleOpenBill = () => {
-    if (startDate && endDate) {
-      const queryParams = new URLSearchParams({
-        startDate: startDate,
-        endDate: endDate,
-      }).toString();
-
-      const url = `${window.getOpenmrsSpaBase()}home/billing/patient-bills?${queryParams}`;
-      navigate({ to: url });
-    }
-  };
 
   const handleSearch = async (type: 'insurance' | 'bill') => {
     setErrorMessage('');
@@ -105,7 +91,6 @@ const SearchBillHeaderCards: React.FC = () => {
             <tr
               key={index}
               onClick={() => handleRowClick(result)}
-              style={{ cursor: 'pointer' }}
               className={styles.tableRow}
             >
               <td>{result.insuranceCardNo || 'N/A'}</td>
@@ -126,35 +111,6 @@ const SearchBillHeaderCards: React.FC = () => {
 
   return (
     <section className={styles.container}>
-      {/* Open Bill Confirmation Section */}
-      <div className={styles.tile}>
-        <h3 className={styles.heading}>{t('openBillConfirmation', 'Open Bill Confirmation')}</h3>
-        <div className={styles.dateWrapper}>
-          <div className={styles.dateField}>
-            <span className={styles.label}>{t('startDate', 'Start Date')}</span>
-            <input
-              type="date"
-              className={styles.inputField}
-              value={startDate}
-              onChange={(e) => setStartDate(e.target.value)}
-            />
-          </div>
-          <div className={styles.dateField}>
-            <span className={styles.label}>{t('endDate', 'End Date')}</span>
-            <input
-              type="date"
-              className={styles.inputField}
-              value={endDate}
-              onChange={(e) => setEndDate(e.target.value)}
-            />
-          </div>
-        </div>
-        <button className={styles.openButton} onClick={handleOpenBill} disabled={!startDate || !endDate}>
-          {t('open', 'Open')}
-        </button>
-      </div>
-
-      {/* Existing Insurance Policy Search Tile */}
       <div className={styles.tile}>
         <h3 className={styles.heading}>{t('findInsurancePolicy', 'Find An Existing Insurance Policy')}</h3>
         <div className={styles.searchWrapper}>
@@ -192,4 +148,4 @@ const SearchBillHeaderCards: React.FC = () => {
   );
 };
 
-export default SearchBillHeaderCards;
+export default SearchInsurance;

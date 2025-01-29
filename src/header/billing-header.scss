@@ -11,7 +11,36 @@
   background: colors.$white-0;
   border-bottom: 1px solid colors.$gray-20;
 }
+.subTabsContainer {
+  margin-top: 0;
+  border-bottom: none;
+  background: colors.$gray-10;
+  padding: 0 layout.$spacing-03 layout.$spacing-03;
+  
+  :global(.cds--tabs) {
+    min-height: 2.5rem;
+    background: transparent;
+  }
 
+  :global(.cds--tab) {
+    height: 2.5rem;
+    background: transparent;
+    font-size: 0.875rem;
+    
+    &:hover {
+      background: colors.$white-0;
+    }
+  }
+
+  :global(.cds--tab--selected) {
+    background: colors.$white-0;
+    box-shadow: 0 0 0 1px colors.$gray-20;
+  }
+
+  :global(.cds--tab-content) {
+    padding: 0;
+  }
+}
 .headerContainer {
   width: 100%;
   background-color: colors.$white-0;
@@ -58,21 +87,33 @@
 .navigationContainer {
   :global(.cds--tabs) {
     width: 100%;
+    background: colors.$gray-10;
+    padding: layout.$spacing-03 layout.$spacing-03 0;
   }
 
   :global(.cds--tab) {
     height: 3rem;
     max-width: none;
     padding: 0 layout.$spacing-05;
-    background: transparent;
+    background: colors.$white-0;
     
-    &:hover {
-      background: colors.$gray-10;
-    }
   }
 
   :global(.cds--tab--selected) {
-    border-bottom: 2px solid colors.$blue-60;
+    background: colors.$white-0;
+    box-shadow: 0 0 0 1px colors.$gray-20;
+  }
+
+  :global(.cds--tab-content) {
+    padding: 0;
+  }
+
+  :global(.cds--tab--contained) {
+    background: transparent;
+    
+    &:hover {
+      background: colors.$white-0;
+    }
   }
 }
 
