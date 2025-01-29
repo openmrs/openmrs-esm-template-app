@@ -54,18 +54,18 @@ const BillItemsTable: React.FC<BillItemsTableProps> = ({ items, insuranceRate })
       no: index + 1,
       serviceDate: formatDate(new Date(item.serviceDate)),
       description: item.serviceOtherDescription || t('noDescription', 'No description'),
-      quantity: item.quantity.toFixed(2),
-      paidQuantity: item.paidQuantity.toFixed(2),
-      unitPrice: formatCurrency(item.unitPrice),
-      total: formatCurrency(item.unitPrice * item.quantity),
-      insuranceAmount: formatCurrency((item.unitPrice * item.quantity * insuranceRate) / 100),
-      patientAmount: formatCurrency((item.unitPrice * item.quantity * (100 - insuranceRate)) / 100),
+      quantity: Number(item.quantity ?? 0).toFixed(2),
+      paidQuantity: Number(item.paidQuantity ?? 0).toFixed(2),
+      unitPrice: formatCurrency(item.unitPrice ?? 0),
+      total: formatCurrency((item.unitPrice ?? 0) * (item.quantity ?? 0)),
+      insuranceAmount: formatCurrency(((item.unitPrice ?? 0) * (item.quantity ?? 0) * insuranceRate) / 100),
+      patientAmount: formatCurrency(((item.unitPrice ?? 0) * (item.quantity ?? 0) * (100 - insuranceRate)) / 100),
     })), [items, insuranceRate, t]);
 
   const totals = useMemo(() => {
     return items.reduce(
       (acc, item) => {
-        const itemTotal = item.unitPrice * item.quantity;
+        const itemTotal = (item.unitPrice ?? 0) * (item.quantity ?? 0);
         return {
           total: acc.total + itemTotal,
           insuranceAmount: acc.insuranceAmount + (itemTotal * insuranceRate) / 100,

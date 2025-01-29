@@ -22,7 +22,7 @@ import { Delete, Edit } from '@carbon/react/icons';
 import { isDesktop, showModal, useConfig, useDebounce, useLayoutType } from '@openmrs/esm-framework';
 import styles from './invoice-table.scss';
 import { usePatientBill } from './invoice.resource';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import GlobalBillHeader from '.././bill-list/global-bill-list.component';
 
 const InvoiceTable: React.FC = () => {
@@ -30,6 +30,7 @@ const InvoiceTable: React.FC = () => {
   const params = useParams();
   const { defaultCurrency, showEditBillButton } = useConfig();
   const layout = useLayoutType();
+  const navigate = useNavigate();
 
   const { bills: lineItems, isLoading } = usePatientBill(params?.insuranceCardNo);
   const paidLineItems = useMemo(() => lineItems?.filter((item) => item.paymentStatus === 'PAID') ?? [], [lineItems]);
@@ -56,6 +57,7 @@ const InvoiceTable: React.FC = () => {
 
   const tableHeaders = [
     { header: 'No', key: 'no', width: 7 },
+    { header: 'Global Bill ID', key: 'globalBillId', width: 15 },
     { header: 'Date of Bill', key: 'date', width: 15 },
     { header: 'Created by', key: 'createdBy', width: 15 },
     { header: 'Policy ID Node.', key: 'policyId', width: 15 },
@@ -74,7 +76,8 @@ const InvoiceTable: React.FC = () => {
       filteredLineItems?.map((item, index) => {
         return {
           no: `${index + 1}`,
-          id: `${item.uuid}`,
+          id: `${item.globalBillId}`, 
+          globalBillId: item.globalBillId, 
           date: item.date,
           createdBy: item.createdBy,
           policyId: item.policyId,
@@ -111,6 +114,14 @@ const InvoiceTable: React.FC = () => {
       }) ?? [],
     [filteredLineItems, defaultCurrency, showEditBillButton, t],
   );
+
+  const handleRowClick = useCallback((row) => {
+    if (row.id) {
+      navigate(`/consommations/${row.id}`, { 
+        state: { insuranceCardNo: params.insuranceCardNo } 
+      });
+    }
+  }, [navigate, params.insuranceCardNo]);
 
   if (isLoading) {
     return (
@@ -181,6 +192,8 @@ const InvoiceTable: React.FC = () => {
                         {...getRowProps({
                           row,
                         })}
+                        onClick={() => handleRowClick(row)}
+                        className={styles.clickableRow}
                       >
                         {rows.length > 1 && (
                           <TableSelectRow

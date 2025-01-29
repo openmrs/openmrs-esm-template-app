@@ -62,6 +62,7 @@ export interface Bill {
 
 export interface MappedBill {
   uuid: number;
+  globalBillId: number;
   no: number;
   date: string;
   createdBy: string;

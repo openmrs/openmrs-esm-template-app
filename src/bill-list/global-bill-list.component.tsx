@@ -1,13 +1,19 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useParams, useLocation } from 'react-router-dom';
 import Card from './card.component';
 import styles from './global-bill-list.scss';
 import { fetchGlobalBillsByInsuranceCard } from '../api/billing';
-import { useParams } from 'react-router-dom';
+
+interface LocationState {
+  insuranceCardNo?: string;
+}
 
 const GlobalBillHeader: React.FC = () => {
   const { t } = useTranslation();
   const { insuranceCardNo } = useParams();
+  const location = useLocation();
+  const locationState = location.state as LocationState;
 
   const [insuranceData, setInsuranceData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
@@ -19,12 +25,16 @@ const GlobalBillHeader: React.FC = () => {
       setError(null);
 
       try {
-        if (insuranceCardNo) {
-          const response = await fetchGlobalBillsByInsuranceCard(insuranceCardNo);
-          const result = response.results[0];
-          setInsuranceData(result);
+        const cardNumber = insuranceCardNo || locationState?.insuranceCardNo;
+        if (cardNumber) {
+          const response = await fetchGlobalBillsByInsuranceCard(cardNumber);
+          if (response.results?.length > 0) {
+            setInsuranceData(response.results[0]);
+          } else {
+            throw new Error(t('noDataFound', 'No data found'));
+          }
         } else {
-          throw new Error(t('missingCardNumber', 'Missing insurance card number'));
+          console.warn('Missing insurance card number');
         }
       } catch (err: any) {
         setError(err.message || t('fetchError', 'Failed to fetch data'));
@@ -34,7 +44,7 @@ const GlobalBillHeader: React.FC = () => {
     };
 
     fetchData();
-  }, [insuranceCardNo, t]);
+  }, [insuranceCardNo, locationState?.insuranceCardNo, t]);
 
   const insuranceOwner = useMemo(
     () =>

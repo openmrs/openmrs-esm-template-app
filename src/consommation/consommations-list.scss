@@ -1,0 +1,25 @@
+.container {
+  padding: 1rem;
+}
+
+.tableHeader {
+  margin: 1rem 0;
+}
+
+.table {
+  background-color: #ffffff;
+  width: 100%;
+}
+
+.clickableRow {
+  cursor: pointer;
+  &:hover {
+    background-color: #e5e5e5;
+  }
+}
+
+.totals {
+  margin-top: 1rem;
+  text-align: right;
+  font-weight: bold;
+}
