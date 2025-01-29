@@ -50,7 +50,7 @@
 .tableDescription {
   display: flex;
   align-items: flex-start;
-  margin-top: layout.$spacing-02;
+  margin: layout.$spacing-05;
   column-gap: layout.$spacing-01;
 
   ::after {
@@ -92,4 +92,9 @@
   &:hover {
     background-color: #e5e5e5;
   }
+}
+
+.pageTitle {
+  @include type.type-style('heading-04');
+  color: $text-02;
 }
