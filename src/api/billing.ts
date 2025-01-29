@@ -181,3 +181,35 @@ export const getPatientBills = async (startDate: string, endDate: string): Promi
   );
   return response.data;
 };
+
+export interface GlobalBill {
+  globalBillId: number;
+  billIdentifier: string;
+  globalAmount: number;
+  createdDate: string;
+  closingDate: string | null;
+  closed: boolean;
+  closingReason: string;
+  admission: {
+    insurancePolicy: {
+      insuranceCardNo: string;
+      owner: {
+        display: string;
+      };
+    };
+    admissionDate: string;
+    dischargingDate: string | null;
+  };
+  creator: {
+    display: string;
+  };
+}
+
+export interface GlobalBillResponse {
+  results: Array<GlobalBill>;
+}
+
+export const getGlobalBillByIdentifier = async (billIdentifier: string): Promise<GlobalBillResponse> => {
+  const response = await openmrsFetch<GlobalBillResponse>(`${BASE_API_URL}/globalBill?billIdentifier=${billIdentifier}`);
+  return response.data;
+};

@@ -30,6 +30,7 @@
   font-size: 1rem;
   font-weight: 500;
   color: #525252;
+  min-width: 150px;
 }
 
 .inputField {
@@ -47,35 +48,26 @@
 }
 
 .searchButton {
-  margin-top: 1rem;
   padding: 0.5rem 1rem;
-  background-color: #28a745; /* Green */
   color: #ffffff;
   border: none;
   border-radius: 4px;
   font-size: 1rem;
-  font-weight: bold;
+  font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  min-width: 100px;
+  transition: background-color 0.2s;
 
-  &:hover {
-    background-color: #ff9900; /* Orange */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  &:hover:not(:disabled) {
+    background-color: #0072c3;
   }
 
-  &:focus {
-    outline: 2px solid #ff9900;
-    outline-offset: 2px;
-  }
-
-  &:active {
-    background-color: #cc7a00; /* Slightly darker orange for active state */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  &:disabled {
+    background-color: #a8a8a8;
+    cursor: not-allowed;
   }
 }
 
-
-/* Styles for the "Or" text */
 .orWrapper {
   display: flex;
   justify-content: left;
@@ -87,4 +79,41 @@
   font-size: 1.2rem;
   font-weight: bold;
   color: #525252;
+}
+
+.resultsTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  
+  th, td {
+    padding: 0.75rem;
+    border: 1px solid #e0e0e0;
+    text-align: left;
+  }
+
+  th {
+    background-color: #f4f4f4;
+    font-weight: 600;
+  }
+
+  .tableRow {
+    cursor: pointer;
+    
+    &:hover {
+      background-color: #f8f8f8;
+    }
+  }
+}
+
+.noResults {
+  text-align: center;
+  color: #666;
+  margin-top: 1rem;
+}
+
+.error {
+  color: #da1e28;
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
 }
