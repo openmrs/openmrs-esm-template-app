@@ -20,6 +20,11 @@
       "component": "root",
       "name": "billing-root",
       "slot": "billing-app-slot"
+    },
+    {
+      "slot": "system-admin-page-card-link-slot",
+      "component": "billableServicesCardLink",
+      "name": "billable-services-admin-card-link"
     }
   ]
 }
