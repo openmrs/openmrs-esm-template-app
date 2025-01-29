@@ -23,6 +23,7 @@ import { isDesktop, showModal, useConfig, useDebounce, useLayoutType } from '@op
 import styles from './invoice-table.scss';
 import { usePatientBill } from './invoice.resource';
 import { useParams } from 'react-router-dom';
+import GlobalBillHeader from '.././bill-list/global-bill-list.component';
 
 const InvoiceTable: React.FC = () => {
   const { t } = useTranslation();
@@ -139,82 +140,85 @@ const InvoiceTable: React.FC = () => {
   };
 
   return (
-    <div className={styles.invoiceContainer}>
-      <DataTable headers={tableHeaders} isSortable rows={tableRows} size={responsiveSize} useZebraStyles>
-        {({ rows, headers, getRowProps, getSelectionProps, getTableProps, getToolbarProps }) => (
-          <TableContainer
-            description={
-              <span className={styles.tableDescription}>
-                <span>{t('globalBillList', 'Global Bill List')}</span>
-              </span>
-            }
-            title={t('globalBillList', 'Global Bill List')}
-          >
-            <TableToolbarSearch
-              className={styles.searchbox}
-              expanded
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchTerm(e.target.value)}
-              placeholder={t('searchThisTable', 'Search this table')}
-              size={responsiveSize}
-            />
-            <Table
-              {...getTableProps()}
-              aria-label="Invoice line items"
-              className={`${styles.invoiceTable} billingTable`}
-            >
-              <TableHead>
-                <TableRow>
-                  {rows.length > 1 ? <TableHeader /> : null}
-                  {headers.map((header) => (
-                    <TableHeader key={header.key}>{header.header}</TableHeader>
-                  ))}
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {rows.map((row, index) => {
-                  return (
-                    <TableRow
-                      key={row.id}
-                      {...getRowProps({
-                        row,
-                      })}
-                    >
-                      {rows.length > 1 && (
-                        <TableSelectRow
-                          aria-label="Select row"
-                          {...getSelectionProps({ row })}
-                          disabled={tableRows[index].status === 'PAID'}
-                          onChange={(checked: boolean) => handleRowSelection(row, checked)}
-                          checked={
-                            tableRows[index].status === 'PAID' ||
-                            Boolean(selectedLineItems?.find((item) => item?.uuid === row?.id))
-                          }
-                        />
-                      )}
-                      {row.cells.map((cell) => (
-                        <TableCell key={cell.id}>{cell.value}</TableCell>
-                      ))}
-                    </TableRow>
-                  );
-                })}
-              </TableBody>
-            </Table>
-          </TableContainer>
+    <>
+      <div>
+        <span className={styles.tableDescription}>
+          <span className={styles.pageTitle}>{t('globalBillList', 'Global Bill List')}</span>
+        </span>
+      </div>
+      <div>
+        <GlobalBillHeader />
+      </div>
+      <div className={styles.invoiceContainer}>
+        <DataTable headers={tableHeaders} isSortable rows={tableRows} size={responsiveSize} useZebraStyles>
+          {({ rows, headers, getRowProps, getSelectionProps, getTableProps, getToolbarProps }) => (
+            <TableContainer title={t('globalBillList', 'Global Bill List')}>
+              <TableToolbarSearch
+                className={styles.searchbox}
+                expanded
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchTerm(e.target.value)}
+                placeholder={t('searchThisTable', 'Search this table')}
+                size={responsiveSize}
+              />
+              <Table
+                {...getTableProps()}
+                aria-label="Invoice line items"
+                className={`${styles.invoiceTable} billingTable`}
+              >
+                <TableHead>
+                  <TableRow>
+                    {rows.length > 1 ? <TableHeader /> : null}
+                    {headers.map((header) => (
+                      <TableHeader key={header.key}>{header.header}</TableHeader>
+                    ))}
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {rows.map((row, index) => {
+                    return (
+                      <TableRow
+                        key={row.id}
+                        {...getRowProps({
+                          row,
+                        })}
+                      >
+                        {rows.length > 1 && (
+                          <TableSelectRow
+                            aria-label="Select row"
+                            {...getSelectionProps({ row })}
+                            disabled={tableRows[index].status === 'PAID'}
+                            onChange={(checked: boolean) => handleRowSelection(row, checked)}
+                            checked={
+                              tableRows[index].status === 'PAID' ||
+                              Boolean(selectedLineItems?.find((item) => item?.uuid === row?.id))
+                            }
+                          />
+                        )}
+                        {row.cells.map((cell) => (
+                          <TableCell key={cell.id}>{cell.value}</TableCell>
+                        ))}
+                      </TableRow>
+                    );
+                  })}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          )}
+        </DataTable>
+        {filteredLineItems?.length === 0 && (
+          <div className={styles.filterEmptyState}>
+            <Layer>
+              <Tile className={styles.filterEmptyStateTile}>
+                <p className={styles.filterEmptyStateContent}>
+                  {t('noMatchingItemsToDisplay', 'No matching items to display')}
+                </p>
+                <p className={styles.filterEmptyStateHelper}>{t('checkFilters', 'Check the filters above')}</p>
+              </Tile>
+            </Layer>
+          </div>
         )}
-      </DataTable>
-      {filteredLineItems?.length === 0 && (
-        <div className={styles.filterEmptyState}>
-          <Layer>
-            <Tile className={styles.filterEmptyStateTile}>
-              <p className={styles.filterEmptyStateContent}>
-                {t('noMatchingItemsToDisplay', 'No matching items to display')}
-              </p>
-              <p className={styles.filterEmptyStateHelper}>{t('checkFilters', 'Check the filters above')}</p>
-            </Tile>
-          </Layer>
-        </div>
-      )}
-    </div>
+      </div>
+    </>
   );
 };
 
