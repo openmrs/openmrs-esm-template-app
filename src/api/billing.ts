@@ -223,3 +223,81 @@ export const getGlobalBillByIdentifier = async (billIdentifier: string): Promise
   const response = await openmrsFetch<GlobalBillResponse>(`${BASE_API_URL}/globalBill?billIdentifier=${billIdentifier}`);
   return response.data;
 };
+
+export interface Consommation {
+  consommationId: number;
+  department: {
+    departmentId: number;
+    name: string;
+    description: string;
+  };
+  billItems: Array<{
+    serviceDate: string;
+    unitPrice: number;
+    quantity: number;
+    paidQuantity: number;
+    paid: boolean;
+    serviceOther: string | null;
+    serviceOtherDescription: string | null;
+    drugFrequency: string;
+    itemType: number;
+  }>;
+  patientBill: {
+    patientBillId: number;
+    amount: number;
+    createdDate: string;
+    payments: Array<{
+      amountPaid: number;
+      dateReceived: string;
+      collector: {
+        uuid: string;
+        display: string;
+      };
+    }>;
+    creator: string;
+    departmentName: string;
+    policyIdNumber: string;
+    beneficiaryName: string;
+    insuranceName: string;
+  };
+  insuranceBill: {
+    amount: number;
+    creator: {
+      person: {
+        display: string;
+      };
+    };
+    createdDate: string;
+  };
+}
+
+export const getConsommationById = async (consommationId: string): Promise<Consommation> => {
+  const response = await openmrsFetch<Consommation>(`${BASE_API_URL}/consommation/${consommationId}`);
+  return response.data;
+};
+
+export interface ConsommationListItem {
+  consommationId: number;
+  createdDate: string;
+  service: string;
+  createdBy: string;
+  insuranceCardNo: string;
+  insuranceDue: number;
+  thirdPartyDue: number;
+  patientDue: number;
+  paidAmount: number;
+  status: string;
+}
+
+export interface ConsommationListResponse {
+  results: Array<ConsommationListItem>;
+  totalDueAmount: number;
+  totalPaidAmount: number;
+}
+
+export const getConsommationsByGlobalBillId = async (globalBillId: string): Promise<ConsommationListResponse> => {
+  const response = await openmrsFetch<ConsommationListResponse>(
+    `${BASE_API_URL}/consommation?globalBillId=${globalBillId}`
+  );
+  return response.data;
+};

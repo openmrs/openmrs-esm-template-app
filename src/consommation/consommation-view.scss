@@ -1,0 +1,33 @@
+@use '@carbon/styles/scss/spacing';
+@use '@carbon/styles/scss/type';
+@import '~@openmrs/esm-styleguide/src/vars';
+
+.container {
+  padding: spacing.$spacing-05;
+}
+
+.pageTitle {
+  @include type.type-style('heading-04');
+  color: $text-02;
+  margin-bottom: spacing.$spacing-05;
+}
+
+.billDetails {
+  margin-top: spacing.$spacing-06;
+  
+  h2 {
+    @include type.type-style('heading-03');
+    color: $text-02;
+    margin-bottom: spacing.$spacing-05;
+  }
+}
+
+.error {
+  color: $danger;
+  margin: spacing.$spacing-05;
+  @include type.type-style('body-short-02');
+}
+
+.loaderContainer {
+  padding: spacing.$spacing-05;
+}

@@ -188,28 +188,6 @@ const SearchBillHeaderCards: React.FC = () => {
       )}
       {errorMessage && <div className={styles.error}>{errorMessage}</div>}
       {renderResultsTable()}
-
-      <div className={styles.orWrapper}>
-        <span className={styles.orText}>{t('or', 'Or')}</span>
-      </div>
-
-      {/* Search by Bill Identifier Tile */}
-      <div className={styles.tile}>
-        <h3 className={styles.heading}>{t('searchByBillIdentifier', 'Search by Bill Identifier')}</h3>
-        <div className={styles.searchWrapper}>
-          <span className={styles.label}>{t('billIdentifier', 'Bill Identifier ID')}</span>
-          <input
-            type="text"
-            className={styles.inputField}
-            value={billIdentifier}
-            onChange={(e) => setBillIdentifier(e.target.value)}
-            placeholder={t('billSearchPlaceholder', 'Enter bill identifier to search')}
-          />
-        </div>
-        <button className={styles.searchButton} onClick={() => handleSearch('bill')}>
-          {t('search', 'Search')}
-        </button>
-      </div>
     </section>
   );
 };

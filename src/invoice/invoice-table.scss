@@ -86,5 +86,10 @@
 :global(.omrs-breakpoint-gt-tablet) {
   .toolbarWrapper {
     height: layout.$spacing-07;
+
+.clickableRow {
+  cursor: pointer;
+  &:hover {
+    background-color: #e5e5e5;
   }
 }

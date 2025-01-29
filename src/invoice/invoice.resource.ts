@@ -14,6 +14,7 @@ export const usePatientBill = (policyId: string) => {
 
   const mapBillProperties = (bill: Bill): MappedBill => ({
     uuid: bill.globalBillId,
+    globalBillId: bill.globalBillId,
     no: bill.globalBillId,
     date: formatDate(parseDate(bill.createdDate), { mode: 'wide' }),
     createdBy: bill.creator.display,
@@ -31,7 +32,7 @@ export const usePatientBill = (policyId: string) => {
     billIdentifier: bill.billIdentifier,
     patientDueAmount: bill.globalAmount,
     paidAmount: bill.globalAmount,
-    paymentStatus: 'PAID',
+    paymentStatus: bill.closed ? 'CLOSED' : 'OPEN',
     bill: 'X',
   });
 

@@ -1,0 +1,13 @@
+@use '@carbon/styles/scss/spacing';
+@use '@carbon/styles/scss/type';
+@import '~@openmrs/esm-styleguide/src/vars';
+
+.tableContainer {
+  margin: spacing.$spacing-05 0;
+  background-color: $ui-background;
+}
+
+.totalRow {
+  background-color: $ui-02;
+  font-weight: bold;
+}

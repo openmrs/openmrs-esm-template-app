@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { navigate, showToast } from '@openmrs/esm-framework';
-import { getGlobalBillByIdentifier } from '../api/billing';
+import { getGlobalBillByIdentifier, getConsommationById } from '../api/billing';
 import styles from './search-global-bill.scss';
 
 const SearchGlobalBill: React.FC = () => {
@@ -60,11 +60,37 @@ const SearchGlobalBill: React.FC = () => {
     try {
       if (!consommationIdentifier) {
         setErrorMessage(t('enterValue', 'Please enter a consommation identifier.'));
+        setIsConsommationLoading(false);
         return;
       }
-      // TODO: Implement consommation search when API is available
-      setErrorMessage(t('notImplemented', 'Consommation search not implemented yet.'));
+
+      const result = await getConsommationById(consommationIdentifier);
+      
+      if (!result) {
+        setErrorMessage(t('noResults', 'No results found.'));
+      } else {
+        // Transform consommation data to match table format
+        const transformedResult = [{
+          consommationId: result.consommationId,
+          billIdentifier: `CONS-${result.consommationId}`,
+          admission: {
+            insurancePolicy: {
+              insuranceCardNo: result.patientBill.policyIdNumber,
+              owner: {
+                display: result.patientBill.beneficiaryName
+              }
+            },
+            admissionDate: result.patientBill.createdDate,
+            dischargingDate: null
+          },
+          globalAmount: result.patientBill.amount,
+          closed: result.patientBill.payments?.length > 0,
+          department: result.department.name
+        }];
+        setSearchResult(transformedResult);
+      }
     } catch (error) {
+      setErrorMessage(t('errorFetchingData', 'An error occurred while fetching data.'));
       showToast({
         title: t('error', 'Error'),
         description: error.message,
@@ -72,6 +98,14 @@ const SearchGlobalBill: React.FC = () => {
       });
     } finally {
       setIsConsommationLoading(false);
+    }
+  };
+
+  const handleRowClick = (result) => {
+    if (result.consommationId) {
+      navigate({ to: `${window.getOpenmrsSpaBase()}home/billing/consommation/${result.consommationId}` });
+    } else {
+      navigate({ to: `${window.getOpenmrsSpaBase()}home/billing/invoice/${result.admission.insurancePolicy.insuranceCardNo}` });
     }
   };
 
@@ -95,8 +129,8 @@ const SearchGlobalBill: React.FC = () => {
             <th>{t('billIdentifier', 'Bill Identifier')}</th>
             <th>{t('insuranceCardNo', 'Insurance Card No.')}</th>
             <th>{t('patientNames', 'Patient Names')}</th>
-            <th>{t('admissionDate', 'Admission Date')}</th>
-            <th>{t('dischargeDate', 'Discharge Date')}</th>
+            <th>{t('department', 'Department')}</th>
+            <th>{t('createdDate', 'Created Date')}</th>
             <th>{t('amount', 'Amount (RWF)')}</th>
             <th>{t('status', 'Status')}</th>
           </tr>
@@ -105,14 +139,14 @@ const SearchGlobalBill: React.FC = () => {
           {searchResult.map((result, index) => (
             <tr
               key={index}
-              onClick={() => navigate({ to: `${window.getOpenmrsSpaBase()}home/billing/invoice/${result.admission.insurancePolicy.insuranceCardNo}` })}
+              onClick={() => handleRowClick(result)}
               className={styles.tableRow}
             >
               <td>{result.billIdentifier}</td>
               <td>{result.admission.insurancePolicy.insuranceCardNo}</td>
               <td>{result.admission.insurancePolicy.owner.display}</td>
+              <td>{result.department || 'N/A'}</td>
               <td>{new Date(result.admission.admissionDate).toLocaleDateString()}</td>
-              <td>{result.admission.dischargingDate ? new Date(result.admission.dischargingDate).toLocaleDateString() : 'N/A'}</td>
               <td>{result.globalAmount}</td>
               <td>{result.closed ? 'Closed' : 'Open'}</td>
             </tr>
