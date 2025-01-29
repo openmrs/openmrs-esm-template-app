@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect, useCallback } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import fuzzy from 'fuzzy';
 import {
@@ -19,7 +19,7 @@ import {
   type DataTableRow,
 } from '@carbon/react';
 import { Delete, Edit } from '@carbon/react/icons';
-import { isDesktop, showModal, useConfig, useDebounce, useLayoutType } from '@openmrs/esm-framework';
+import { isDesktop, useConfig, useDebounce, useLayoutType } from '@openmrs/esm-framework';
 import styles from './invoice-table.scss';
 import { usePatientBill } from './invoice.resource';
 import { useParams, useNavigate } from 'react-router-dom';
@@ -60,15 +60,14 @@ const InvoiceTable: React.FC = () => {
     { header: 'Global Bill ID', key: 'globalBillId', width: 15 },
     { header: 'Date of Bill', key: 'date', width: 15 },
     { header: 'Created by', key: 'createdBy', width: 15 },
-    { header: 'Policy ID Node.', key: 'policyId', width: 15 },
-    { header: 'Admission Date', key: 'admissionDate', width: 15 },
-    { header: 'Discharge Date', key: 'dischargeDate', width: 15 },
-    { header: 'Bill Identifier', key: 'billIdentifier', width: 15 },
-    { header: 'Patient Due Amount', key: 'patientDueAmount', width: 15 },
-    { header: 'Paid Amount', key: 'paidAmount', width: 15 },
-    { header: 'Bill', key: 'bill', width: 15 },
-    { header: 'Payment Status', key: 'paymentStatus', width: 15 },
-    { header: t('status', 'Status'), key: 'actionButton' },
+    { header: 'Policy ID Node.', key: 'policyId', width: 7 },
+    { header: 'Admission Date', key: 'admissionDate', width: 20 },
+    { header: 'Discharge Date', key: 'dischargeDate', width: 20 },
+    { header: 'Bill Identifier', key: 'billIdentifier', width: 25 },
+    { header: 'Patient Due Amount', key: 'patientDueAmount', width: 10 },
+    { header: 'Paid Amount', key: 'paidAmount', width: 10 },
+    { header: 'Payment Status', key: 'paymentStatus', width: 7 },
+    { header: t('status', 'Status'), key: 'actionButton', width: 10 },
   ];
 
   const tableRows: Array<typeof DataTableRow> = useMemo(
@@ -76,8 +75,8 @@ const InvoiceTable: React.FC = () => {
       filteredLineItems?.map((item, index) => {
         return {
           no: `${index + 1}`,
-          id: `${item.globalBillId}`, 
-          globalBillId: item.globalBillId, 
+          id: `${item.globalBillId}`,
+          globalBillId: item.globalBillId,
           date: item.date,
           createdBy: item.createdBy,
           policyId: item.policyId,
@@ -86,28 +85,31 @@ const InvoiceTable: React.FC = () => {
           billIdentifier: item.billIdentifier,
           patientDueAmount: item.patientDueAmount,
           paidAmount: item.paidAmount,
-          bill: item.bill,
           paymentStatus: item.paymentStatus,
           actionButton: (
             <span>
-              <Button
-                data-testid={`edit-button-${item.uuid}`}
-                renderIcon={Edit}
-                hasIconOnly
-                kind="ghost"
-                iconDescription={t('editThisBillItem', 'Edit this bill item')}
-                tooltipPosition="left"
-                //   onClick={() => handleSelectBillItem(item)}
-              />
-              <Button
-                data-testid={`delete-button-${item.uuid}`}
-                renderIcon={Delete}
-                hasIconOnly
-                kind="ghost"
-                iconDescription={t('deleteThisBillItem', 'Delete this bill item')}
-                tooltipPosition="left"
-                //   onClick={() => handleSelectBillItem(item)}
-              />
+              {item.bill && (
+                <>
+                  <Button
+                    data-testid={`edit-button-${item.uuid}`}
+                    renderIcon={Edit}
+                    hasIconOnly
+                    kind="ghost"
+                    iconDescription={t('editThisBillItem', 'Edit this bill item')}
+                    tooltipPosition="left"
+                    //   onClick={() => handleSelectBillItem(item)}
+                  />
+                  <Button
+                    data-testid={`delete-button-${item.uuid}`}
+                    renderIcon={Delete}
+                    hasIconOnly
+                    kind="ghost"
+                    iconDescription={t('deleteThisBillItem', 'Delete this bill item')}
+                    tooltipPosition="left"
+                    //   onClick={() => handleSelectBillItem(item)}
+                  />
+                </>
+              )}
             </span>
           ),
         };
@@ -115,13 +117,16 @@ const InvoiceTable: React.FC = () => {
     [filteredLineItems, defaultCurrency, showEditBillButton, t],
   );
 
-  const handleRowClick = useCallback((row) => {
-    if (row.id) {
-      navigate(`/consommations/${row.id}`, { 
-        state: { insuranceCardNo: params.insuranceCardNo } 
-      });
-    }
-  }, [navigate, params.insuranceCardNo]);
+  const handleRowClick = useCallback(
+    (row) => {
+      if (row.id) {
+        navigate(`/consommations/${row.id}`, {
+          state: { insuranceCardNo: params.insuranceCardNo },
+        });
+      }
+    },
+    [navigate, params.insuranceCardNo],
+  );
 
   if (isLoading) {
     return (

@@ -4,15 +4,11 @@ import { useParams, useLocation } from 'react-router-dom';
 import Card from './card.component';
 import styles from './global-bill-list.scss';
 import { fetchGlobalBillsByInsuranceCard } from '../api/billing';
-<<<<<<< HEAD
+import { SearchSkeleton } from '@carbon/react';
 
 interface LocationState {
   insuranceCardNo?: string;
 }
-=======
-import { useParams } from 'react-router-dom';
-import { SearchSkeleton } from '@carbon/react';
->>>>>>> bf2b1cc ((refactor) Add standard styles to global bill list)
 
 const GlobalBillHeader: React.FC = () => {
   const { t } = useTranslation();

@@ -73,5 +73,5 @@ export interface MappedBill {
   patientDueAmount: number;
   paidAmount: number;
   paymentStatus: string | null;
-  bill: string;
+  bill: boolean;
 }
