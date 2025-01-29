@@ -1,4 +1,7 @@
-/* card.scss */
+@use '@carbon/colors';
+@use '@carbon/layout';
+@use '@carbon/type';
+@use '@openmrs/esm-styleguide/src/vars' as *;
 
 .card {
     background-color: #ffffff;
@@ -14,8 +17,8 @@
     font-size: 1rem;
     font-weight: bold;
     margin-bottom: 0.5rem;
-    background-color: rgb(234, 70, 70);  /* Set the background to red */
-    color: white;           /* Set the text color to white for contrast */
+    background-color: colors.$teal-60;
+    color: colors.$white;           /* Set the text color to white for contrast */
     padding: 0.5rem;        /* Add padding to the title for spacing */
     border-radius: 5px;     /* Optional: rounded corners for a cleaner look */
   }

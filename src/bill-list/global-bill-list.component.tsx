@@ -4,6 +4,7 @@ import { useParams, useLocation } from 'react-router-dom';
 import Card from './card.component';
 import styles from './global-bill-list.scss';
 import { fetchGlobalBillsByInsuranceCard } from '../api/billing';
+import { SearchSkeleton } from '@carbon/react';
 
 interface LocationState {
   insuranceCardNo?: string;
@@ -112,7 +113,7 @@ const GlobalBillHeader: React.FC = () => {
   const cards = [insuranceOwner, beneficiary, insuranceCompany].filter(Boolean);
 
   if (loading) {
-    return <p>{t('loading', 'Loading...')}</p>;
+    return <SearchSkeleton />;
   }
 
   if (error) {
@@ -120,7 +121,7 @@ const GlobalBillHeader: React.FC = () => {
   }
 
   return (
-    <section>
+    <section className={styles.sectionContainer}>
       {insuranceCardNo ? (
         cards.length > 0 ? (
           <section className={styles.container}>
