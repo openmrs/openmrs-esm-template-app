@@ -1,3 +1,8 @@
+@use '@carbon/colors';
+@use '@carbon/layout';
+@use '@carbon/type';
+@use '@openmrs/esm-styleguide/src/vars' as *;
+
 .container {
   display: flex;
   flex-direction: column;
@@ -6,7 +11,7 @@
 }
 
 .tile {
-  background-color: #ffffff;
+  background-color: colors.$white;
   padding: 1.5rem;
   border: 1px solid #e0e0e0;
   border-radius: 8px;
@@ -29,7 +34,7 @@
 .label {
   font-size: 1rem;
   font-weight: 500;
-  color: #525252;
+  color: colors.$gray-70;
 }
 
 .inputField {
@@ -50,7 +55,7 @@
   margin-top: 1rem;
   padding: 0.5rem 1rem;
   background-color: #28a745;
-  color: #ffffff;
+  color: colors.$white;
   border: none;
   border-radius: 4px;
   font-size: 1rem;
@@ -91,7 +96,7 @@
   margin-top: 1rem;
   padding: 0.5rem 1rem;
   background-color: #0072c3;
-  color: #ffffff;
+  color: colors.$white;
   border: none;
   border-radius: 4px;
   font-size: 1rem;
@@ -131,7 +136,7 @@
 .orText {
   font-size: 1.2rem;
   font-weight: bold;
-  color: #525252;
+  color: colors.$gray-70;
 }
 
 /* Results Section */
@@ -161,7 +166,7 @@
 }
 
 .resultsTable th {
-  background-color: #f4f4f4;
+  background-color: colors.$gray-10;
   font-weight: bold;
 }
 
@@ -187,8 +192,33 @@
 
 .noResults {
   margin-top: 1rem;
-  color: #e74c3c;
+  color: colors.$red-50;
   font-size: 1rem;
   font-weight: bold;
   text-align: center;
+}
+
+.filterEmptyState {
+  align-items: center;
+  background-color: colors.$white;
+  display: flex;
+  justify-content: center;
+  padding: layout.$spacing-09 !important;
+  text-align: center;
+  border: 1px solid $ui-03;
+}
+
+.filterEmptyStateTile {
+  margin: auto;
+}
+
+.filterEmptyStateContent {
+  @include type.type-style('heading-compact-02');
+  color: $text-02;
+  margin-bottom: layout.$spacing-03;
+}
+
+.filterEmptyStateHelper {
+  @include type.type-style('body-compact-01');
+  color: $text-02;
 }
