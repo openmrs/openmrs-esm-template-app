@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { fetchGlobalBillsByInsuranceCard } from '../api/billing';
 import styles from './search-bill-header-cards.scss';
-import { navigate } from '@openmrs/esm-framework';
+import { isDesktop, navigate, useLayoutType } from '@openmrs/esm-framework';
+import { DataTableSkeleton, Layer, Tile } from '@carbon/react';
 
 const SearchBillHeaderCards: React.FC = () => {
   const { t } = useTranslation();
@@ -14,14 +15,16 @@ const SearchBillHeaderCards: React.FC = () => {
   const [searchResult, setSearchResult] = useState<any[]>([]);
   const [hasSearched, setHasSearched] = useState(false);
   const [loading, setLoading] = useState(false);
+  const layout = useLayoutType();
+  const responsiveSize = isDesktop(layout) ? 'sm' : 'lg';
 
   const handleOpenBill = () => {
     if (startDate && endDate) {
       const queryParams = new URLSearchParams({
         startDate: startDate,
-        endDate: endDate
+        endDate: endDate,
       }).toString();
-      
+
       const url = `${window.getOpenmrsSpaBase()}home/billing/patient-bills?${queryParams}`;
       navigate({ to: url });
     }
@@ -70,7 +73,18 @@ const SearchBillHeaderCards: React.FC = () => {
     }
 
     if (!searchResult || searchResult.length === 0 || searchResult.every((item) => item === null)) {
-      return <p className={styles.noResults}>{t('noResults', 'No results found.')}</p>;
+      return (
+        <div className={styles.filterEmptyState}>
+          <Layer>
+            <Tile className={styles.filterEmptyStateTile}>
+              <p className={styles.filterEmptyStateContent}>
+                {t('noMatchingItemsToDisplay', 'No matching items to display')}
+              </p>
+              <p className={styles.filterEmptyStateHelper}>{t('checkFilters', 'Check the filters above')}</p>
+            </Tile>
+          </Layer>
+        </div>
+      );
     }
 
     return (
@@ -118,8 +132,8 @@ const SearchBillHeaderCards: React.FC = () => {
         <div className={styles.dateWrapper}>
           <div className={styles.dateField}>
             <span className={styles.label}>{t('startDate', 'Start Date')}</span>
-            <input 
-              type="date" 
+            <input
+              type="date"
               className={styles.inputField}
               value={startDate}
               onChange={(e) => setStartDate(e.target.value)}
@@ -127,19 +141,15 @@ const SearchBillHeaderCards: React.FC = () => {
           </div>
           <div className={styles.dateField}>
             <span className={styles.label}>{t('endDate', 'End Date')}</span>
-            <input 
-              type="date" 
+            <input
+              type="date"
               className={styles.inputField}
               value={endDate}
               onChange={(e) => setEndDate(e.target.value)}
             />
           </div>
         </div>
-        <button 
-          className={styles.openButton}
-          onClick={handleOpenBill}
-          disabled={!startDate || !endDate}
-        >
+        <button className={styles.openButton} onClick={handleOpenBill} disabled={!startDate || !endDate}>
           {t('open', 'Open')}
         </button>
       </div>
@@ -157,16 +167,25 @@ const SearchBillHeaderCards: React.FC = () => {
             placeholder={t('searchPlaceholder', 'Enter card number to search')}
           />
         </div>
-        <button
-          className={styles.searchButton}
-          onClick={() => handleSearch('insurance')}
-          disabled={loading} // Disable button while loading
-        >
-          {loading ? t('loading', 'Loading...') : t('search', 'Search')}
-        </button>
+        {!loading && (
+          <button className={styles.searchButton} onClick={() => handleSearch('insurance')} disabled={loading}>
+            {t('search', 'Search')}
+          </button>
+        )}
       </div>
 
-      {loading && <div className={styles.loading}>{t('loading', 'Loading...')}</div>}
+      {loading && (
+        <div className={styles.loaderContainer}>
+          <DataTableSkeleton
+            data-testid="loader"
+            columnCount={3}
+            showHeader={false}
+            showToolbar={false}
+            size={responsiveSize}
+            zebra
+          />
+        </div>
+      )}
       {errorMessage && <div className={styles.error}>{errorMessage}</div>}
       {renderResultsTable()}
     </section>

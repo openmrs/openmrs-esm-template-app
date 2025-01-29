@@ -1,3 +1,92 @@
+@use '@carbon/colors';
+@use '@carbon/layout';
+@use '@carbon/type';
+@use '@openmrs/esm-styleguide/src/vars' as *;
+
+.filterEmptyState {
+  align-items: center;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  padding: layout.$spacing-09 !important;
+  text-align: center;
+}
+
+.filterEmptyStateTile {
+  margin: auto;
+}
+
+.filterEmptyStateContent {
+  @include type.type-style('heading-compact-02');
+  color: $text-02;
+  margin-bottom: layout.$spacing-03;
+}
+
+.filterEmptyStateHelper {
+  @include type.type-style('body-compact-01');
+  color: $text-02;
+}
+
+.headerContainer {
+  background-color: colors.$gray-10;
+}
+
+.invoiceContainer {
+  border: 1px solid $ui-03;
+}
+
+.searchbox {
+  input:focus {
+    outline: 2px solid colors.$orange-40 !important;
+  }
+}
+
+.invoiceTable {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+
+.tableDescription {
+  display: flex;
+  align-items: flex-start;
+  margin-top: layout.$spacing-02;
+  column-gap: layout.$spacing-01;
+
+  ::after {
+    content: '';
+    display: block;
+    width: layout.$spacing-07;
+    padding-top: 0.188rem;
+    border-bottom: 0.375rem solid var(--brand-03);
+  }
+
+  & > span {
+    @include type.type-style('body-01');
+  }
+}
+
+.tableToolbar {
+  width: 20%;
+  min-width: 12.5rem;
+}
+
+.toolbarWrapper {
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+}
+
+:global(.omrs-breakpoint-lt-desktop) {
+  .toolbarWrapper {
+    height: layout.$spacing-09;
+  }
+}
+
+:global(.omrs-breakpoint-gt-tablet) {
+  .toolbarWrapper {
+    height: layout.$spacing-07;
+
 .clickableRow {
   cursor: pointer;
   &:hover {
