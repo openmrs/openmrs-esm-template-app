@@ -1,10 +1,15 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams, useLocation } from 'react-router-dom';
+import { 
+  SkeletonText, 
+  InlineLoading, 
+  InlineNotification,
+  Tile 
+} from '@carbon/react';
 import Card from './card.component';
 import styles from './global-bill-list.scss';
 import { fetchGlobalBillsByInsuranceCard } from '../api/billing';
-import { SearchSkeleton } from '@carbon/react';
 
 interface LocationState {
   insuranceCardNo?: string;
@@ -113,29 +118,45 @@ const GlobalBillHeader: React.FC = () => {
   const cards = [insuranceOwner, beneficiary, insuranceCompany].filter(Boolean);
 
   if (loading) {
-    return <SearchSkeleton />;
+    return (
+      <div className={styles.sectionContainer}>
+        <InlineLoading description={t('loading', 'Loading insurance details...')} />
+        <div className={styles.skeletonContainer}>
+          {[1, 2, 3].map((key) => (
+            <Tile key={key}>
+              <SkeletonText heading width="100%" />
+              <SkeletonText paragraph lineCount={3} />
+            </Tile>
+          ))}
+        </div>
+      </div>
+    );
   }
 
   if (error) {
-    return <div className={styles.error}>{error}</div>;
+    return (
+      <div className={styles.sectionContainer}>
+        <InlineNotification
+          kind="error"
+          title={t('error', 'Error')}
+          subtitle={error}
+          hideCloseButton
+          lowContrast
+        />
+      </div>
+    );
   }
 
   return (
-    <section className={styles.sectionContainer}>
-      {insuranceCardNo ? (
-        cards.length > 0 ? (
-          <section className={styles.container}>
-            {cards.map((card) => (
-              <Card key={card?.title} title={card?.title} details={card?.details} />
-            ))}
-          </section>
-        ) : (
-          <p className={styles.noData}>{t('noData', 'No data to display')}</p>
-        )
-      ) : (
-        <p>{t('missingCardNumber', 'Missing insurance card number')}</p>
-      )}
-    </section>
+    <div className={styles.sectionContainer}>
+      <Tile light className={styles.contentWrapper}>
+        <div className={styles.container}>
+          {cards.map((card) => (
+            <Card key={card?.title} title={card?.title} details={card?.details} />
+          ))}
+        </div>
+      </Tile>
+    </div>
   );
 };
 

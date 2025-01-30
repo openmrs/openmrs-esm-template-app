@@ -1,40 +1,59 @@
 @use '@carbon/colors';
 @use '@carbon/layout';
 @use '@carbon/type';
+@use '@carbon/themes';
 @use '@openmrs/esm-styleguide/src/vars' as *;
 
 .card {
-    background-color: #ffffff;
-    padding: 1rem;
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    min-width: 200px;
-    flex: 1 1 calc(33% - 1rem);
+  height: 100%;
+  background-color: $ui-01;
+  border: 1px solid $ui-03;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: $ui-01;
+  }
+}
+
+.header {
+  @include type.type-style('heading-compact-02');
+  display: flex;
+  align-items: center;
+  gap: layout.$spacing-03;
+  color: $text-02;
+  border-bottom: 1px solid $ui-03;
+
+  svg {
+    fill: $interactive-01;
+  }
+}
+
+.detailsList {
+  margin: 0;
+  padding: 0;
+}
+
+.detailItem {
+  display: flex;
+  justify-content: space-between;
+  
+  dt {
+    @include type.type-style('body-compact-01');
+    color: $text-02;
+    flex: 1;
   }
   
-  .title {
-    font-size: 1rem;
-    font-weight: bold;
-    margin-bottom: 0.5rem;
-    background-color: colors.$teal-60;
-    color: colors.$white;           /* Set the text color to white for contrast */
-    padding: 0.5rem;        /* Add padding to the title for spacing */
-    border-radius: 5px;     /* Optional: rounded corners for a cleaner look */
-  }
-  
-  .details {
-    list-style: none;
-    padding: 0;
+  dd {
+    @include type.type-style('body-compact-01');
     margin: 0;
+    text-align: right;
+    flex: 1;
+    font-weight: 600;
   }
-  
-  .details li {
-    margin-bottom: 0.25rem;
+
+  &:last-child {
+    margin-bottom: 0;
   }
-  
-  .label {
-    font-weight: bold;
-    color: #161616;
-  }
-  
+}

@@ -1,17 +1,43 @@
 @use '@carbon/colors';
 @use '@carbon/layout';
 @use '@carbon/type';
+@use '@carbon/themes';
 @use '@openmrs/esm-styleguide/src/vars' as *;
 
 .sectionContainer {
- padding: layout.$spacing-05;
+  background-color: $ui-02;
+  width: 100%;
+  padding: layout.$spacing-05;
+}
+
+.contentWrapper {
+  border-radius: layout.$spacing-02;
+  padding: layout.$spacing-05;
 }
 
 .container {
-  display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  padding: 1rem 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: layout.$spacing-06;
+  margin-top: layout.$spacing-06;
 }
-  
+
+.skeletonContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: layout.$spacing-06;
+  margin-top: layout.$spacing-06;
+}
+
+.switcher {
+  margin-bottom: layout.$spacing-06;
+  max-width: 400px;
+  background-color: $ui-02;
+}
+
+
+.noData {
+  @include type.type-style('body-compact-02');
+  color: $text-02;
+  text-align: center;
+}
