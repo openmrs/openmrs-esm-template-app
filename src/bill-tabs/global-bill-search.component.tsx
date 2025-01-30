@@ -1,6 +1,17 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { navigate, showToast } from '@openmrs/esm-framework';
+import {
+  DataTable,
+  Table,
+  TableHead,
+  TableRow,
+  TableHeader,
+  TableBody,
+  TableCell,
+  Layer,
+  Tile,
+} from '@carbon/react';
 import { getGlobalBillByIdentifier } from '../api/billing';
 import styles from './search-bill-header-cards.scss';
 
@@ -57,45 +68,65 @@ const GlobalBillSearch: React.FC = () => {
       return null;
     }
 
-    if (errorMessage) {
-      return <p className={styles.noResults}>{errorMessage}</p>;
+    if (!searchResult || searchResult.length === 0 || searchResult.every(item => item === null)) {
+      return (
+        <div className={styles.filterEmptyState}>
+          <Layer>
+            <Tile className={styles.filterEmptyStateTile}>
+              <p className={styles.filterEmptyStateContent}>
+                {t('noMatchingItemsToDisplay', 'No matching items to display')}
+              </p>
+              <p className={styles.filterEmptyStateHelper}>{t('checkFilters', 'Check the filters above')}</p>
+            </Tile>
+          </Layer>
+        </div>
+      );
     }
 
-    if (!searchResult || searchResult.length === 0 || searchResult.every(item => item === null)) {
-      return <p className={styles.noResults}>{t('noResults', 'No results found.')}</p>;
-    }
+    const headers = [
+      { header: t('billIdentifier', 'Bill Identifier'), key: 'billId' },
+      { header: t('insuranceCardNo', 'Insurance Card No.'), key: 'insuranceNo' },
+      { header: t('patientNames', 'Patient Names'), key: 'patientName' },
+      { header: t('department', 'Department'), key: 'department' },
+      { header: t('createdDate', 'Created Date'), key: 'createdDate' },
+      { header: t('amount', 'Amount (RWF)'), key: 'amount' },
+      { header: t('status', 'Status'), key: 'status' },
+    ];
+
+    const rows = searchResult.map((result, index) => ({
+      id: index.toString(),
+      billId: result.billIdentifier || result.globalBillIdentifier,
+      insuranceNo: result.admission.insurancePolicy.insuranceCardNo,
+      patientName: result.admission.insurancePolicy.owner.display,
+      department: result.department || 'N/A',
+      createdDate: new Date(result.admission.admissionDate).toLocaleDateString(),
+      amount: result.globalAmount,
+      status: result.closed ? 'Closed' : 'Open',
+    }));
 
     return (
-      <table className={styles.resultsTable}>
-        <thead>
-          <tr>
-            <th>{t('billIdentifier', 'Bill Identifier')}</th>
-            <th>{t('insuranceCardNo', 'Insurance Card No.')}</th>
-            <th>{t('patientNames', 'Patient Names')}</th>
-            <th>{t('department', 'Department')}</th>
-            <th>{t('createdDate', 'Created Date')}</th>
-            <th>{t('amount', 'Amount (RWF)')}</th>
-            <th>{t('status', 'Status')}</th>
-          </tr>
-        </thead>
-        <tbody>
-          {searchResult.map((result, index) => (
-            <tr
-              key={index}
-              onClick={() => handleRowClick(result)}
-              className={styles.tableRow}
-            >
-              <td>{result.billIdentifier || result.globalBillIdentifier}</td>
-              <td>{result.admission.insurancePolicy.insuranceCardNo}</td>
-              <td>{result.admission.insurancePolicy.owner.display}</td>
-              <td>{result.department || 'N/A'}</td>
-              <td>{new Date(result.admission.admissionDate).toLocaleDateString()}</td>
-              <td>{result.globalAmount}</td>
-              <td>{result.closed ? 'Closed' : 'Open'}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <DataTable rows={rows} headers={headers}>
+        {({ rows, headers, getTableProps, getHeaderProps, getRowProps }) => (
+          <Table {...getTableProps()} useZebraStyles>
+            <TableHead>
+              <TableRow>
+                {headers.map((header) => (
+                  <TableHeader {...getHeaderProps({ header })}>{header.header}</TableHeader>
+                ))}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {rows.map((row) => (
+                <TableRow {...getRowProps({ row })} onClick={() => handleRowClick(searchResult[parseInt(row.id)])}>
+                  {row.cells.map((cell) => (
+                    <TableCell key={cell.id}>{cell.value}</TableCell>
+                  ))}
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        )}
+      </DataTable>
     );
   };
 

@@ -3,7 +3,18 @@ import { useTranslation } from 'react-i18next';
 import { fetchGlobalBillsByInsuranceCard } from '../api/billing';
 import styles from './search-bill-header-cards.scss';
 import { isDesktop, navigate, useLayoutType } from '@openmrs/esm-framework';
-import { DataTableSkeleton, Layer, Tile } from '@carbon/react';
+import {
+  DataTable,
+  Table,
+  TableHead,
+  TableRow,
+  TableHeader,
+  TableBody,
+  TableCell,
+  DataTableSkeleton,
+  Layer,
+  Tile,
+} from '@carbon/react';
 
 const SearchInsurance: React.FC = () => {
   const { t } = useTranslation();
@@ -73,39 +84,50 @@ const SearchInsurance: React.FC = () => {
       );
     }
 
+    const headers = [
+      { header: 'Insurance Policy No.', key: 'policyNo' },
+      { header: 'Insurance', key: 'insurance' },
+      { header: 'Insurance Card No.', key: 'cardNo' },
+      { header: 'Patient Names', key: 'patientName' },
+      { header: 'Age', key: 'age' },
+      { header: 'Gender', key: 'gender' },
+      { header: 'Birthdate', key: 'birthdate' },
+    ];
+
+    const rows = searchResult.map((result, index) => ({
+      id: index.toString(),
+      policyNo: result.insuranceCardNo || 'N/A',
+      insurance: result.insurance || 'N/A',
+      cardNo: result.insuranceCardNo || 'N/A',
+      patientName: result.owner?.person?.display || 'N/A',
+      age: result.owner?.person?.age || 'N/A',
+      gender: result.owner?.person?.gender || 'N/A',
+      birthdate: result.owner?.person?.birthdate ? new Date(result.owner.person.birthdate).toLocaleDateString() : 'N/A',
+    }));
+
     return (
-      <table className={styles.resultsTable}>
-        <thead>
-          <tr>
-            <th>Insurance Policy No.</th>
-            <th>Insurance</th>
-            <th>Insurance Card No.</th>
-            <th>Patient Names</th>
-            <th>Age</th>
-            <th>Gender</th>
-            <th>Birthdate</th>
-          </tr>
-        </thead>
-        <tbody>
-          {searchResult.map((result, index) => (
-            <tr
-              key={index}
-              onClick={() => handleRowClick(result)}
-              className={styles.tableRow}
-            >
-              <td>{result.insuranceCardNo || 'N/A'}</td>
-              <td>{result.insurance || 'N/A'}</td>
-              <td>{result.insuranceCardNo || 'N/A'}</td>
-              <td>{result.owner?.person?.display || 'N/A'}</td>
-              <td>{result.owner?.person?.age || 'N/A'}</td>
-              <td>{result.owner?.person?.gender || 'N/A'}</td>
-              <td>
-                {result.owner?.person?.birthdate ? new Date(result.owner.person.birthdate).toLocaleDateString() : 'N/A'}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <DataTable rows={rows} headers={headers}>
+        {({ rows, headers, getTableProps, getHeaderProps, getRowProps }) => (
+          <Table {...getTableProps()} useZebraStyles>
+            <TableHead>
+              <TableRow>
+                {headers.map((header) => (
+                  <TableHeader {...getHeaderProps({ header })}>{header.header}</TableHeader>
+                ))}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {rows.map((row) => (
+                <TableRow {...getRowProps({ row })} onClick={() => handleRowClick(searchResult[parseInt(row.id)])}>
+                  {row.cells.map((cell) => (
+                    <TableCell key={cell.id}>{cell.value}</TableCell>
+                  ))}
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        )}
+      </DataTable>
     );
   };
 
