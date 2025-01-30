@@ -26,7 +26,6 @@ import styles from './ThirdParty.scss';
 import BackButton from '../components/back-button';
 
 interface ThirdPartyProps {
-  onBack: () => void;
   showAddButton?: boolean;
 }
 
@@ -35,7 +34,7 @@ interface ThirdPartyFormData {
   rate: number;
 }
 
-const ThirdParty: React.FC<ThirdPartyProps> = ({ onBack, showAddButton = true }) => {
+const ThirdParty: React.FC<ThirdPartyProps> = ({ showAddButton = true }) => {
   const { t } = useTranslation();
   const defaultPageSize = 10;
   const [thirdParties, setThirdParties] = useState<Array<ThirdPartyType>>([]);
@@ -50,7 +49,7 @@ const ThirdParty: React.FC<ThirdPartyProps> = ({ onBack, showAddButton = true })
     { key: 'id', header: '#' },
     { key: 'name', header: t('name', 'Third Party name') },
     { key: 'rate', header: t('rate', 'Third Party rate') },
-    { key: 'actions', header: t('actions', 'Actions') }
+    { key: 'actions', header: t('actions', 'Actions') },
   ];
 
   useEffect(() => {
@@ -75,15 +74,13 @@ const ThirdParty: React.FC<ThirdPartyProps> = ({ onBack, showAddButton = true })
 
   const filteredThirdParties = useMemo(() => {
     if (!searchTerm) return thirdParties;
-    return thirdParties.filter(party => 
-      party.name.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    return thirdParties.filter((party) => party.name.toLowerCase().includes(searchTerm.toLowerCase()));
   }, [thirdParties, searchTerm]);
 
   const rows = filteredThirdParties.map((party) => ({
     id: party.thirdPartyId.toString(),
     name: party.name,
-    rate: `${party.rate.toFixed(1)}%`
+    rate: `${party.rate.toFixed(1)}%`,
   }));
 
   const { results: paginatedRows, goTo, currentPage } = usePagination(rows, defaultPageSize);
@@ -97,7 +94,7 @@ const ThirdParty: React.FC<ThirdPartyProps> = ({ onBack, showAddButton = true })
   };
 
   const handleEdit = (id: string) => {
-    const party = thirdParties.find(p => p.thirdPartyId.toString() === id);
+    const party = thirdParties.find((p) => p.thirdPartyId.toString() === id);
     if (party) {
       setFormData({ name: party.name, rate: party.rate });
       setEditingId(id);
@@ -137,9 +134,6 @@ const ThirdParty: React.FC<ThirdPartyProps> = ({ onBack, showAddButton = true })
 
   return (
     <>
-      <div className={styles.headerBreadcrumbs}>
-        <BackButton onBack={onBack} />
-      </div>
       <div className={styles.widgetCard}>
         <div className={styles.titleContainer}>
           <div className={styles.title}>
@@ -196,12 +190,7 @@ const ThirdParty: React.FC<ThirdPartyProps> = ({ onBack, showAddButton = true })
                           <TableCell key={cell.id}>
                             {index === 3 ? (
                               <div className={styles.actionsCell}>
-                                <Button
-                                  kind="tertiary"
-                                  size="sm"
-                                  renderIcon={Edit}
-                                  onClick={() => handleEdit(row.id)}
-                                >
+                                <Button kind="tertiary" size="sm" renderIcon={Edit} onClick={() => handleEdit(row.id)}>
                                   {t('edit', 'Edit')}
                                 </Button>
                                 <Button
@@ -227,9 +216,7 @@ const ThirdParty: React.FC<ThirdPartyProps> = ({ onBack, showAddButton = true })
                           <p className={styles.emptyStateTitle}>
                             {t('noMatchingThirdParties', 'No matching third parties to display')}
                           </p>
-                          <p className={styles.emptyStateText}>
-                            {t('checkFilters', 'Check the filters above')}
-                          </p>
+                          <p className={styles.emptyStateText}>{t('checkFilters', 'Check the filters above')}</p>
                         </div>
                       </TableCell>
                     </TableRow>
@@ -243,15 +230,11 @@ const ThirdParty: React.FC<ThirdPartyProps> = ({ onBack, showAddButton = true })
         {rows.length > 0 && (
           <div className={styles.paginationContainer}>
             <div>
-              {t('showing', 'Showing')} {Math.min((currentPage - 1) * defaultPageSize + 1, rows.length)} - {Math.min(currentPage * defaultPageSize, rows.length)} {t('of', 'of')} {rows.length} {t('items', 'items')}
+              {t('showing', 'Showing')} {Math.min((currentPage - 1) * defaultPageSize + 1, rows.length)} -{' '}
+              {Math.min(currentPage * defaultPageSize, rows.length)} {t('of', 'of')} {rows.length} {t('items', 'items')}
             </div>
             <div className={styles.pagination}>
-              <Button
-                kind="ghost"
-                size="sm"
-                disabled={currentPage === 1}
-                onClick={() => goTo(currentPage - 1)}
-              >
+              <Button kind="ghost" size="sm" disabled={currentPage === 1} onClick={() => goTo(currentPage - 1)}>
                 {t('previous', 'Previous')}
               </Button>
               <Button

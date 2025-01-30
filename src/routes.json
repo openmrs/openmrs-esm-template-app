@@ -26,5 +26,11 @@
       "component": "billableServicesCardLink",
       "name": "billable-services-admin-card-link"
     }
+  ],
+   "pages": [
+    {
+      "component": "billingAdminHome",
+      "route":"billing-admin"
+    }
   ]
 }

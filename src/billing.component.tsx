@@ -39,15 +39,15 @@ const Billing: React.FC = () => {
   const renderAdminComponent = () => {
     switch (activeAdminComponent) {
       case 'Department':
-        return <Department onBack={handleBack} />;
+        return <Department />;
       case 'Service':
-        return <Service onBack={handleBack} />;
+        return <Service />;
       case 'Facility Service Price':
-        return <FacilityServicePrice onBack={handleBack} />;
+        return <FacilityServicePrice />;
       case 'Insurance':
-        return <Insurance onBack={handleBack} />;
+        return <Insurance />;
       case 'Third Party':
-        return <ThirdParty onBack={handleBack} />;
+        return <ThirdParty />;
       default:
         return null;
     }
@@ -66,7 +66,6 @@ const Billing: React.FC = () => {
       }
     }
 
-
     if (activeTab === 1) {
       if (activeSubTab === 0) {
         return <GlobalBillSearch />;
@@ -79,8 +78,8 @@ const Billing: React.FC = () => {
   return (
     <div className={styles.billingWrapper}>
       <div className={styles.container}>
-        <BillingHeader 
-          onTabChange={handleTabChange} 
+        <BillingHeader
+          onTabChange={handleTabChange}
           onSubTabChange={handleSubTabChange}
           onMenuItemSelect={handleMenuItemSelect}
           activeAdminComponent={activeAdminComponent}
@@ -88,9 +87,7 @@ const Billing: React.FC = () => {
           activeSubTab={activeSubTab}
           isAdminView={false}
         />
-        <div className={styles.content}>
-          {renderContent()}
-        </div>
+        <div className={styles.content}>{renderContent()}</div>
       </div>
     </div>
   );
