@@ -12,9 +12,13 @@ import {
   TableBody,
   TableCell,
   DataTableSkeleton,
-  Layer,
-  Tile,
+  Search,
+  Button,
+  Form,
+  Stack,
 } from '@carbon/react';
+import { Layer } from '@carbon/react';
+import { Tile } from '@carbon/react';
 
 const SearchInsurance: React.FC = () => {
   const { t } = useTranslation();
@@ -132,41 +136,45 @@ const SearchInsurance: React.FC = () => {
   };
 
   return (
-    <section className={styles.container}>
-      <div className={styles.tile}>
-        <h3 className={styles.heading}>{t('findInsurancePolicy', 'Find An Existing Insurance Policy')}</h3>
-        <div className={styles.searchWrapper}>
-          <span className={styles.label}>{t('patientInsuranceCard', 'Patient Insurance Card Number')}</span>
-          <input
-            type="text"
-            className={styles.inputField}
-            value={insuranceCardNumber}
-            onChange={(e) => setInsuranceCardNumber(e.target.value)}
-            placeholder={t('searchPlaceholder', 'Enter card number to search')}
-          />
-        </div>
-        {!loading && (
-          <button className={styles.searchButton} onClick={() => handleSearch('insurance')} disabled={loading}>
-            {t('search', 'Search')}
-          </button>
-        )}
-      </div>
+    <div className={styles.container}>
+      <Form className={styles.searchContainer}>
+        <Stack gap={5}>
+          <h4 className={styles.heading}>{t('findInsurancePolicy', 'Find An Existing Insurance Policy')}</h4>
+          <div className={styles.searchForm}>
+            <label htmlFor="insuranceSearch" className={styles.label}>
+              {t('patientInsuranceCard', 'Patient Insurance Card Number')}
+            </label>
+            <Search
+              id="insuranceSearch"
+              labelText=""
+              placeholder={t('searchPlaceholder', 'Enter card number to search')}
+              value={insuranceCardNumber}
+              onChange={(e) => setInsuranceCardNumber(e.target.value)}
+              size="lg"
+            />
+            <Button
+              onClick={() => handleSearch('insurance')}
+              disabled={loading}
+              kind="primary"
+            >
+              {t('search', 'Search')}
+            </Button>
+          </div>
+        </Stack>
+      </Form>
 
       {loading && (
-        <div className={styles.loaderContainer}>
-          <DataTableSkeleton
-            data-testid="loader"
-            columnCount={3}
-            showHeader={false}
-            showToolbar={false}
-            size={responsiveSize}
-            zebra
-          />
-        </div>
+        <DataTableSkeleton
+          columnCount={7}
+          rowCount={5}
+          headers={[]}
+          showHeader={false}
+          showToolbar={false}
+        />
       )}
       {errorMessage && <div className={styles.error}>{errorMessage}</div>}
       {renderResultsTable()}
-    </section>
+    </div>
   );
 };
 

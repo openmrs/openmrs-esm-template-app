@@ -11,6 +11,10 @@ import {
   TableCell,
   Layer,
   Tile,
+  Search,
+  Button,
+  Form,
+  Stack,
 } from '@carbon/react';
 import { getConsommationById } from '../api/billing';
 import styles from './search-bill-header-cards.scss';
@@ -143,30 +147,36 @@ const ConsommationSearch: React.FC = () => {
   };
 
   return (
-    <section className={styles.container}>
-      <div className={styles.tile}>
-        <h3 className={styles.heading}>{t('searchByConsommation', 'Search Consommation')}</h3>
-        <div className={styles.searchWrapper}>
-          <span className={styles.label}>{t('consommationIdentifier', 'Consommation Identifier')}</span>
-          <input
-            type="text"
-            className={styles.inputField}
-            value={consommationIdentifier}
-            onChange={(e) => setConsommationIdentifier(e.target.value)}
-            placeholder={t('consommationPlaceholder', 'Enter consommation ID to search')}
-          />
-          <button 
-            className={styles.searchButton} 
-            onClick={handleConsommationSearch} 
-            disabled={isLoading}
-          >
-            {isLoading ? t('searching', 'Searching...') : t('search', 'Search')}
-          </button>
-        </div>
-      </div>
+    <div className={styles.container}>
+      <Form className={styles.searchContainer}>
+        <Stack gap={5}>
+          <h4 className={styles.heading}>{t('searchByConsommation', 'Search Consommation')}</h4>
+          <div className={styles.searchForm}>
+            <label htmlFor="consommationSearch" className={styles.label}>
+              {t('consommationIdentifier', 'Consommation Identifier')}
+            </label>
+            <Search
+              id="consommationSearch"
+              labelText=""
+              placeholder={t('consommationPlaceholder', 'Enter consommation ID to search')}
+              value={consommationIdentifier}
+              onChange={(e) => setConsommationIdentifier(e.target.value)}
+              size="lg"
+            />
+            <Button
+              onClick={handleConsommationSearch}
+              disabled={isLoading}
+              kind="primary"
+            >
+              {isLoading ? t('searching', 'Searching...') : t('search', 'Search')}
+            </Button>
+          </div>
+        </Stack>
+      </Form>
+
       {errorMessage && <div className={styles.error}>{errorMessage}</div>}
       {renderResultsTable()}
-    </section>
+    </div>
   );
 };
 

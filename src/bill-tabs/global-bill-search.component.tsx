@@ -11,6 +11,10 @@ import {
   TableCell,
   Layer,
   Tile,
+  Search,
+  Button,
+  Form,
+  Stack,
 } from '@carbon/react';
 import { getGlobalBillByIdentifier } from '../api/billing';
 import styles from './search-bill-header-cards.scss';
@@ -131,30 +135,36 @@ const GlobalBillSearch: React.FC = () => {
   };
 
   return (
-    <section className={styles.container}>
-      <div className={styles.tile}>
-        <h3 className={styles.heading}>{t('findGlobalBill', 'Search Global Bill')}</h3>
-        <div className={styles.searchWrapper}>
-          <span className={styles.label}>{t('globalBillIdentifier', 'Global Bill Identifier')}</span>
-          <input
-            type="text"
-            className={styles.inputField}
-            value={globalBillIdentifier}
-            onChange={(e) => setGlobalBillIdentifier(e.target.value)}
-            placeholder={t('globalBillPlaceholder', 'Enter global bill number to search')}
-          />
-          <button 
-            className={styles.searchButton} 
-            onClick={handleGlobalBillSearch} 
-            disabled={isLoading}
-          >
-            {isLoading ? t('searching', 'Searching...') : t('search', 'Search')}
-          </button>
-        </div>
-      </div>
+    <div className={styles.container}>
+      <Form className={styles.searchContainer}>
+        <Stack gap={5}>
+          <h4 className={styles.heading}>{t('findGlobalBill', 'Search Global Bill')}</h4>
+          <div className={styles.searchForm}>
+            <label htmlFor="globalBillSearch" className={styles.label}>
+              {t('globalBillIdentifier', 'Global Bill Identifier')}
+            </label>
+            <Search
+              id="globalBillSearch"
+              labelText=""
+              placeholder={t('globalBillPlaceholder', 'Enter global bill number to search')}
+              value={globalBillIdentifier}
+              onChange={(e) => setGlobalBillIdentifier(e.target.value)}
+              size="lg"
+            />
+            <Button
+              onClick={handleGlobalBillSearch}
+              disabled={isLoading}
+              kind="primary"
+            >
+              {isLoading ? t('searching', 'Searching...') : t('search', 'Search')}
+            </Button>
+          </div>
+        </Stack>
+      </Form>
+
       {errorMessage && <div className={styles.error}>{errorMessage}</div>}
       {renderResultsTable()}
-    </section>
+    </div>
   );
 };
 
