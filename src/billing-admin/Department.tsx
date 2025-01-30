@@ -23,12 +23,11 @@ import BackButton from '../components/back-button';
 import styles from './Department.scss';
 
 interface DepartmentProps {
-  onBack: () => void;
   showAddButton?: boolean;
   title?: string;
 }
 
-const Department: React.FC<DepartmentProps> = ({ onBack, showAddButton = true, title }) => {
+const Department: React.FC<DepartmentProps> = ({ showAddButton = true, title }) => {
   const { t } = useTranslation();
   const defaultPageSize = 10;
   const [departments, setDepartments] = useState([]);
@@ -65,9 +64,10 @@ const Department: React.FC<DepartmentProps> = ({ onBack, showAddButton = true, t
 
   const filteredDepartments = useMemo(() => {
     if (!searchTerm) return departments;
-    return departments.filter(department => 
-      department.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
-      department.description.toLowerCase().includes(searchTerm.toLowerCase())
+    return departments.filter(
+      (department) =>
+        department.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        department.description.toLowerCase().includes(searchTerm.toLowerCase()),
     );
   }, [searchTerm, departments]);
 
@@ -97,9 +97,6 @@ const Department: React.FC<DepartmentProps> = ({ onBack, showAddButton = true, t
 
   return (
     <>
-      <div className={styles.headerBreadcrumbs}>
-        <BackButton onBack={onBack} />
-      </div>
       <div className={styles.widgetCard}>
         <div className={styles.titleContainer}>
           <div className={styles.title}>
@@ -118,13 +115,7 @@ const Department: React.FC<DepartmentProps> = ({ onBack, showAddButton = true, t
           )}
         </div>
 
-        <DataTable
-          rows={paginatedRows}
-          headers={headers}
-          useZebraStyles
-          size="sm"
-          isSortable
-        >
+        <DataTable rows={paginatedRows} headers={headers} useZebraStyles size="sm" isSortable>
           {({ rows, headers, getTableProps, getHeaderProps, getRowProps, onInputChange }) => (
             <TableContainer>
               <div className={styles.toolbarContent}>
@@ -146,9 +137,7 @@ const Department: React.FC<DepartmentProps> = ({ onBack, showAddButton = true, t
                 <TableHead>
                   <TableRow>
                     {headers.map((header) => (
-                      <TableHeader {...getHeaderProps({ header })}>
-                        {header.header}
-                      </TableHeader>
+                      <TableHeader {...getHeaderProps({ header })}>{header.header}</TableHeader>
                     ))}
                   </TableRow>
                 </TableHead>
@@ -176,9 +165,7 @@ const Department: React.FC<DepartmentProps> = ({ onBack, showAddButton = true, t
                           <p className={styles.emptyStateTitle}>
                             {t('noMatchingDepartments', 'No matching departments to display')}
                           </p>
-                          <p className={styles.emptyStateText}>
-                            {t('checkFilters', 'Check the filters above')}
-                          </p>
+                          <p className={styles.emptyStateText}>{t('checkFilters', 'Check the filters above')}</p>
                         </div>
                       </TableCell>
                     </TableRow>
@@ -188,19 +175,15 @@ const Department: React.FC<DepartmentProps> = ({ onBack, showAddButton = true, t
             </TableContainer>
           )}
         </DataTable>
-        
+
         {rows.length > 0 && (
           <div className={styles.paginationContainer}>
             <div>
-              {t('showing', 'Showing')} {Math.min((currentPage - 1) * defaultPageSize + 1, rows.length)} - {Math.min(currentPage * defaultPageSize, rows.length)} {t('of', 'of')} {rows.length} {t('items', 'items')}
+              {t('showing', 'Showing')} {Math.min((currentPage - 1) * defaultPageSize + 1, rows.length)} -{' '}
+              {Math.min(currentPage * defaultPageSize, rows.length)} {t('of', 'of')} {rows.length} {t('items', 'items')}
             </div>
             <div className={styles.pagination}>
-              <Button
-                kind="ghost"
-                size="sm"
-                disabled={currentPage === 1}
-                onClick={() => goTo(currentPage - 1)}
-              >
+              <Button kind="ghost" size="sm" disabled={currentPage === 1} onClick={() => goTo(currentPage - 1)}>
                 {t('previous', 'Previous')}
               </Button>
               <Button

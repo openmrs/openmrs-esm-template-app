@@ -1,16 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import {
-  DataTable,
-  Table,
-  TableHead,
-  TableRow,
-  TableHeader,
-  TableBody,
-  TableCell,
-  Loading,
-  Tag,
-} from '@carbon/react';
+import { DataTable, Table, TableHead, TableRow, TableHeader, TableBody, TableCell, Loading, Tag } from '@carbon/react';
 import { useTranslation } from 'react-i18next';
 import { formatDate, showToast } from '@openmrs/esm-framework';
 import { getPatientBills, type PatientBill } from '../api/billing';
@@ -118,15 +108,11 @@ const PatientBills: React.FC = () => {
         activeTab={activeTab}
         activeSubTab={0}
         onSubTabChange={(tabIndex, subTabIndex) => {}}
-        isAdminView={true} 
+        isAdminView={true}
       />
       <div className={styles.container}>
-        <BillingAdminHeader
-          title={t('patientBills', 'Patient Bills')}
-          onBack={() => navigate('/')}
-          showAddButton={false}
-        />
-        
+        <BillingAdminHeader title={t('patientBills', 'Patient Bills')} />
+
         <div className={styles.tableContainer}>
           <DataTable rows={formatTableData(bills)} headers={headers}>
             {({ rows, headers, getHeaderProps, getTableProps }) => (
@@ -134,9 +120,7 @@ const PatientBills: React.FC = () => {
                 <TableHead>
                   <TableRow>
                     {headers.map((header) => (
-                      <TableHeader {...getHeaderProps({ header })}>
-                        {header.header}
-                      </TableHeader>
+                      <TableHeader {...getHeaderProps({ header })}>{header.header}</TableHeader>
                     ))}
                   </TableRow>
                 </TableHead>
@@ -144,9 +128,7 @@ const PatientBills: React.FC = () => {
                   {rows.map((row) => (
                     <TableRow key={row.id}>
                       {row.cells.map((cell) => (
-                        <TableCell key={cell.id}>
-                          {cell.value}
-                        </TableCell>
+                        <TableCell key={cell.id}>{cell.value}</TableCell>
                       ))}
                     </TableRow>
                   ))}

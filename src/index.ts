@@ -2,6 +2,8 @@ import { getAsyncLifecycle, defineConfigSchema, getSyncLifecycle } from '@openmr
 import { configSchema } from './config-schema';
 import { createLeftPanelLink } from './left-panel-link.component';
 import BillingAdminCardLink from './billing-admin-card-link.component';
+import BillingAdminHome from './billing-admin/billing-home/billing-home-component';
+
 const moduleName = '@openmrs/esm-rwandaemr-billing-app';
 
 const options = {
@@ -24,5 +26,7 @@ export const billingDashboardLink = getSyncLifecycle(
   }),
   options,
 );
+
+export const billingAdminHome = getSyncLifecycle(BillingAdminHome, options);
 
 export const billableServicesCardLink = getSyncLifecycle(BillingAdminCardLink, options);

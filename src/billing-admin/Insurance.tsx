@@ -24,7 +24,6 @@ import styles from './Insurance.scss';
 import BackButton from '../components/back-button';
 
 interface InsuranceProps {
-  onBack: () => void;
   showAddButton?: boolean;
 }
 
@@ -49,27 +48,33 @@ const InsuranceActions: React.FC<InsuranceActionsProps> = ({ insurance, responsi
           className={styles.menuItem}
           id="edit"
           itemText={t('editInsurance', 'Edit insurance')}
-          onClick={() => {/* TODO: Implement edit */}}
+          onClick={() => {
+            /* TODO: Implement edit */
+          }}
         />
         <OverflowMenuItem
           className={styles.menuItem}
           id="view"
           itemText={t('viewServices', 'View services')}
-          onClick={() => {/* TODO: Implement view */}}
+          onClick={() => {
+            /* TODO: Implement view */
+          }}
         />
         <OverflowMenuItem
           className={styles.menuItem}
           hasDivider
           id="add"
           itemText={t('addServices', 'Add services')}
-          onClick={() => {/* TODO: Implement add */}}
+          onClick={() => {
+            /* TODO: Implement add */
+          }}
         />
       </OverflowMenu>
     </Layer>
   );
 };
 
-const Insurance: React.FC<InsuranceProps> = ({ onBack, showAddButton = true }) => {
+const Insurance: React.FC<InsuranceProps> = ({ showAddButton = true }) => {
   const { t } = useTranslation();
   const defaultPageSize = 10;
   const [insurances, setInsurances] = useState<Array<InsuranceType>>([]);
@@ -110,11 +115,12 @@ const Insurance: React.FC<InsuranceProps> = ({ onBack, showAddButton = true }) =
 
   const filteredInsurances = useMemo(() => {
     if (!searchTerm) return insurances;
-    return insurances.filter(insurance => 
-      insurance.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      insurance.category?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      insurance.address?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      insurance.phone?.toLowerCase().includes(searchTerm.toLowerCase())
+    return insurances.filter(
+      (insurance) =>
+        insurance.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        insurance.category?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        insurance.address?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        insurance.phone?.toLowerCase().includes(searchTerm.toLowerCase()),
     );
   }, [insurances, searchTerm]);
 
@@ -158,9 +164,6 @@ const Insurance: React.FC<InsuranceProps> = ({ onBack, showAddButton = true }) =
 
   return (
     <>
-      <div className={styles.headerBreadcrumbs}>
-        <BackButton onBack={onBack} />
-      </div>
       <div className={styles.widgetCard}>
         <div className={styles.titleContainer}>
           <div className={styles.title}>
@@ -172,7 +175,9 @@ const Insurance: React.FC<InsuranceProps> = ({ onBack, showAddButton = true }) =
               kind="ghost"
               renderIcon={Add}
               iconDescription={t('add', 'Add')}
-              onClick={() => {/* TODO: Implement add */}}
+              onClick={() => {
+                /* TODO: Implement add */
+              }}
             >
               {t('add', 'Add')}
             </Button>
@@ -211,11 +216,7 @@ const Insurance: React.FC<InsuranceProps> = ({ onBack, showAddButton = true }) =
                       <TableRow key={row.id}>
                         {row.cells.map((cell, index) => (
                           <TableCell key={cell.id}>
-                            {index === 7 ? (
-                              <InsuranceActions insurance={row} responsiveSize="sm" />
-                            ) : (
-                              cell.value
-                            )}
+                            {index === 7 ? <InsuranceActions insurance={row} responsiveSize="sm" /> : cell.value}
                           </TableCell>
                         ))}
                       </TableRow>
@@ -227,9 +228,7 @@ const Insurance: React.FC<InsuranceProps> = ({ onBack, showAddButton = true }) =
                           <p className={styles.emptyStateTitle}>
                             {t('noMatchingInsurances', 'No matching insurances to display')}
                           </p>
-                          <p className={styles.emptyStateText}>
-                            {t('checkFilters', 'Check the filters above')}
-                          </p>
+                          <p className={styles.emptyStateText}>{t('checkFilters', 'Check the filters above')}</p>
                         </div>
                       </TableCell>
                     </TableRow>
@@ -243,15 +242,11 @@ const Insurance: React.FC<InsuranceProps> = ({ onBack, showAddButton = true }) =
         {rows.length > 0 && (
           <div className={styles.paginationContainer}>
             <div>
-              {t('showing', 'Showing')} {Math.min((currentPage - 1) * defaultPageSize + 1, rows.length)} - {Math.min(currentPage * defaultPageSize, rows.length)} {t('of', 'of')} {rows.length} {t('items', 'items')}
+              {t('showing', 'Showing')} {Math.min((currentPage - 1) * defaultPageSize + 1, rows.length)} -{' '}
+              {Math.min(currentPage * defaultPageSize, rows.length)} {t('of', 'of')} {rows.length} {t('items', 'items')}
             </div>
             <div className={styles.pagination}>
-              <Button
-                kind="ghost"
-                size="sm"
-                disabled={currentPage === 1}
-                onClick={() => goTo(currentPage - 1)}
-              >
+              <Button kind="ghost" size="sm" disabled={currentPage === 1} onClick={() => goTo(currentPage - 1)}>
                 {t('previous', 'Previous')}
               </Button>
               <Button

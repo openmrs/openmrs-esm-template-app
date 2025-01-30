@@ -24,7 +24,6 @@ import styles from './Service.scss';
 import BackButton from '../components/back-button';
 
 interface ServiceProps {
-  onBack: () => void;
   showAddButton?: boolean;
 }
 
@@ -49,20 +48,24 @@ const ServiceActions: React.FC<ServiceActionsProps> = ({ service, responsiveSize
           className={styles.menuItem}
           id="edit"
           itemText={t('editService', 'Edit service')}
-          onClick={() => {/* TODO: Implement edit */}}
+          onClick={() => {
+            /* TODO: Implement edit */
+          }}
         />
         <OverflowMenuItem
           className={styles.menuItem}
           id="view"
           itemText={t('viewDetails', 'View details')}
-          onClick={() => {/* TODO: Implement view */}}
+          onClick={() => {
+            /* TODO: Implement view */
+          }}
         />
       </OverflowMenu>
     </Layer>
   );
 };
 
-const Service: React.FC<ServiceProps> = ({ onBack, showAddButton = true }) => {
+const Service: React.FC<ServiceProps> = ({ showAddButton = true }) => {
   const { t } = useTranslation();
   const defaultPageSize = 10;
   const [services, setServices] = useState<Array<HopService>>([]);
@@ -74,7 +77,7 @@ const Service: React.FC<ServiceProps> = ({ onBack, showAddButton = true }) => {
     { key: 'id', header: '#' },
     { key: 'name', header: t('name', 'Name') },
     { key: 'description', header: t('description', 'Description') },
-    { key: 'actions', header: t('actions', 'Actions') }
+    { key: 'actions', header: t('actions', 'Actions') },
   ];
 
   useEffect(() => {
@@ -99,16 +102,17 @@ const Service: React.FC<ServiceProps> = ({ onBack, showAddButton = true }) => {
 
   const filteredServices = useMemo(() => {
     if (!searchTerm) return services;
-    return services.filter(service => 
-      service.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      service.description?.toLowerCase().includes(searchTerm.toLowerCase())
+    return services.filter(
+      (service) =>
+        service.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        service.description?.toLowerCase().includes(searchTerm.toLowerCase()),
     );
   }, [services, searchTerm]);
 
   const rows = filteredServices.map((service) => ({
     id: service.serviceId.toString(),
     name: service.name,
-    description: service.description || 'N/A'
+    description: service.description || 'N/A',
   }));
 
   const { results: paginatedRows, goTo, currentPage } = usePagination(rows, defaultPageSize);
@@ -141,9 +145,6 @@ const Service: React.FC<ServiceProps> = ({ onBack, showAddButton = true }) => {
 
   return (
     <>
-      <div className={styles.headerBreadcrumbs}>
-        <BackButton onBack={onBack} />
-      </div>
       <div className={styles.widgetCard}>
         <div className={styles.titleContainer}>
           <div className={styles.title}>
@@ -155,7 +156,9 @@ const Service: React.FC<ServiceProps> = ({ onBack, showAddButton = true }) => {
               kind="ghost"
               renderIcon={Add}
               iconDescription={t('add', 'Add')}
-              onClick={() => {/* TODO: Implement add */}}
+              onClick={() => {
+                /* TODO: Implement add */
+              }}
             >
               {t('add', 'Add')}
             </Button>
@@ -194,11 +197,7 @@ const Service: React.FC<ServiceProps> = ({ onBack, showAddButton = true }) => {
                       <TableRow key={row.id}>
                         {row.cells.map((cell, index) => (
                           <TableCell key={cell.id}>
-                            {index === 3 ? (
-                              <ServiceActions service={row} responsiveSize="sm" />
-                            ) : (
-                              cell.value
-                            )}
+                            {index === 3 ? <ServiceActions service={row} responsiveSize="sm" /> : cell.value}
                           </TableCell>
                         ))}
                       </TableRow>
@@ -210,9 +209,7 @@ const Service: React.FC<ServiceProps> = ({ onBack, showAddButton = true }) => {
                           <p className={styles.emptyStateTitle}>
                             {t('noMatchingServices', 'No matching services to display')}
                           </p>
-                          <p className={styles.emptyStateText}>
-                            {t('checkFilters', 'Check the filters above')}
-                          </p>
+                          <p className={styles.emptyStateText}>{t('checkFilters', 'Check the filters above')}</p>
                         </div>
                       </TableCell>
                     </TableRow>
@@ -226,15 +223,11 @@ const Service: React.FC<ServiceProps> = ({ onBack, showAddButton = true }) => {
         {rows.length > 0 && (
           <div className={styles.paginationContainer}>
             <div>
-              {t('showing', 'Showing')} {Math.min((currentPage - 1) * defaultPageSize + 1, rows.length)} - {Math.min(currentPage * defaultPageSize, rows.length)} {t('of', 'of')} {rows.length} {t('items', 'items')}
+              {t('showing', 'Showing')} {Math.min((currentPage - 1) * defaultPageSize + 1, rows.length)} -{' '}
+              {Math.min(currentPage * defaultPageSize, rows.length)} {t('of', 'of')} {rows.length} {t('items', 'items')}
             </div>
             <div className={styles.pagination}>
-              <Button
-                kind="ghost"
-                size="sm"
-                disabled={currentPage === 1}
-                onClick={() => goTo(currentPage - 1)}
-              >
+              <Button kind="ghost" size="sm" disabled={currentPage === 1} onClick={() => goTo(currentPage - 1)}>
                 {t('previous', 'Previous')}
               </Button>
               <Button
