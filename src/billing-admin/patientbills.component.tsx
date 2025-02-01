@@ -104,15 +104,12 @@ const PatientBills: React.FC = () => {
       <BillingHeader
         onTabChange={handleTabChange}
         onMenuItemSelect={handleMenuItemSelect}
-        activeAdminComponent={activeAdminComponent}
         activeTab={activeTab}
         activeSubTab={0}
         onSubTabChange={(tabIndex, subTabIndex) => {}}
         isAdminView={true}
       />
       <div className={styles.container}>
-        <BillingAdminHeader title={t('patientBills', 'Patient Bills')} />
-
         <div className={styles.tableContainer}>
           <DataTable rows={formatTableData(bills)} headers={headers}>
             {({ rows, headers, getHeaderProps, getTableProps }) => (
