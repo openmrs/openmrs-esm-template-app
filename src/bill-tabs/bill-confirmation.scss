@@ -1,0 +1,54 @@
+@use '@carbon/layout';
+@use '@carbon/type';
+
+.billConfirmationContainer {
+  margin: 1rem;
+}
+
+.billConfirmationTile {
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  padding: layout.$spacing-05;
+}
+
+.billConfirmationHeading {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: layout.$spacing-05;
+}
+
+.dateWrapper {
+  display: flex;
+  gap: layout.$spacing-05;
+}
+
+.dateField {
+  display: flex;
+  flex-direction: column;
+}
+
+.label {
+  font-size: 0.875rem;
+  margin-bottom: 0.5rem;
+}
+
+.openButton {
+  background-color: #007d79;
+  color: #ffffff;
+  border: none;
+  padding: 0.5rem 1rem;
+  margin-top: 1rem;
+  cursor: pointer;
+}
+
+.openButton:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .dateWrapper {
+    flex-direction: column;
+  }
+}
