@@ -1,21 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { DataTable, Table, TableHead, TableRow, TableHeader, TableBody, TableCell, Loading, Tag } from '@carbon/react';
+import { DataTable, Table, TableHead, TableRow, TableHeader, TableBody, TableCell, Loading, Tag, DatePicker, DatePickerInput } from '@carbon/react';
 import { useTranslation } from 'react-i18next';
-import { formatDate, showToast } from '@openmrs/esm-framework';
+import { formatDate, showToast, useSession } from '@openmrs/esm-framework';
 import { getPatientBills, type PatientBill } from '../api/billing';
-import BillingAdminHeader from './billing-admin-header/billing-admin-header.component';
-import BillingHeader from '../header/BillingHeader';
+import PaymentsDeskIcon from '../images/payments-desk-icon.svg';
 import styles from './patientbills.scss';
 
 const PatientBills: React.FC = () => {
   const { t } = useTranslation();
   const location = useLocation();
   const navigate = useNavigate();
+  const session = useSession();
+  const userLocation = session?.sessionLocation?.display || 'Unknown Location';
   const [isLoading, setIsLoading] = useState(true);
   const [bills, setBills] = useState<Array<PatientBill>>([]);
-  const [activeTab, setActiveTab] = useState(0);
-  const [activeAdminComponent, setActiveAdminComponent] = useState<string | null>(null);
+  const [selectedDate, setSelectedDate] = useState(new Date());
 
   const headers = [
     { key: 'no', header: t('no', 'No') },
@@ -58,12 +58,10 @@ const PatientBills: React.FC = () => {
     }));
   };
 
-  const handleTabChange = (tabIndex: number) => {
-    setActiveTab(tabIndex);
-  };
-
-  const handleMenuItemSelect = (item: string) => {
-    setActiveAdminComponent(item);
+  const handleDateChange = (dates) => {
+    if (dates.length > 0) {
+      setSelectedDate(dates[0]);
+    }
   };
 
   useEffect(() => {
@@ -100,16 +98,45 @@ const PatientBills: React.FC = () => {
   }
 
   return (
-    <div>
-      <BillingHeader
-        onTabChange={handleTabChange}
-        onMenuItemSelect={handleMenuItemSelect}
-        activeTab={activeTab}
-        activeSubTab={0}
-        onSubTabChange={(tabIndex, subTabIndex) => {}}
-        isAdminView={true}
-      />
+    <div className={styles.billingWrapper} id="patientbills-component-instance">
       <div className={styles.container}>
+        {/* Use exactly the same header structure as in Billing component */}
+        <div className={styles.headerWrapper}>
+          <div className={styles.headerContainer}>
+            <div className={styles.headerContent}>
+              <div className={styles.leftSection}>
+                {/* Use the PaymentsDeskIcon directly instead of Receipt */}
+                <img src={PaymentsDeskIcon} alt="Payments Desk Icon" className={styles.headerIcon} />
+                <div>
+                  <p className={styles.location}>{userLocation}</p>
+                  <p className={styles.billingTitle}>Billing</p>
+                </div>
+              </div>
+              <div className={styles.rightSection}>
+                <div className="cds--date-picker-input__wrapper">
+                  <span>
+                    <DatePicker datePickerType="single" dateFormat="d-M-Y" value={selectedDate} onChange={handleDateChange}>
+                      <DatePickerInput
+                        id="billing-date-picker"
+                        pattern="\d{1,2}\/\d{1,2}\/\d{4}"
+                        placeholder="DD-MMM-YYYY"
+                        labelText=""
+                        size="md"
+                        style={{
+                          cursor: 'pointer',
+                          backgroundColor: 'transparent',
+                          border: 'none',
+                          maxWidth: '10rem',
+                        }}
+                      />
+                    </DatePicker>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
         <div className={styles.tableContainer}>
           <DataTable rows={formatTableData(bills)} headers={headers}>
             {({ rows, headers, getHeaderProps, getTableProps }) => (
@@ -117,7 +144,7 @@ const PatientBills: React.FC = () => {
                 <TableHead>
                   <TableRow>
                     {headers.map((header) => (
-                      <TableHeader {...getHeaderProps({ header })}>{header.header}</TableHeader>
+                      <TableHeader key={header.key} {...getHeaderProps({ header })}>{header.header}</TableHeader>
                     ))}
                   </TableRow>
                 </TableHead>
@@ -141,7 +168,7 @@ const PatientBills: React.FC = () => {
         </div>
       </div>
     </div>
-  );
+      );
 };
 
 export default PatientBills;

@@ -1,0 +1,35 @@
+@use '@carbon/layout';
+@use '@carbon/type';
+@use '@carbon/colors';
+
+.container {
+  display: flex;
+  gap: layout.$spacing-05;
+  margin-bottom: layout.$spacing-05;
+  flex-wrap: wrap;
+}
+
+.card {
+  background-color: colors.$white-0;
+  border: 1px solid colors.$gray-20;
+  border-radius: 4px;
+  padding: layout.$spacing-05;
+  min-width: 200px;
+  flex: 1;
+  
+  &:hover {
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.cardTitle {
+  @include type.type-style('heading-compact-01');
+  color: colors.$gray-70;
+  margin-bottom: layout.$spacing-03;
+}
+
+.cardCount {
+  @include type.type-style('heading-04');
+  color: colors.$gray-100;
+  font-weight: 600;
+}

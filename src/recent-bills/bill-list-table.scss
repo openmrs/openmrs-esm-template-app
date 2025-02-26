@@ -1,0 +1,57 @@
+@use '@carbon/layout';
+@use '@carbon/type';
+@use '@carbon/colors';
+@use '@openmrs/esm-styleguide/src/vars' as *;
+
+.container {
+  margin: layout.$spacing-07 0;
+}
+
+.billHistoryContainer {
+  background-color: $ui-02;
+  border: 1px solid $ui-03;
+  border-bottom: none;
+  width: 100%;
+  margin: 0 auto;
+  max-width: 95vw;
+  padding-bottom: 0;
+}
+
+.pagination {
+  overflow: hidden;
+
+  &:global(.cds--pagination) {
+    border-top: none;
+  }
+}
+
+.desktopHeading {
+  text-align: left;
+  text-transform: capitalize;
+  margin-bottom: layout.$spacing-03;
+
+  h4 {
+    @include type.type-style('heading-compact-02');
+    color: $text-02;
+    margin: 0;
+
+    &:after {
+      content: '';
+      display: block;
+      width: layout.$spacing-07;
+      padding-top: 3px;
+      border-bottom: 0.375rem solid;
+      @include brand-03(border-bottom-color);
+    }
+  }
+}
+
+.table {
+  width: 100%;
+  table-layout: fixed; // This helps with uniform column sizing
+  border-collapse: collapse;
+}
+
+.tableCells {
+  white-space: normal !important;
+}
