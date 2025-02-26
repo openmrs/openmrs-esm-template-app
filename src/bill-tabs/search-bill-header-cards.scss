@@ -1,30 +1,21 @@
-@use '@carbon/colors';
 @use '@carbon/layout';
 @use '@carbon/type';
-@use '@openmrs/esm-styleguide/src/vars' as *;
+@import '~@openmrs/esm-styleguide/src/vars';
 
 .container {
   margin: 0 layout.$spacing-05;
 }
 
 .searchContainer {
-  background-color: $ui-01;
-  border: 1px solid $ui-03;
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
   padding: layout.$spacing-05;
   margin: layout.$spacing-05 0;
 }
 
-.tile {
-  background-color: colors.$white;
-  padding: 1.5rem;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
 .heading {
-  @include type.type-style('heading-compact-02');
-  color: $text-02;
+  font-size: 1rem;
+  font-weight: 600;
   margin-bottom: layout.$spacing-05;
 }
 
@@ -33,187 +24,31 @@
   grid-template-columns: auto 1fr auto;
   gap: layout.$spacing-05;
   align-items: center;
-  margin-bottom: layout.$spacing-05;
-}
-
-.searchWrapper {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
 }
 
 .label {
-  @include type.type-style('label-01');
-  color: $text-02;
+  font-size: 0.875rem;
+  margin-bottom: 0.5rem;
 }
 
-.inputField {
-  width: 100%;
-  height: 2.5rem;
-  padding: 0 layout.$spacing-05;
-  border: 1px solid $ui-03;
-
-  &:focus {
-    outline: 2px solid $interactive-01;
-    outline-offset: 2px;
-  }
-}
-
-.searchButton {
-  margin-top: 1rem;
-  padding: 0.5rem 1rem;
-  background-color: #28a745;
-  color: colors.$white;
-  border: none;
-  border-radius: 4px;
-  font-size: 1rem;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
-
-  &:hover {
-    background-color: #ff9900;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-  }
-
-  &:focus {
-    outline: 2px solid #ff9900;
-    outline-offset: 2px;
-  }
-
-  &:active {
-    background-color: #cc7a00;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  }
-}
-
-// Date-specific styles
-.dateWrapper {
-  display: flex;
-  gap: 2rem;
-  margin-bottom: 1rem;
-}
-
-.dateField {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.openButton {
-  margin-top: 1rem;
-  padding: 0.5rem 1rem;
-  background-color: #0072c3;
-  color: colors.$white;
-  border: none;
-  border-radius: 4px;
-  font-size: 1rem;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
-
-  &:hover {
-    background-color: #005da6;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-  }
-
-  &:focus {
-    outline: 2px solid #0072c3;
-    outline-offset: 2px;
-  }
-
-  &:active {
-    background-color: #004d8a;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  }
-
-  &:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
-  }
-}
-
-/* Styles for the "Or" text */
-.orWrapper {
-  display: flex;
-  justify-content: left;
-  align-items: center;
+.error {
+  color: #da1e28;
+  background-color: #fff1f1;
+  padding: 1rem;
   margin: 1rem 0;
-}
-
-.orText {
-  font-size: 1.2rem;
-  font-weight: bold;
-  color: colors.$gray-70;
-}
-
-/* Results Section */
-.results {
-  margin-top: 2rem;
-
-  h4 {
-    font-size: 1.25rem;
-    font-weight: bold;
-    color: #161616;
-    margin-bottom: 1rem;
-  }
-}
-
-/* Results Table */
-.resultsTable {
-  width: 100%;
-  border-collapse: collapse;
-  margin: 20px 0;
-  font-size: 14px;
-  text-align: left;
-}
-
-.resultsTable th, .resultsTable td {
-  border: 1px solid #ddd;
-  padding: 12px 16px;
-}
-
-.resultsTable th {
-  background-color: colors.$gray-10;
-  font-weight: bold;
-}
-
-.resultsTable tr:nth-child(even) {
-  background-color: #f9f9f9;
-}
-
-.resultsTable tr:hover {
-  background-color: #f1f1f1;
-}
-
-.resultsTable tbody tr:hover {
-  background-color: lightblue;
-  cursor: pointer;
-}
-
-.tableRow {
-  &:hover {
-    background-color: #f5f5f5;
-    transition: background-color 0.2s ease;
-  }
-}
-
-.noResults {
-  margin-top: 1rem;
-  color: colors.$red-50;
-  font-size: 1rem;
-  font-weight: bold;
-  text-align: center;
+  border-left: 4px solid #da1e28;
+  border-radius: 4px;
 }
 
 .filterEmptyState {
   align-items: center;
-  background-color: colors.$white;
+  background-color: #ffffff;
   display: flex;
   justify-content: center;
-  padding: layout.$spacing-09 !important;
+  padding: 2rem !important;
   text-align: center;
-  border: 1px solid $ui-03;
+  border: 1px solid #e0e0e0;
+  margin: 1rem 0;
 }
 
 .filterEmptyStateTile {
@@ -221,18 +56,38 @@
 }
 
 .filterEmptyStateContent {
-  @include type.type-style('heading-compact-02');
-  color: $text-02;
-  margin-bottom: layout.$spacing-03;
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
 }
 
-.filterEmptyStateHelper {
-  @include type.type-style('body-compact-01');
-  color: $text-02;
+/* Expanded content styles */
+.expandedContent {
+  padding: 1rem;
+  background-color: #f4f4f4;
 }
 
-.error {
-  @include type.type-style('body-short-01');
-  color: $danger;
-  margin: layout.$spacing-03 0;
+.detailsHeader {
+  margin-bottom: 1rem;
+  
+  h4 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+  
+  p {
+    margin: 0.25rem 0;
+  }
+}
+
+.detailsTabs {
+  margin-top: 1rem;
+}
+
+/* Media queries for responsive design */
+@media (max-width: 768px) {
+  .searchForm {
+    grid-template-columns: 1fr;
+  }
 }

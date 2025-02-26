@@ -8,19 +8,27 @@ import styles from './billing-header.scss';
 
 interface BillingHeaderProps {
   onTabChange: (tabIndex: number) => void;
-  onSubTabChange: (tabIndex: number, subTabIndex: number) => void;
-  onMenuItemSelect: (item: string) => void;
+  onMenuItemSelect?: (item: string) => void;
   activeTab: number;
-  activeSubTab: number;
+  
+  // Make these props optional
+  onSubTabChange?: (tabIndex: number, subTabIndex: number) => void;
+  activeSubTab?: number;
+  
   isAdminView?: boolean;
+  
+  // New prop to disable sub-navigation
+  showSubNavigation?: boolean;
 }
 
 const BillingHeader: React.FC<BillingHeaderProps> = ({
   onTabChange,
   onSubTabChange,
   activeTab,
-  activeSubTab,
+  activeSubTab = 0,  // Default value if not provided
   isAdminView = false,
+  showSubNavigation = true,  // Default to showing sub-navigation
+  onMenuItemSelect,
 }) => {
   const { t } = useTranslation();
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -34,7 +42,10 @@ const BillingHeader: React.FC<BillingHeaderProps> = ({
   };
 
   const handleSubTabClick = (mainTabIndex: number, subTabIndex: number) => {
-    onSubTabChange(mainTabIndex, subTabIndex);
+    // Only call onSubTabChange if it's provided
+    if (onSubTabChange) {
+      onSubTabChange(mainTabIndex, subTabIndex);
+    }
   };
 
   const handleDateChange = (dates) => {
@@ -89,7 +100,8 @@ const BillingHeader: React.FC<BillingHeaderProps> = ({
             </TabList>
           </Tabs>
 
-          {!isAdminView && (
+          {/* Only show sub-navigation if not in admin view AND showSubNavigation is true */}
+          {!isAdminView && showSubNavigation && (
             <div className={styles.subTabsContainer}>
               {activeTab === 0 && (
                 <Tabs
