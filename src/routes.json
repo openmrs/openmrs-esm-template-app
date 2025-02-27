@@ -9,6 +9,29 @@
       "component": "root",
       "name": "billing-root",
       "slot": "rwanda-billing-slot"
+    },
+    {
+      "name": "billing-patient-summary",
+      "component": "billingPatientSummary",
+      "slot": "patient-chart-billing-dashboard-slot",
+      "order": 5,
+      "meta": {
+        "layoutMode": "anchored"
+      },
+      "online": true,
+      "offline": true
+    },
+    {
+      "name": "billing-summary-dashboard-link",
+      "component": "billingSummaryDashboardLink",
+      "slot": "patient-chart-dashboard-slot",
+      "order": 11,
+      "meta": {
+        "columns": 1,
+        "columnSpan": 1,
+        "slot": "patient-chart-billing-dashboard-slot",
+        "path": "billing-listing"
+      }
     }
   ],
    "pages": [
