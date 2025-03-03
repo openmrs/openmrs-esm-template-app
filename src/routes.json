@@ -4,22 +4,17 @@
     "fhir2": ">=1.2",
     "webservices.rest": "^2.24.0"
   },
+  "pages": [
+   {
+     "component": "billingAdminHome",
+     "route":"rwanda-billing-admin"
+   }
+ ],
   "extensions": [
     {
       "component": "root",
       "name": "billing-root",
       "slot": "rwanda-billing-slot"
-    },
-    {
-      "name": "billing-patient-summary",
-      "component": "billingPatientSummary",
-      "slot": "patient-chart-billing-dashboard-slot",
-      "order": 5,
-      "meta": {
-        "layoutMode": "anchored"
-      },
-      "online": true,
-      "offline": true
     },
     {
       "name": "billing-summary-dashboard-link",
@@ -32,12 +27,22 @@
         "slot": "patient-chart-billing-dashboard-slot",
         "path": "billing-listing"
       }
-    }
-  ],
-   "pages": [
+    },
     {
-      "component": "billingAdminHome",
-      "route":"rwanda-billing-admin"
+      "name": "billing-patient-summary",
+      "component": "billingPatientSummary",
+      "slot": "patient-chart-billing-dashboard-slot",
+      "meta": {
+        "columnSpan": 1
+      }
+    },
+    {
+      "name": "billing-patient-banner",
+      "component": "billingPatientBanner",
+      "slot": "patient-header-slot",
+      "meta": {
+        "columnSpan": 1
+      }
     }
   ]
 }

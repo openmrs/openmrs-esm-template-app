@@ -1,67 +1,155 @@
-@use '@carbon/colors';
 @use '@carbon/layout';
 @use '@carbon/type';
-@use '@openmrs/esm-styleguide/src/vars' as *;
+@import '~@openmrs/esm-styleguide/src/vars';
 
+/* Ensure variables have fallback values */
+$ui-01: #ffffff !default;
+$ui-02: #f4f4f4 !default;
+$ui-03: #dcdcdc !default;
+$text-02: #525252 !default;
+
+/* Main widget card to fill width */
 .widgetCard {
+  background: $ui-01;
   border: 1px solid $ui-03;
-  border-bottom: none;
-  background-color: $ui-01;
+  width: 100%;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  height: auto;
+  min-height: 500px;
 }
 
+/* Ensure table container takes full width */
 .tableContainer {
   width: 100%;
-}
-
-.tableHeader {
-  @include type.type-style('heading-compact-01');
-  color: $text-02;
-}
-
-.filterEmptyState {
-  align-items: center;
-  background-color: white;
+  max-width: 100%;
+  overflow: hidden;
+  background-color: $ui-01;
   display: flex;
-  justify-content: center;
-  padding: layout.$spacing-09 !important;
-  text-align: center;
+  flex-direction: column;
+  flex: 1;
+}
+
+/* Make table fill available space */
+.invoiceTable {
+  width: 100% !important;
+  table-layout: auto;
+}
+
+/* Search box styling */
+.searchbox {
+  margin: 8px;
+  width: 300px;
+}
+
+/* Table header */
+.tableHeader {
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 0 8px;
+}
+
+/* Error container */
+.errorContainer {
+  margin: 16px;
+  width: calc(100% - 32px);
+}
+
+/* Empty state styling */
+.filterEmptyState {
+  width: 100%;
+  padding: 16px;
 }
 
 .filterEmptyStateTile {
-  margin: auto;
+  width: 100%;
+  text-align: center;
+  padding: 32px !important;
 }
 
 .filterEmptyStateContent {
-  @include type.type-style('heading-compact-02');
-  color: $text-02;
-  margin-bottom: layout.$spacing-03;
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 8px;
 }
 
 .filterEmptyStateHelper {
-  @include type.type-style('body-compact-01');
+  font-size: 14px;
   color: $text-02;
 }
 
-.searchbox {
-  padding: layout.$spacing-03 layout.$spacing-05;
-  
-  input:focus {
-    outline: 2px solid colors.$orange-40 !important;
-  }
-}
-
-.invoiceTable {
+/* Expandable content */
+.expandedContent {
   width: 100%;
-  border-collapse: collapse;
+  padding: 16px;
 }
 
-.clickableRow {
-  cursor: pointer;
-  &:hover {
-    background-color: #e5e5e5;
+/* Force table to take full width */
+:global(.cds--data-table-container) {
+  width: 100% !important;
+  min-width: 100% !important;
+}
+
+:global(.cds--table-container) {
+  width: 100% !important;
+  min-width: 100% !important;
+}
+
+:global(.cds--data-table) {
+  width: 100% !important;
+  min-width: 100% !important;
+}
+
+:global(.cds--data-table-header) {
+  width: 100% !important;
+}
+
+:global(.cds--table-header-row) {
+  width: 100% !important;
+}
+
+:global(.cds--data-table-content) {
+  width: 100% !important;
+}
+
+/* Adjust cell spacing */
+:global(.cds--data-table td) {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 0 8px !important;
+}
+
+/* Prevent column headers from wrapping */
+:global(.cds--table-header-label) {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Set minimum column widths */
+:global(.cds--data-table th:nth-child(1)),
+:global(.cds--data-table td:nth-child(1)) {
+  width: 48px;
+}
+
+:global(.cds--data-table th:nth-child(2)),
+:global(.cds--data-table td:nth-child(2)) {
+  width: 48px;
+}
+
+:global(.cds--data-table th:nth-child(3)),
+:global(.cds--data-table td:nth-child(3)) {
+  width: 48px;
+}
+
+/* For mobile responsiveness */
+@media (max-width: 1200px) {
+  /* Allow horizontal scrolling on small screens if needed */
+  .tableContainer {
+    overflow-x: auto;
   }
-}
-
-.errorContainer {
-  padding: layout.$spacing-05;
 }

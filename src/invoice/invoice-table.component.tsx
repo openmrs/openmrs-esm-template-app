@@ -10,6 +10,9 @@ import {
   TableBody,
   TableCell,
   TableContainer,
+  TableExpandHeader,
+  TableExpandRow,
+  TableExpandedRow,
   TableHead,
   TableHeader,
   TableRow,
@@ -18,70 +21,58 @@ import {
   Tile,
   InlineNotification,
   InlineLoading,
+  Pagination,
   type DataTableRow,
 } from '@carbon/react';
-import { Delete, Edit } from '@carbon/react/icons';
-import { isDesktop, useConfig, useDebounce, useLayoutType } from '@openmrs/esm-framework';
-import { CardHeader } from '@openmrs/esm-patient-common-lib';
+import { AddIcon, isDesktop, useConfig, useDebounce, useLayoutType, usePatient, usePagination } from '@openmrs/esm-framework';
+import { CardHeader, EmptyState, usePaginationInfo } from '@openmrs/esm-patient-common-lib';
 import styles from './invoice-table.scss';
-import { usePatientBill } from './invoice.resource';
-import GlobalBillHeader from '.././bill-list/global-bill-list.component';
+import { usePatientBill, useInsuranceCardBill } from './invoice.resource';
+// import GlobalBillHeader from '.././bill-list/global-bill-list.component';
+import EmbeddedConsommationsList from '../consommation/embedded-consommations-list.component';
 
-// Define proper interfaces for router objects
-interface RouteParams {
+interface InvoiceTableProps {
+  patientUuid?: string;
   insuranceCardNo?: string;
-  [key: string]: string | undefined;
 }
 
-interface LocationState {
-  insuranceCardNo?: string;
-  [key: string]: any;
-}
-
-interface NavigateFunction {
-  (path: string, options?: any): void;
-}
-
-const InvoiceTable: React.FC = () => {
+const InvoiceTable: React.FC<InvoiceTableProps> = (props) => {
   const { t } = useTranslation();
   
-  // Initialize with type-safe default values
-  let params: RouteParams = {};
-  let locationState: LocationState = {};
-  let navigateFn: NavigateFunction = (path, options) => {
-    console.warn('Navigation not available:', path, options);
-  };
-  
-  // Try to use router hooks, but provide fallbacks if they're not available
-  try {
-    // Import hooks dynamically to prevent errors at component definition time
-    const { useParams, useLocation, useNavigate } = require('react-router-dom');
-    
-    try {
-      params = useParams() as RouteParams || {};
-      const location = useLocation() || { state: {} };
-      locationState = location.state as LocationState || {};
-      navigateFn = useNavigate() as NavigateFunction || ((path, options) => {
-        console.warn('Navigation not available:', path, options);
-      });
-    } catch (routerError) {
-      console.warn('Router hooks failed to execute:', routerError);
-    }
-  } catch (importError) {
-    console.warn('Router hooks not available:', importError);
-  }
-  
-  // Safely get config with defaults
   const config = useConfig();
   const defaultCurrency = config?.defaultCurrency || 'RWF';
   const showEditBillButton = config?.showEditBillButton || false;
+  const pageSize = config?.pageSize || 10;
   
   const layout = useLayoutType();
 
-  // Get insurance card number from multiple possible sources
-  const insuranceCardNo = params?.insuranceCardNo || locationState?.insuranceCardNo || '';
+  const { patient } = usePatient();
+  const patientUuid = props.patientUuid || patient?.id || '';
   
-  const { bills: lineItems = [], isLoading, error, isValidating } = usePatientBill(insuranceCardNo);
+  const insuranceCardNo = props.insuranceCardNo || '';
+  
+  const patientBillResponse = usePatientBill(patientUuid || '');
+  const insuranceBillResponse = useInsuranceCardBill(insuranceCardNo || '');
+  
+  const usePatientData = Boolean(patientUuid);
+  const useInsuranceData = Boolean(insuranceCardNo) && !usePatientData;
+  
+  const lineItems = usePatientData ? patientBillResponse.bills : 
+                   useInsuranceData ? insuranceBillResponse.bills : [];
+  const isLoading = usePatientData ? patientBillResponse.isLoading : 
+                   useInsuranceData ? insuranceBillResponse.isLoading : false;
+  const error = usePatientData ? patientBillResponse.error : 
+               useInsuranceData ? insuranceBillResponse.error : null;
+  const isValidating = usePatientData ? patientBillResponse.isValidating : 
+                      useInsuranceData ? insuranceBillResponse.isValidating : false;
+  const mutate = usePatientData ? patientBillResponse.mutate : 
+                useInsuranceData ? insuranceBillResponse.mutate : () => {};
+  
+  // Pagination setup
+  const [currentPageSize, setCurrentPageSize] = useState(pageSize);
+  const { paginated, goTo, results, currentPage } = usePagination(lineItems || [], currentPageSize);
+  const { pageSizes } = usePaginationInfo(pageSize, lineItems?.length || 0, currentPage, results?.length || 0);
+  
   const paidLineItems = useMemo(() => lineItems?.filter((item) => item?.paymentStatus === 'PAID') ?? [], [lineItems]);
   const responsiveSize = isDesktop(layout) ? 'sm' : 'lg';
   const isTablet = layout === 'tablet';
@@ -91,34 +82,36 @@ const InvoiceTable: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const debouncedSearchTerm = useDebounce(searchTerm);
 
+  // For expandable rows
+  const [expandedRowId, setExpandedRowId] = useState<string | null>(null);
+
   const filteredLineItems = useMemo(() => {
     if (!debouncedSearchTerm) {
-      return lineItems || [];
+      return results || [];
     }
 
     return debouncedSearchTerm
       ? fuzzy
-          .filter(debouncedSearchTerm, lineItems || [], {
-            extract: (lineItem: any) => `${lineItem?.item || ''}`,
+          .filter(debouncedSearchTerm, results || [], {
+            extract: (lineItem: any) => `${lineItem?.item || ''} ${lineItem?.globalBillId || ''} ${lineItem?.billIdentifier || ''}`,
           })
           .sort((r1, r2) => r1.score - r2.score)
           .map((result) => result.original)
-      : lineItems || [];
-  }, [debouncedSearchTerm, lineItems]);
+      : results || [];
+  }, [debouncedSearchTerm, results]);
 
   const tableHeaders = [
-    { key: 'no', header: 'No' },
-    { key: 'globalBillId', header: 'Global Bill ID' },
-    { key: 'date', header: 'Date of Bill' },
-    { key: 'createdBy', header: 'Created by' },
-    { key: 'policyId', header: 'Policy ID Node.' },
-    { key: 'admissionDate', header: 'Admission Date' },
-    { key: 'dischargeDate', header: 'Discharge Date' },
-    { key: 'billIdentifier', header: 'Bill Identifier' },
-    { key: 'patientDueAmount', header: 'Patient Due Amount' },
-    { key: 'paidAmount', header: 'Paid Amount' },
-    { key: 'paymentStatus', header: 'Payment Status' },
-    { key: 'actionButton', header: t('status', 'Status') },
+    { key: 'no', header: t('no', 'No') },
+    { key: 'globalBillId', header: t('globalBillId', 'Global Bill ID') },
+    { key: 'date', header: t('dateOfBill', 'Date of Bill') },
+    { key: 'createdBy', header: t('createdBy', 'Created by') },
+    { key: 'policyId', header: t('policyId', 'Policy ID') },
+    { key: 'admissionDate', header: t('admissionDate', 'Admission Date') },
+    { key: 'dischargeDate', header: t('dischargeDate', 'Discharge Date') },
+    { key: 'billIdentifier', header: t('billIdentifier', 'Bill ID') }, 
+    { key: 'patientDueAmount', header: t('patientDueAmount', 'Due Amount') }, 
+    { key: 'paidAmount', header: t('paidAmount', 'Paid') }, 
+    { key: 'paymentStatus', header: t('paymentStatus', 'Status') }
   ];
 
   const tableRows: Array<typeof DataTableRow> = useMemo(
@@ -137,51 +130,10 @@ const InvoiceTable: React.FC = () => {
           billIdentifier: item.billIdentifier || '',
           patientDueAmount: item.patientDueAmount || '',
           paidAmount: item.paidAmount || '',
-          paymentStatus: item.paymentStatus || '',
-          actionButton: (
-            <span>
-              {item.bill && (
-                <>
-                  <Button
-                    data-testid={`edit-button-${item.uuid || ''}`}
-                    renderIcon={Edit}
-                    hasIconOnly
-                    kind="ghost"
-                    iconDescription={t('editThisBillItem', 'Edit this bill item')}
-                    tooltipPosition="left"
-                    //   onClick={() => handleSelectBillItem(item)}
-                  />
-                  <Button
-                    data-testid={`delete-button-${item.uuid || ''}`}
-                    renderIcon={Delete}
-                    hasIconOnly
-                    kind="ghost"
-                    iconDescription={t('deleteThisBillItem', 'Delete this bill item')}
-                    tooltipPosition="left"
-                    //   onClick={() => handleSelectBillItem(item)}
-                  />
-                </>
-              )}
-            </span>
-          ),
+          paymentStatus: item.paymentStatus || ''
         };
       }).filter(Boolean) ?? [],
-    [filteredLineItems, defaultCurrency, showEditBillButton, t],
-  );
-
-  const handleRowClick = useCallback(
-    (row) => {
-      if (row.id) {
-        try {
-          navigateFn(`/consommations/${row.id}`, {
-            state: { insuranceCardNo: insuranceCardNo },
-          });
-        } catch (error) {
-          console.error('Navigation failed:', error);
-        }
-      }
-    },
-    [navigateFn, insuranceCardNo],
+    [filteredLineItems, t],
   );
 
   const handleRowSelection = (row: typeof DataTableRow, checked: boolean) => {
@@ -194,6 +146,30 @@ const InvoiceTable: React.FC = () => {
       newSelectedLineItems = selectedLineItems.filter((item) => item?.uuid !== row.id);
     }
     setSelectedLineItems(newSelectedLineItems);
+  };
+
+  const handleRowExpand = (row) => {
+    setExpandedRowId(expandedRowId === row.id ? null : row.id);
+  };
+
+  const createNewInvoice = useCallback(() => {
+    // Endpoint for services exists but there needs to be a refactor on the doSearch 
+    return;
+  }, []);
+
+  const renderConsommationsTable = (globalBillId) => {
+    return (
+      <div className={styles.expandedContent}>
+        <EmbeddedConsommationsList 
+          globalBillId={globalBillId} 
+          patientUuid={patientUuid} 
+          insuranceCardNo={insuranceCardNo} 
+          onConsommationClick={() => {
+            // Function intentionally left empty
+          }}
+        />
+      </div>
+    );
   };
 
   if (isLoading) {
@@ -213,10 +189,33 @@ const InvoiceTable: React.FC = () => {
         <InlineNotification
           kind="error"
           title={t('error', 'Error')}
-          subtitle={typeof error === 'string' ? error : 'Failed to load billing data'}
+          subtitle={typeof error === 'string' ? error : t('failedToLoadBillingData', 'Failed to load billing data')}
           hideCloseButton
         />
       </div>
+    );
+  }
+
+  if (!patientUuid && !insuranceCardNo) {
+    return (
+      <div className={styles.errorContainer}>
+        <InlineNotification
+          kind="warning"
+          title={t('missingIdentifier', 'Missing Identifier')}
+          subtitle={t('identifierRequired', 'Either Patient UUID or Insurance Card Number is required to fetch billing data')}
+          hideCloseButton
+        />
+      </div>
+    );
+  }
+
+  if (lineItems.length === 0 && !isLoading) {
+    return (
+      <EmptyState
+        displayText={t('invoicesInLowerCase', 'invoices')}
+        headerTitle={t('globalBillList', 'Global Bill List')}
+        launchForm={createNewInvoice}
+      />
     );
   }
 
@@ -224,28 +223,48 @@ const InvoiceTable: React.FC = () => {
     <div className={styles.widgetCard}>
       <CardHeader title={t('globalBillList', 'Global Bill List')}>
         <span>{isValidating ? <InlineLoading /> : null}</span>
+        <Button
+          kind="ghost"
+          renderIcon={(props) => <AddIcon size={16} {...props} />}
+          iconDescription={t('addInvoice', 'Add invoice')}
+          onClick={createNewInvoice}
+        >
+          {t('add', 'Add Item')}
+        </Button>
       </CardHeader>
 
-      {insuranceCardNo && (
+      {/* {(patientUuid || insuranceCardNo) && (
         <div>
-          <GlobalBillHeader />
+          <GlobalBillHeader 
+            patientUuid={patientUuid || undefined} 
+            insuranceCardNo={insuranceCardNo || undefined}
+          />
         </div>
-      )}
+      )} */}
 
       <div className={styles.tableContainer}>
-        <DataTable headers={tableHeaders} isSortable rows={tableRows} size={isTablet ? 'lg' : 'sm'} useZebraStyles>
+        <DataTable 
+          headers={tableHeaders} 
+          isSortable 
+          rows={tableRows}
+          size={isTablet ? 'lg' : 'sm'} 
+          useZebraStyles
+        >
           {({ rows, headers, getHeaderProps, getRowProps, getSelectionProps, getTableProps }) => (
-            <TableContainer>
+            <TableContainer className={styles.tableBodyScroll}>
               <TableToolbarSearch
                 className={styles.searchbox}
                 expanded
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchTerm(e.target.value)}
                 placeholder={t('searchThisTable', 'Search this table')}
                 size={responsiveSize}
+                persistent
+                light
               />
               <Table {...getTableProps()} aria-label="Invoice line items" className={styles.invoiceTable}>
                 <TableHead>
                   <TableRow>
+                    <TableExpandHeader />
                     {rows.length > 1 ? <TableHeader /> : null}
                     {headers.map((header) => (
                       <TableHeader 
@@ -262,37 +281,42 @@ const InvoiceTable: React.FC = () => {
                 </TableHead>
                 <TableBody>
                   {rows.map((row, index) => (
-                    <TableRow
-                      key={row.id}
-                      {...getRowProps({
-                        row,
-                      })}
-                      onClick={() => handleRowClick(row)}
-                      className={styles.clickableRow}
-                    >
-                      {rows.length > 1 && (
-                        <TableSelectRow
-                          aria-label="Select row"
-                          {...getSelectionProps({ row })}
-                          disabled={tableRows[index]?.status === 'PAID'}
-                          onChange={(checked: boolean) => handleRowSelection(row, checked)}
-                          checked={
-                            tableRows[index]?.status === 'PAID' ||
-                            Boolean(selectedLineItems?.find((item) => item?.uuid === row?.id))
-                          }
-                        />
+                    <React.Fragment key={row.id}>
+                      <TableExpandRow
+                        {...getRowProps({ row })}
+                        isExpanded={expandedRowId === row.id}
+                        onExpand={() => handleRowExpand(row)}
+                      >
+                        {rows.length > 1 && (
+                          <TableSelectRow
+                            aria-label={t('selectRow', 'Select row')}
+                            {...getSelectionProps({ row })}
+                            disabled={tableRows[index]?.paymentStatus === 'PAID'}
+                            onChange={(checked: boolean) => handleRowSelection(row, checked)}
+                            checked={
+                              tableRows[index]?.paymentStatus === 'PAID' ||
+                              Boolean(selectedLineItems?.find((item) => item?.uuid === row?.id))
+                            }
+                          />
+                        )}
+                        {row.cells.map((cell) => (
+                          <TableCell key={cell.id}>{cell.value?.content ?? cell.value}</TableCell>
+                        ))}
+                      </TableExpandRow>
+                      {expandedRowId === row.id && (
+                        <TableExpandedRow colSpan={headers.length + 2}>
+                          {renderConsommationsTable(row.id)}
+                        </TableExpandedRow>
                       )}
-                      {row.cells.map((cell) => (
-                        <TableCell key={cell.id}>{cell.value?.content ?? cell.value}</TableCell>
-                      ))}
-                    </TableRow>
+                    </React.Fragment>
                   ))}
                 </TableBody>
               </Table>
             </TableContainer>
           )}
         </DataTable>
-        {(filteredLineItems?.length === 0 || !filteredLineItems) && (
+        
+        {(filteredLineItems?.length === 0 && lineItems.length > 0) && (
           <div className={styles.filterEmptyState}>
             <Layer>
               <Tile className={styles.filterEmptyStateTile}>
@@ -303,6 +327,23 @@ const InvoiceTable: React.FC = () => {
               </Tile>
             </Layer>
           </div>
+        )}
+        
+        {paginated && lineItems.length > pageSize && (
+          <Pagination
+            forwardText={t('nextPage', 'Next page')}
+            backwardText={t('previousPage', 'Previous page')}
+            page={currentPage}
+            pageSize={currentPageSize}
+            pageSizes={pageSizes}
+            totalItems={lineItems.length}
+            onChange={({ page: newPage, pageSize }) => {
+              if (newPage !== currentPage) {
+                goTo(newPage);
+              }
+              setCurrentPageSize(pageSize);
+            }}
+          />
         )}
       </div>
     </div>
