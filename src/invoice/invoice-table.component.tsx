@@ -10,220 +10,313 @@ import {
   TableBody,
   TableCell,
   TableContainer,
+  TableExpandHeader,
+  TableExpandRow,
+  TableExpandedRow,
   TableHead,
   TableHeader,
   TableRow,
   TableSelectRow,
   TableToolbarSearch,
   Tile,
+  InlineNotification,
+  InlineLoading,
+  Pagination,
   type DataTableRow,
 } from '@carbon/react';
-import { Delete, Edit } from '@carbon/react/icons';
-import { isDesktop, useConfig, useDebounce, useLayoutType } from '@openmrs/esm-framework';
+import { AddIcon, isDesktop, useConfig, useDebounce, useLayoutType, usePatient, usePagination } from '@openmrs/esm-framework';
+import { CardHeader, EmptyState, usePaginationInfo } from '@openmrs/esm-patient-common-lib';
 import styles from './invoice-table.scss';
-import { usePatientBill } from './invoice.resource';
-import { useParams, useNavigate } from 'react-router-dom';
-import GlobalBillHeader from '.././bill-list/global-bill-list.component';
+import { usePatientBill, useInsuranceCardBill } from './invoice.resource';
+// import GlobalBillHeader from '.././bill-list/global-bill-list.component';
+import EmbeddedConsommationsList from '../consommation/embedded-consommations-list.component';
 
-const InvoiceTable: React.FC = () => {
+interface InvoiceTableProps {
+  patientUuid?: string;
+  insuranceCardNo?: string;
+}
+
+const InvoiceTable: React.FC<InvoiceTableProps> = (props) => {
   const { t } = useTranslation();
-  const params = useParams();
-  const { defaultCurrency, showEditBillButton } = useConfig();
+  
+  const config = useConfig();
+  const defaultCurrency = config?.defaultCurrency || 'RWF';
+  const showEditBillButton = config?.showEditBillButton || false;
+  const pageSize = config?.pageSize || 10;
+  
   const layout = useLayoutType();
-  const navigate = useNavigate();
 
-  const { bills: lineItems, isLoading } = usePatientBill(params?.insuranceCardNo);
-  const paidLineItems = useMemo(() => lineItems?.filter((item) => item.paymentStatus === 'PAID') ?? [], [lineItems]);
+  const { patient } = usePatient();
+  const patientUuid = props.patientUuid || patient?.id || '';
+  
+  const insuranceCardNo = props.insuranceCardNo || '';
+  
+  const patientBillResponse = usePatientBill(patientUuid || '');
+  const insuranceBillResponse = useInsuranceCardBill(insuranceCardNo || '');
+  
+  const usePatientData = Boolean(patientUuid);
+  const useInsuranceData = Boolean(insuranceCardNo) && !usePatientData;
+  
+  const lineItems = usePatientData ? patientBillResponse.bills : 
+                   useInsuranceData ? insuranceBillResponse.bills : [];
+  const isLoading = usePatientData ? patientBillResponse.isLoading : 
+                   useInsuranceData ? insuranceBillResponse.isLoading : false;
+  const error = usePatientData ? patientBillResponse.error : 
+               useInsuranceData ? insuranceBillResponse.error : null;
+  const isValidating = usePatientData ? patientBillResponse.isValidating : 
+                      useInsuranceData ? insuranceBillResponse.isValidating : false;
+  const mutate = usePatientData ? patientBillResponse.mutate : 
+                useInsuranceData ? insuranceBillResponse.mutate : () => {};
+  
+  // Pagination setup
+  const [currentPageSize, setCurrentPageSize] = useState(pageSize);
+  const { paginated, goTo, results, currentPage } = usePagination(lineItems || [], currentPageSize);
+  const { pageSizes } = usePaginationInfo(pageSize, lineItems?.length || 0, currentPage, results?.length || 0);
+  
+  const paidLineItems = useMemo(() => lineItems?.filter((item) => item?.paymentStatus === 'PAID') ?? [], [lineItems]);
   const responsiveSize = isDesktop(layout) ? 'sm' : 'lg';
+  const isTablet = layout === 'tablet';
+  const isDesktopLayout = layout === 'small-desktop' || layout === 'large-desktop';
 
   const [selectedLineItems, setSelectedLineItems] = useState(paidLineItems ?? []);
   const [searchTerm, setSearchTerm] = useState('');
   const debouncedSearchTerm = useDebounce(searchTerm);
 
+  // For expandable rows
+  const [expandedRowId, setExpandedRowId] = useState<string | null>(null);
+
   const filteredLineItems = useMemo(() => {
     if (!debouncedSearchTerm) {
-      return lineItems;
+      return results || [];
     }
 
     return debouncedSearchTerm
       ? fuzzy
-          .filter(debouncedSearchTerm, lineItems, {
-            extract: (lineItem: any) => `${lineItem.item}`,
+          .filter(debouncedSearchTerm, results || [], {
+            extract: (lineItem: any) => `${lineItem?.item || ''} ${lineItem?.globalBillId || ''} ${lineItem?.billIdentifier || ''}`,
           })
           .sort((r1, r2) => r1.score - r2.score)
           .map((result) => result.original)
-      : lineItems;
-  }, [debouncedSearchTerm, lineItems]);
+      : results || [];
+  }, [debouncedSearchTerm, results]);
 
   const tableHeaders = [
-    { header: 'No', key: 'no', width: 7 },
-    { header: 'Global Bill ID', key: 'globalBillId', width: 15 },
-    { header: 'Date of Bill', key: 'date', width: 15 },
-    { header: 'Created by', key: 'createdBy', width: 15 },
-    { header: 'Policy ID Node.', key: 'policyId', width: 7 },
-    { header: 'Admission Date', key: 'admissionDate', width: 20 },
-    { header: 'Discharge Date', key: 'dischargeDate', width: 20 },
-    { header: 'Bill Identifier', key: 'billIdentifier', width: 25 },
-    { header: 'Patient Due Amount', key: 'patientDueAmount', width: 10 },
-    { header: 'Paid Amount', key: 'paidAmount', width: 10 },
-    { header: 'Payment Status', key: 'paymentStatus', width: 7 },
-    { header: t('status', 'Status'), key: 'actionButton', width: 10 },
+    { key: 'no', header: t('no', 'No') },
+    { key: 'globalBillId', header: t('globalBillId', 'Global Bill ID') },
+    { key: 'date', header: t('dateOfBill', 'Date of Bill') },
+    { key: 'createdBy', header: t('createdBy', 'Created by') },
+    { key: 'policyId', header: t('policyId', 'Policy ID') },
+    { key: 'admissionDate', header: t('admissionDate', 'Admission Date') },
+    { key: 'dischargeDate', header: t('dischargeDate', 'Discharge Date') },
+    { key: 'billIdentifier', header: t('billIdentifier', 'Bill ID') }, 
+    { key: 'patientDueAmount', header: t('patientDueAmount', 'Due Amount') }, 
+    { key: 'paidAmount', header: t('paidAmount', 'Paid') }, 
+    { key: 'paymentStatus', header: t('paymentStatus', 'Status') }
   ];
 
   const tableRows: Array<typeof DataTableRow> = useMemo(
     () =>
-      filteredLineItems?.map((item, index) => {
+      (filteredLineItems || [])?.map((item, index) => {
+        if (!item) return null;
         return {
           no: `${index + 1}`,
-          id: `${item.globalBillId}`,
-          globalBillId: item.globalBillId,
-          date: item.date,
-          createdBy: item.createdBy,
-          policyId: item.policyId,
-          admissionDate: item.admissionDate,
-          dischargeDate: item.dischargeDate,
-          billIdentifier: item.billIdentifier,
-          patientDueAmount: item.patientDueAmount,
-          paidAmount: item.paidAmount,
-          paymentStatus: item.paymentStatus,
-          actionButton: (
-            <span>
-              {item.bill && (
-                <>
-                  <Button
-                    data-testid={`edit-button-${item.uuid}`}
-                    renderIcon={Edit}
-                    hasIconOnly
-                    kind="ghost"
-                    iconDescription={t('editThisBillItem', 'Edit this bill item')}
-                    tooltipPosition="left"
-                    //   onClick={() => handleSelectBillItem(item)}
-                  />
-                  <Button
-                    data-testid={`delete-button-${item.uuid}`}
-                    renderIcon={Delete}
-                    hasIconOnly
-                    kind="ghost"
-                    iconDescription={t('deleteThisBillItem', 'Delete this bill item')}
-                    tooltipPosition="left"
-                    //   onClick={() => handleSelectBillItem(item)}
-                  />
-                </>
-              )}
-            </span>
-          ),
+          id: `${item.globalBillId || ''}`,
+          globalBillId: item.globalBillId || '',
+          date: item.date || '',
+          createdBy: item.createdBy || '',
+          policyId: item.policyId || '',
+          admissionDate: item.admissionDate || '',
+          dischargeDate: item.dischargeDate || '',
+          billIdentifier: item.billIdentifier || '',
+          patientDueAmount: item.patientDueAmount || '',
+          paidAmount: item.paidAmount || '',
+          paymentStatus: item.paymentStatus || ''
         };
-      }) ?? [],
-    [filteredLineItems, defaultCurrency, showEditBillButton, t],
+      }).filter(Boolean) ?? [],
+    [filteredLineItems, t],
   );
 
-  const handleRowClick = useCallback(
-    (row) => {
-      if (row.id) {
-        navigate(`/consommations/${row.id}`, {
-          state: { insuranceCardNo: params.insuranceCardNo },
-        });
-      }
-    },
-    [navigate, params.insuranceCardNo],
-  );
+  const handleRowSelection = (row: typeof DataTableRow, checked: boolean) => {
+    const matchingRow = filteredLineItems?.find((item) => item?.uuid === row.id);
+    let newSelectedLineItems;
+
+    if (checked && matchingRow) {
+      newSelectedLineItems = [...selectedLineItems, matchingRow];
+    } else {
+      newSelectedLineItems = selectedLineItems.filter((item) => item?.uuid !== row.id);
+    }
+    setSelectedLineItems(newSelectedLineItems);
+  };
+
+  const handleRowExpand = (row) => {
+    setExpandedRowId(expandedRowId === row.id ? null : row.id);
+  };
+
+  const createNewInvoice = useCallback(() => {
+    // Endpoint for services exists but there needs to be a refactor on the doSearch 
+    return;
+  }, []);
+
+  const renderConsommationsTable = (globalBillId) => {
+    return (
+      <div className={styles.expandedContent}>
+        <EmbeddedConsommationsList 
+          globalBillId={globalBillId} 
+          patientUuid={patientUuid} 
+          insuranceCardNo={insuranceCardNo} 
+          onConsommationClick={() => {
+            // Function intentionally left empty
+          }}
+        />
+      </div>
+    );
+  };
 
   if (isLoading) {
     return (
-      <div className={styles.loaderContainer}>
-        <DataTableSkeleton
-          data-testid="loader"
-          columnCount={tableHeaders.length}
-          showHeader={false}
-          showToolbar={false}
-          size={responsiveSize}
-          zebra
+      <DataTableSkeleton 
+        role="progressbar" 
+        compact={isDesktopLayout} 
+        zebra 
+        headers={tableHeaders}
+      />
+    );
+  }
+
+  if (error) {
+    return (
+      <div className={styles.errorContainer}>
+        <InlineNotification
+          kind="error"
+          title={t('error', 'Error')}
+          subtitle={typeof error === 'string' ? error : t('failedToLoadBillingData', 'Failed to load billing data')}
+          hideCloseButton
         />
       </div>
     );
   }
 
-  const handleRowSelection = (row: typeof DataTableRow, checked: boolean) => {
-    const matchingRow = filteredLineItems.find((item) => item.uuid === row.id);
-    let newSelectedLineItems;
+  if (!patientUuid && !insuranceCardNo) {
+    return (
+      <div className={styles.errorContainer}>
+        <InlineNotification
+          kind="warning"
+          title={t('missingIdentifier', 'Missing Identifier')}
+          subtitle={t('identifierRequired', 'Either Patient UUID or Insurance Card Number is required to fetch billing data')}
+          hideCloseButton
+        />
+      </div>
+    );
+  }
 
-    if (checked) {
-      newSelectedLineItems = [...selectedLineItems, matchingRow];
-    } else {
-      newSelectedLineItems = selectedLineItems.filter((item) => item.uuid !== row.id);
-    }
-    setSelectedLineItems(newSelectedLineItems);
-  };
+  if (lineItems.length === 0 && !isLoading) {
+    return (
+      <EmptyState
+        displayText={t('invoicesInLowerCase', 'invoices')}
+        headerTitle={t('globalBillList', 'Global Bill List')}
+        launchForm={createNewInvoice}
+      />
+    );
+  }
 
   return (
-    <>
-      <div>
-        <span className={styles.tableDescription}>
-          <span className={styles.pageTitle}>{t('globalBillList', 'Global Bill List')}</span>
-        </span>
-      </div>
-      <div>
-        <GlobalBillHeader />
-      </div>
-      <div className={styles.invoiceContainer}>
-        <DataTable headers={tableHeaders} isSortable rows={tableRows} size={responsiveSize} useZebraStyles>
-          {({ rows, headers, getRowProps, getSelectionProps, getTableProps, getToolbarProps }) => (
-            <TableContainer title={t('globalBillList', 'Global Bill List')}>
+    <div className={styles.widgetCard}>
+      <CardHeader title={t('globalBillList', 'Global Bill List')}>
+        <span>{isValidating ? <InlineLoading /> : null}</span>
+        <Button
+          kind="ghost"
+          renderIcon={(props) => <AddIcon size={16} {...props} />}
+          iconDescription={t('addInvoice', 'Add invoice')}
+          onClick={createNewInvoice}
+        >
+          {t('add', 'Add Item')}
+        </Button>
+      </CardHeader>
+
+      {/* {(patientUuid || insuranceCardNo) && (
+        <div>
+          <GlobalBillHeader 
+            patientUuid={patientUuid || undefined} 
+            insuranceCardNo={insuranceCardNo || undefined}
+          />
+        </div>
+      )} */}
+
+      <div className={styles.tableContainer}>
+        <DataTable 
+          headers={tableHeaders} 
+          isSortable 
+          rows={tableRows}
+          size={isTablet ? 'lg' : 'sm'} 
+          useZebraStyles
+        >
+          {({ rows, headers, getHeaderProps, getRowProps, getSelectionProps, getTableProps }) => (
+            <TableContainer className={styles.tableBodyScroll}>
               <TableToolbarSearch
                 className={styles.searchbox}
                 expanded
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchTerm(e.target.value)}
                 placeholder={t('searchThisTable', 'Search this table')}
                 size={responsiveSize}
+                persistent
+                light
               />
-              <Table
-                {...getTableProps()}
-                aria-label="Invoice line items"
-                className={`${styles.invoiceTable} billingTable`}
-              >
+              <Table {...getTableProps()} aria-label="Invoice line items" className={styles.invoiceTable}>
                 <TableHead>
                   <TableRow>
+                    <TableExpandHeader />
                     {rows.length > 1 ? <TableHeader /> : null}
                     {headers.map((header) => (
-                      <TableHeader key={header.key}>{header.header}</TableHeader>
+                      <TableHeader 
+                        className={styles.tableHeader} 
+                        {...getHeaderProps({
+                          header,
+                          isSortable: header.isSortable,
+                        })}
+                      >
+                        {header.header?.content ?? header.header}
+                      </TableHeader>
                     ))}
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {rows.map((row, index) => {
-                    return (
-                      <TableRow
-                        key={row.id}
-                        {...getRowProps({
-                          row,
-                        })}
-                        onClick={() => handleRowClick(row)}
-                        className={styles.clickableRow}
+                  {rows.map((row, index) => (
+                    <React.Fragment key={row.id}>
+                      <TableExpandRow
+                        {...getRowProps({ row })}
+                        isExpanded={expandedRowId === row.id}
+                        onExpand={() => handleRowExpand(row)}
                       >
                         {rows.length > 1 && (
                           <TableSelectRow
-                            aria-label="Select row"
+                            aria-label={t('selectRow', 'Select row')}
                             {...getSelectionProps({ row })}
-                            disabled={tableRows[index].status === 'PAID'}
+                            disabled={tableRows[index]?.paymentStatus === 'PAID'}
                             onChange={(checked: boolean) => handleRowSelection(row, checked)}
                             checked={
-                              tableRows[index].status === 'PAID' ||
+                              tableRows[index]?.paymentStatus === 'PAID' ||
                               Boolean(selectedLineItems?.find((item) => item?.uuid === row?.id))
                             }
                           />
                         )}
                         {row.cells.map((cell) => (
-                          <TableCell key={cell.id}>{cell.value}</TableCell>
+                          <TableCell key={cell.id}>{cell.value?.content ?? cell.value}</TableCell>
                         ))}
-                      </TableRow>
-                    );
-                  })}
+                      </TableExpandRow>
+                      {expandedRowId === row.id && (
+                        <TableExpandedRow colSpan={headers.length + 2}>
+                          {renderConsommationsTable(row.id)}
+                        </TableExpandedRow>
+                      )}
+                    </React.Fragment>
+                  ))}
                 </TableBody>
               </Table>
             </TableContainer>
           )}
         </DataTable>
-        {filteredLineItems?.length === 0 && (
+        
+        {(filteredLineItems?.length === 0 && lineItems.length > 0) && (
           <div className={styles.filterEmptyState}>
             <Layer>
               <Tile className={styles.filterEmptyStateTile}>
@@ -235,8 +328,25 @@ const InvoiceTable: React.FC = () => {
             </Layer>
           </div>
         )}
+        
+        {paginated && lineItems.length > pageSize && (
+          <Pagination
+            forwardText={t('nextPage', 'Next page')}
+            backwardText={t('previousPage', 'Previous page')}
+            page={currentPage}
+            pageSize={currentPageSize}
+            pageSizes={pageSizes}
+            totalItems={lineItems.length}
+            onChange={({ page: newPage, pageSize }) => {
+              if (newPage !== currentPage) {
+                goTo(newPage);
+              }
+              setCurrentPageSize(pageSize);
+            }}
+          />
+        )}
       </div>
-    </>
+    </div>
   );
 };
 

@@ -7,19 +7,52 @@ import {
   InlineNotification,
   Tile 
 } from '@carbon/react';
+import { usePatient } from '@openmrs/esm-framework';
 import Card from './card.component';
 import styles from './global-bill-list.scss';
-import { fetchGlobalBillsByInsuranceCard } from '../api/billing';
+import { fetchGlobalBillsByInsuranceCard, fetchGlobalBillsByPatient } from '../api/billing';
 
-interface LocationState {
+interface GlobalBillHeaderProps {
+  patientUuid?: string;
   insuranceCardNo?: string;
 }
 
-const GlobalBillHeader: React.FC = () => {
+interface LocationState {
+  insuranceCardNo?: string;
+  patientUuid?: string;
+}
+
+const GlobalBillHeader: React.FC<GlobalBillHeaderProps> = ({ patientUuid: propPatientUuid, insuranceCardNo: propInsuranceCardNo }) => {
   const { t } = useTranslation();
-  const { insuranceCardNo } = useParams();
-  const location = useLocation();
-  const locationState = location.state as LocationState;
+  
+  // Set up route params and location safely with fallbacks
+  let params: any = {};
+  let locationState: LocationState = {};
+  
+  try {
+    const useParamsHook = useParams();
+    params = useParamsHook || {};
+    
+    const locationHook = useLocation();
+    const location = locationHook || { state: {} };
+    locationState = location.state as LocationState || {};
+  } catch (error) {
+    console.warn('Failed to get route params or location:', error);
+  }
+  
+  // Extract identifiers from route or location state
+  const routeInsuranceCardNo = params?.insuranceCardNo;
+  const routePatientUuid = params?.patientUuid;
+  const stateInsuranceCardNo = locationState?.insuranceCardNo;
+  const statePatientUuid = locationState?.patientUuid;
+  
+  // Try to get patient from context as fallback
+  const { patient } = usePatient();
+  const contextPatientUuid = patient?.id;
+  
+  // Determine which identifiers to use - props take precedence, then route params, then location state, then context
+  const insuranceCardNo = propInsuranceCardNo || routeInsuranceCardNo || stateInsuranceCardNo;
+  const patientUuid = propPatientUuid || routePatientUuid || statePatientUuid || contextPatientUuid;
 
   const [insuranceData, setInsuranceData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
@@ -27,20 +60,33 @@ const GlobalBillHeader: React.FC = () => {
 
   useEffect(() => {
     const fetchData = async () => {
+      if (!insuranceCardNo && !patientUuid) {
+        setLoading(false);
+        return;
+      }
+      
       setLoading(true);
       setError(null);
 
       try {
-        const cardNumber = insuranceCardNo || locationState?.insuranceCardNo;
-        if (cardNumber) {
-          const response = await fetchGlobalBillsByInsuranceCard(cardNumber);
-          if (response.results?.length > 0) {
-            setInsuranceData(response.results[0]);
-          } else {
-            throw new Error(t('noDataFound', 'No data found'));
-          }
+        let response;
+
+        if (insuranceCardNo) {
+          response = await fetchGlobalBillsByInsuranceCard(insuranceCardNo);
+        } 
+        else if (patientUuid) {
+          response = await fetchGlobalBillsByPatient(patientUuid);
+        } 
+        else {
+          console.warn('Missing both insurance card number and patient UUID');
+          setLoading(false);
+          return;
+        }
+
+        if (response.results?.length > 0) {
+          setInsuranceData(response.results[0]);
         } else {
-          console.warn('Missing insurance card number');
+          throw new Error(t('noDataFound', 'No data found'));
         }
       } catch (err: any) {
         setError(err.message || t('fetchError', 'Failed to fetch data'));
@@ -50,7 +96,7 @@ const GlobalBillHeader: React.FC = () => {
     };
 
     fetchData();
-  }, [insuranceCardNo, locationState?.insuranceCardNo, t]);
+  }, [insuranceCardNo, patientUuid, t]);
 
   const insuranceOwner = useMemo(
     () =>
@@ -83,15 +129,19 @@ const GlobalBillHeader: React.FC = () => {
               { label: t('gender', 'Gender'), value: insuranceData.owner?.person?.gender || 'N/A' },
               {
                 label: t('birthdate', 'Birthdate'),
-                value: new Date(insuranceData.owner?.person?.birthdate).toLocaleDateString() || 'N/A',
+                value: insuranceData.owner?.person?.birthdate
+                  ? new Date(insuranceData.owner?.person?.birthdate).toLocaleDateString()
+                  : 'N/A',
               },
               { label: t('age', 'Age'), value: `${insuranceData.owner?.person?.age || 'N/A'} yrs` },
               { label: t('policyNumber', 'Policy Number'), value: insuranceData.insuranceCardNo || 'N/A' },
               {
                 label: t('validity', 'Validity'),
-                value: `${new Date(insuranceData.coverageStartDate).toLocaleDateString()} – ${new Date(
-                  insuranceData.expirationDate,
-                ).toLocaleDateString()}`,
+                value: insuranceData.coverageStartDate && insuranceData.expirationDate
+                  ? `${new Date(insuranceData.coverageStartDate).toLocaleDateString()} – ${new Date(
+                      insuranceData.expirationDate,
+                    ).toLocaleDateString()}`
+                  : 'N/A',
               },
             ],
           }
@@ -140,6 +190,20 @@ const GlobalBillHeader: React.FC = () => {
           kind="error"
           title={t('error', 'Error')}
           subtitle={error}
+          hideCloseButton
+          lowContrast
+        />
+      </div>
+    );
+  }
+
+  if (!insuranceData && !loading && !error) {
+    return (
+      <div className={styles.sectionContainer}>
+        <InlineNotification
+          kind="info"
+          title={t('noData', 'No Data')}
+          subtitle={t('noInsuranceData', 'No insurance data available')}
           hideCloseButton
           lowContrast
         />

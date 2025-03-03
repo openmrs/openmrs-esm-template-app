@@ -301,3 +301,30 @@ export const getConsommationsByGlobalBillId = async (globalBillId: string): Prom
   );
   return response.data;
 };
+
+/**
+ * Fetches global bills by patient UUID
+ * 
+ * @param patientUuid - The patient UUID
+ * @returns Promise with the API response data
+ */
+export const fetchGlobalBillsByPatient = async (patientUuid: string) => {
+  try {
+    const response = await openmrsFetch(`/ws/rest/v1/mohbilling/globalBill?patient=${patientUuid}&v=full`);
+    return response.data || { results: [] };
+  } catch (error) {
+    console.error('Error fetching global bills by patient UUID:', error);
+    throw error;
+  }
+};
+
+export interface GlobalBillSummary {
+  total: number;
+  closed: number;
+  open: number;
+}
+
+export const getGlobalBillSummary = async (): Promise<GlobalBillSummary> => {
+  const response = await openmrsFetch<GlobalBillSummary>(`${BASE_API_URL}/globalBill/summary`);
+  return response.data;
+};

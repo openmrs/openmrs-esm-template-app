@@ -1,0 +1,225 @@
+@use '@carbon/layout';
+@use '@carbon/type';
+@import '~@openmrs/esm-styleguide/src/vars';
+
+$ui-01: #ffffff !default;
+$ui-02: #f4f4f4 !default;
+$ui-03: #dcdcdc !default;
+$ui-04: #8d8d8d !default;
+$text-02: #525252 !default;
+
+.container {
+  width: 100%;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  background: $ui-01;
+  height: auto;
+  overflow: hidden;
+}
+
+.tableHeader {
+  margin-bottom: layout.$spacing-05;
+  padding: 0 layout.$spacing-05;
+  
+  h4 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: layout.$spacing-03;
+  }
+}
+
+.table {
+  width: 100% !important;
+  table-layout: auto;
+}
+
+.clickableRow {
+  cursor: pointer;
+  transition: background-color 0.15s;
+  
+  &:hover {
+    background-color: #e5e5e5;
+  }
+}
+
+.actionsContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: layout.$spacing-05;
+  margin-top: layout.$spacing-03;
+  border-top: 1px solid $ui-03;
+  width: 100%;
+}
+
+.totals {
+  display: flex;
+  gap: layout.$spacing-05;
+  
+  p {
+    font-weight: 600;
+    margin: 0;
+    white-space: nowrap;
+  }
+}
+
+.paymentActions {
+  display: flex;
+  align-items: center;
+  gap: layout.$spacing-05;
+}
+
+.selectedSummary {
+  font-weight: 600;
+  color: $text-02;
+  white-space: nowrap;
+}
+
+.noData {
+  text-align: center;
+  padding: layout.$spacing-07;
+  color: $text-02;
+  font-style: italic;
+}
+
+.paymentFormGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: layout.$spacing-05;
+  margin-bottom: layout.$spacing-06;
+}
+
+.paymentFormColumn {
+  display: flex;
+  flex-direction: column;
+}
+
+.formRow {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: layout.$spacing-03;
+  margin-bottom: layout.$spacing-05;
+  align-items: center;
+}
+
+.formLabel {
+  font-weight: 500;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.formInput {
+  width: 100%;
+}
+
+.amountInput input,
+.restInput input {
+  background-color: #d0e2ff;
+}
+
+.errorNotification {
+  margin-bottom: layout.$spacing-05;
+}
+
+.selectedItemsDetails {
+  margin-top: layout.$spacing-06;
+  border-top: 1px solid $ui-03;
+  padding-top: layout.$spacing-05;
+  
+  h5 {
+    margin-bottom: layout.$spacing-05;
+    font-weight: 600;
+  }
+}
+
+.selectedItemsTable {
+  width: 100%;
+  border-collapse: collapse;
+  
+  th, td {
+    padding: layout.$spacing-03;
+    text-align: left;
+    border-bottom: 1px solid $ui-03;
+  }
+  
+  th {
+    font-weight: 600;
+    background-color: $ui-02;
+  }
+  
+  tfoot td {
+    font-weight: 600;
+    border-top: 2px solid $ui-04;
+  }
+}
+
+:global(.cds--data-table-container) {
+  width: 100% !important;
+  min-width: 100% !important;
+  overflow-x: hidden !important;
+}
+
+:global(.cds--table-container) {
+  width: 100% !important;
+  min-width: 100% !important;
+  overflow-x: hidden !important;
+}
+
+:global(.cds--data-table) {
+  width: 100% !important;
+  min-width: 100% !important;
+}
+
+:global(.cds--data-table-header) {
+  width: 100% !important;
+}
+
+:global(.cds--table-header-row) {
+  width: 100% !important;
+}
+
+:global(.cds--data-table-content) {
+  width: 100% !important;
+}
+
+:global(.cds--data-table td) {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 0 8px !important;
+}
+
+:global(.cds--table-header-label) {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (max-width: 1200px) {
+  :global(.cds--data-table-container) {
+    overflow-x: auto !important;
+  }
+  
+  :global(.cds--table-container) {
+    overflow-x: auto !important;
+  }
+  
+  .actionsContainer {
+    flex-direction: column;
+    gap: layout.$spacing-05;
+    align-items: flex-start;
+  }
+  
+  .paymentActions {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+
+@media (max-width: 768px) {
+  .totals {
+    flex-direction: column;
+    gap: layout.$spacing-03;
+  }
+}

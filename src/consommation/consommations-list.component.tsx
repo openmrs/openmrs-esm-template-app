@@ -16,7 +16,7 @@ import { getConsommationsByGlobalBillId } from '../api/billing';
 import GlobalBillHeader from '../bill-list/global-bill-list.component';
 import styles from './consommations-list.scss';
 
-const ConsommationsList: React.FC = () => {
+const ConsommationsList = () => {
   const { t } = useTranslation();
   const { globalBillId } = useParams();
   const [isLoading, setIsLoading] = useState(true);
@@ -29,6 +29,8 @@ const ConsommationsList: React.FC = () => {
 
   useEffect(() => {
     const fetchConsommations = async () => {
+      if (!globalBillId) return;
+      
       try {
         const data = await getConsommationsByGlobalBillId(globalBillId);
         setConsommations(data);
@@ -43,9 +45,7 @@ const ConsommationsList: React.FC = () => {
       }
     };
 
-    if (globalBillId) {
-      fetchConsommations();
-    }
+    fetchConsommations();
   }, [globalBillId, t]);
 
   const headers = [
@@ -75,8 +75,8 @@ const ConsommationsList: React.FC = () => {
       thirdPartyDue: Number(item.thirdPartyBill?.amount ?? 0).toFixed(2),
       patientDue: Number(item.patientBill?.amount ?? 0).toFixed(2),
       paidAmount: Number(item.patientBill?.payments?.[0]?.amountPaid ?? 0).toFixed(2),
-      status: item.patientBill?.status || 'N/A',
-    })), [consommations?.results]);
+      status: item.patientBiTll?.status || 'N/A',
+    })) || [], [consommations?.results]);
 
   const handleRowClick = (row) => {
     navigate(`/consommation/${row.id}`, { 
@@ -99,36 +99,42 @@ const ConsommationsList: React.FC = () => {
       <div className={styles.tableHeader}>
         <h4>{t('consommationsList', 'Consommations List for Global Bill')} #{globalBillId}</h4>
       </div>
-      <DataTable rows={rows} headers={headers} size={responsiveSize} useZebraStyles>
-        {({ rows, headers, getTableProps, getHeaderProps, getRowProps }) => (
-          <Table {...getTableProps()} className={styles.table}>
-            <TableHead>
-              <TableRow>
-                {headers.map((header) => (
-                  <TableHeader {...getHeaderProps({ header })}>{header.header}</TableHeader>
-                ))}
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {rows.map((row) => (
-                <TableRow {...getRowProps({ row })} onClick={() => handleRowClick(row)} className={styles.clickableRow}>
-                  {row.cells.map((cell) => (
-                    <TableCell key={cell.id}>{cell.value}</TableCell>
+      {rows && rows.length > 0 ? (
+        <>
+          <DataTable rows={rows} headers={headers} size={responsiveSize} useZebraStyles>
+            {({ rows, headers, getTableProps, getHeaderProps, getRowProps }) => (
+              <Table {...getTableProps()} className={styles.table}>
+                <TableHead>
+                  <TableRow>
+                    {headers.map((header) => (
+                      <TableHeader key={header.key} {...getHeaderProps({ header })}>{header.header}</TableHeader>
+                    ))}
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {rows.map((row) => (
+                    <TableRow key={row.id} {...getRowProps({ row })} onClick={() => handleRowClick(row)} className={styles.clickableRow}>
+                      {row.cells.map((cell) => (
+                        <TableCell key={cell.id}>{cell.value}</TableCell>
+                      ))}
+                    </TableRow>
                   ))}
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        )}
-      </DataTable>
-      <div className={styles.totals}>
-        <p>
-          {t('totalDueAmount', 'Total Due Amount')}: {(consommations?.totalDueAmount ?? 0).toFixed(2)}
-        </p>
-        <p>
-          {t('totalPaidAmount', 'Total Paid Amount')}: {(consommations?.totalPaidAmount ?? 0).toFixed(2)}
-        </p>
-      </div>
+                </TableBody>
+              </Table>
+            )}
+          </DataTable>
+          <div className={styles.totals}>
+            <p>
+              {t('totalDueAmount', 'Total Due Amount')}: {(consommations?.totalDueAmount ?? 0).toFixed(2)}
+            </p>
+            <p>
+              {t('totalPaidAmount', 'Total Paid Amount')}: {(consommations?.totalPaidAmount ?? 0).toFixed(2)}
+            </p>
+          </div>
+        </>
+      ) : (
+        <p className={styles.noData}>{t('noConsommations', 'No consommations found for this global bill')}</p>
+      )}
     </div>
   );
 };

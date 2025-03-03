@@ -1,8 +1,12 @@
 import { getAsyncLifecycle, defineConfigSchema, getSyncLifecycle } from '@openmrs/esm-framework';
 import { configSchema } from './config-schema';
+import { createDashboardLink } from '@openmrs/esm-patient-common-lib';
 import { createLeftPanelLink } from './left-panel-link.component';
 import BillingAdminCardLink from './billing-admin-card-link.component';
 import BillingAdminHome from './billing-admin/billing-home/billing-home-component';
+import InvoiceTable from './invoice/invoice-table.component';
+import { dashboardMeta } from './dashboard.meta';
+import GlobalBillHeader from './bill-list/global-bill-list.component';
 
 const moduleName = '@openmrs/esm-rwandaemr-billing-app';
 
@@ -19,6 +23,11 @@ export function startupApp() {
 
 export const root = getAsyncLifecycle(() => import('./root.component'), options);
 
+export const billingSummaryDashboardLink = getSyncLifecycle(
+  createDashboardLink({ ...dashboardMeta, moduleName }),
+  options,
+);
+
 export const billingDashboardLink = getSyncLifecycle(
   createLeftPanelLink({
     name: 'billing',
@@ -28,5 +37,9 @@ export const billingDashboardLink = getSyncLifecycle(
 );
 
 export const billingAdminHome = getSyncLifecycle(BillingAdminHome, options);
+
+export const billingPatientSummary = getSyncLifecycle(InvoiceTable, options);
+
+export const billingPatientBanner = getSyncLifecycle(GlobalBillHeader, options);
 
 export const billableServicesCardLink = getSyncLifecycle(BillingAdminCardLink, options);
