@@ -28,7 +28,7 @@ import { AddIcon, isDesktop, useConfig, useDebounce, useLayoutType, usePatient, 
 import { CardHeader, EmptyState, usePaginationInfo } from '@openmrs/esm-patient-common-lib';
 import styles from './invoice-table.scss';
 import { usePatientBill, useInsuranceCardBill } from './invoice.resource';
-// import GlobalBillHeader from '.././bill-list/global-bill-list.component';
+import GlobalBillHeader from '.././bill-list/global-bill-list.component';
 import EmbeddedConsommationsList from '../consommation/embedded-consommations-list.component';
 
 interface InvoiceTableProps {
@@ -82,7 +82,6 @@ const InvoiceTable: React.FC<InvoiceTableProps> = (props) => {
   const [searchTerm, setSearchTerm] = useState('');
   const debouncedSearchTerm = useDebounce(searchTerm);
 
-  // For expandable rows
   const [expandedRowId, setExpandedRowId] = useState<string | null>(null);
 
   const filteredLineItems = useMemo(() => {
@@ -219,6 +218,14 @@ const InvoiceTable: React.FC<InvoiceTableProps> = (props) => {
     );
   }
 
+  // Determine if we should get the policyId (insuranceCardNo) from the first bill
+  const getPolicyIdFromFirstBill = (): string | undefined => {
+    if (lineItems && lineItems.length > 0 && lineItems[0]) {
+      return lineItems[0].policyId || '';
+    }
+    return insuranceCardNo;
+  };
+
   return (
     <div className={styles.widgetCard}>
       <CardHeader title={t('globalBillList', 'Global Bill List')}>
@@ -233,14 +240,14 @@ const InvoiceTable: React.FC<InvoiceTableProps> = (props) => {
         </Button>
       </CardHeader>
 
-      {/* {(patientUuid || insuranceCardNo) && (
-        <div>
+      {(patientUuid || insuranceCardNo) && (
+        <div className={styles.insuranceInfoContainer}>
           <GlobalBillHeader 
             patientUuid={patientUuid || undefined} 
-            insuranceCardNo={insuranceCardNo || undefined}
+            insuranceCardNo={getPolicyIdFromFirstBill() || undefined}
           />
         </div>
-      )} */}
+      )}
 
       <div className={styles.tableContainer}>
         <DataTable 
