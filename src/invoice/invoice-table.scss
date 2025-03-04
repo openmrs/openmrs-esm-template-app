@@ -153,3 +153,11 @@ $text-02: #525252 !default;
     overflow-x: auto;
   }
 }
+
+.insuranceInfoContainer {
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  margin-bottom: 1rem;
+}

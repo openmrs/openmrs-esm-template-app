@@ -35,14 +35,6 @@
       "meta": {
         "columnSpan": 1
       }
-    },
-    {
-      "name": "billing-patient-banner",
-      "component": "billingPatientBanner",
-      "slot": "patient-header-slot",
-      "meta": {
-        "columnSpan": 1
-      }
     }
   ]
 }
