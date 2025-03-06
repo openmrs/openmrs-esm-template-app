@@ -1,0 +1,343 @@
+@use '@carbon/layout';
+@use '@openmrs/esm-styleguide/src/vars' as *;
+
+/* Define fallback variables */
+$ui-01: var(--omrs-color-bg-high-contrast, #ffffff);
+$ui-02: var(--omrs-color-bg-medium-contrast, #f4f4f4);
+$ui-03: var(--omrs-color-bg-low-contrast, #e0e0e0);
+$ui-04: var(--omrs-color-bg-lowest-contrast, #8d8d8d);
+$text-01: var(--omrs-color-ink-high-contrast, #161616);
+$text-02: var(--omrs-color-ink-medium-contrast, #525252);
+$interactive-01: var(--omrs-color-interaction, #0f62fe);
+$danger: var(--omrs-color-danger, #da1e28);
+
+/* Main container */
+.calculatorWrapper {
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.formTitle {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: $text-01;
+  margin: 0.75rem 0 1rem;
+  text-align: center;
+}
+
+.formTile {
+  margin-bottom: 1rem;
+  padding: 1rem;
+  border-radius: 0.25rem;
+}
+
+.tableContainerCompact {
+  border: 1px solid $ui-03;
+  border-radius: 0;
+  margin-top: 0.75rem;
+  overflow-y: auto;
+  max-height: 200px;
+}
+
+.form {
+  padding: 0;
+  margin: 0;
+}
+
+/* Form grid layout */
+.formGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.formField {
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+/* Form controls */
+.formControls {
+  display: grid;
+  grid-template-columns: 80px 1fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 0.75rem;
+  align-items: flex-end;
+}
+
+.controlsGroup {
+  display: contents;
+}
+
+.fieldLabel {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: $text-01;
+  margin-bottom: 0.25rem;
+}
+
+.addButtonContainer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.addButton {
+  height: 2rem;
+  min-height: 2rem;
+  padding: 0 1rem;
+  background-color: #f4f4f4;
+  border-color: #8d8d8d;
+}
+
+/* Loading indicators */
+.inlineLoading {
+  position: absolute;
+  right: 1rem;
+  top: calc(50% + 0.5rem);
+  transform: translateY(-50%);
+}
+
+/* Items table */
+.itemsTable {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+/* Table header */
+.itemsTable thead th {
+  text-align: left;
+  padding: 0.5rem 0.35rem;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: $text-01;
+  background-color: $ui-02;
+  border-bottom: 1px solid $ui-03;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.itemsTable th.itemColumn {
+  width: 40%;
+  text-align: left;
+}
+
+.itemsTable th.qtyColumn {
+  width: 12%;
+  text-align: center;
+}
+
+.itemsTable th.dosageColumn {
+  width: 18%;
+  text-align: center;
+}
+
+.itemsTable th.priceColumn {
+  width: 20%;
+  text-align: right;
+  padding-right: 1rem;
+}
+
+.itemsTable th.actionColumn {
+  width: 10%;
+  text-align: center;
+}
+
+/* Table rows */
+.itemsTable tbody tr {
+  border-bottom: 1px solid $ui-03;
+}
+
+.itemsTable tbody tr:last-child {
+  border-bottom: none;
+}
+
+/* Table cells */
+.itemsTable td {
+  padding: 0.4rem 0.35rem;
+  vertical-align: middle;
+}
+
+.itemCell {
+  padding-right: 1rem;
+  word-break: break-word;
+  max-width: 300px;
+}
+
+.itemName {
+  font-size: 0.75rem;
+  font-weight: 500;
+  margin-bottom: 0.125rem;
+  white-space: normal;
+  overflow: visible;
+  line-height: 1.2;
+}
+
+.itemDept {
+  font-size: 0.6875rem;
+  color: $text-02;
+  white-space: normal;
+  overflow: visible;
+  line-height: 1.2;
+}
+
+.qtyCell {
+  text-align: center;
+}
+
+.qtyInputPlain {
+  width: 40px;
+  height: 1.75rem;
+  border: 1px solid $ui-03;
+  border-radius: 0.25rem;
+  background-color: $ui-01;
+  padding: 0 0.25rem;
+  text-align: center;
+  font-size: 0.75rem;
+  color: $text-01;
+  margin: 0 auto;
+  display: block;
+  
+  &:focus {
+    outline: 2px solid $interactive-01;
+    outline-offset: -2px;
+    border-color: transparent;
+  }
+  
+  /* Hide the arrows/spinners with proper vendor prefixes */
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    appearance: none;
+    margin: 0;
+  }
+  
+  /* Firefox */
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+.dosageCell {
+  text-align: center;
+  padding: 0 0.5rem;
+}
+
+.notApplicable {
+  color: $text-02;
+  font-size: 0.75rem;
+  display: block;
+  text-align: center;
+}
+
+.priceCell {
+  text-align: right;
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding-right: 1rem;
+}
+
+.actionCell {
+  text-align: center;
+}
+
+.removeButton {
+  width: 1.5rem;
+  height: 1.5rem;
+  min-width: 1.5rem;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  margin: 0 auto;
+}
+
+.totalRow {
+  border-top: 1px solid $ui-03;
+  background-color: $ui-02;
+}
+
+.totalLabelCell {
+  text-align: right;
+  padding-right: 1rem;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+}
+
+.totalLabel {
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.totalAmountCell {
+  text-align: right;
+  padding-right: 1.5rem;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+}
+
+.totalAmount {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: $interactive-01;
+}
+
+/* Custom styles for quantity inputs */
+.numberInput {
+  width: 80px;
+  
+  &:global(.cds--number) input[type='number'] {
+    padding-right: 1rem;
+    height: 2rem;
+  }
+  
+  /* Hide the arrows/spinners with proper vendor prefixes */
+  &:global(.cds--number) input[type='number']::-webkit-outer-spin-button,
+  &:global(.cds--number) input[type='number']::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    appearance: none;
+    margin: 0;
+  }
+  
+  /* Firefox */
+  &:global(.cds--number) input[type='number'] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+  }
+}
+
+/* Override Carbon default styles */
+:global(.cds--dropdown) {
+  height: auto;
+  background-color: $ui-01;
+}
+
+:global(.cds--list-box__field) {
+  height: 2rem;
+}
+
+:global(.cds--text-input) {
+  height: 2rem;
+  background-color: $ui-01;
+}
+
+:global(.cds--number__control-btn) {
+  display: none;
+}
+
+:global(.cds--number) {
+  width: 100%;
+}
+
+:global(.cds--dropdown__wrapper) {
+  width: 100%;
+}
+
+.frequencyInput {
+  width: 120px;
+}

@@ -22,6 +22,7 @@ import {
   InlineNotification,
   InlineLoading,
   Pagination,
+  Modal,
   type DataTableRow,
 } from '@carbon/react';
 import { AddIcon, isDesktop, useConfig, useDebounce, useLayoutType, usePatient, usePagination } from '@openmrs/esm-framework';
@@ -30,6 +31,7 @@ import styles from './invoice-table.scss';
 import { usePatientBill, useInsuranceCardBill } from './invoice.resource';
 import GlobalBillHeader from '.././bill-list/global-bill-list.component';
 import EmbeddedConsommationsList from '../consommation/embedded-consommations-list.component';
+import ServiceCalculator from './service-calculator.component';
 
 interface InvoiceTableProps {
   patientUuid?: string;
@@ -67,6 +69,13 @@ const InvoiceTable: React.FC<InvoiceTableProps> = (props) => {
                       useInsuranceData ? insuranceBillResponse.isValidating : false;
   const mutate = usePatientData ? patientBillResponse.mutate : 
                 useInsuranceData ? insuranceBillResponse.mutate : () => {};
+  
+  // State for calculator modal
+  const [isCalculatorOpen, setIsCalculatorOpen] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  
+  // State for calculator items - using direct state instead of ref
+  const [calculatorItems, setCalculatorItems] = useState([]);
   
   // Pagination setup
   const [currentPageSize, setCurrentPageSize] = useState(pageSize);
@@ -152,8 +161,31 @@ const InvoiceTable: React.FC<InvoiceTableProps> = (props) => {
   };
 
   const createNewInvoice = useCallback(() => {
-    // Endpoint for services exists but there needs to be a refactor on the doSearch 
-    return;
+    setIsCalculatorOpen(true);
+    setCalculatorItems([]);
+  }, []);
+  
+  const handleCalculatorClose = useCallback(() => {
+    setIsCalculatorOpen(false);
+    setIsSaving(false);
+  }, []);
+  
+  const handleCalculatorSave = useCallback(() => {
+    if (!calculatorItems || calculatorItems.length === 0) {
+      return;
+    }
+    
+    setIsSaving(true);
+    
+    setTimeout(() => {
+      setIsCalculatorOpen(false);
+      setIsSaving(false);
+      mutate();
+    }, 1000);
+  }, [calculatorItems, mutate]);
+  
+  const handleCalculatorUpdate = useCallback((items) => {
+    setCalculatorItems(items);
   }, []);
 
   const renderConsommationsTable = (globalBillId) => {
@@ -353,6 +385,28 @@ const InvoiceTable: React.FC<InvoiceTableProps> = (props) => {
           />
         )}
       </div>
+      
+      {/* Calculator Modal for when there are existing items */}
+      {isCalculatorOpen && lineItems.length > 0 && (
+        <Modal
+          open={isCalculatorOpen}
+          modalHeading={t('addNewInvoice', 'Patient Bill Calculations')}
+          primaryButtonText={isSaving ? t('saving', 'Saving...') : t('save', 'Save')}
+          secondaryButtonText={t('cancel', 'Cancel')}
+          onRequestClose={handleCalculatorClose}
+          onRequestSubmit={handleCalculatorSave}
+          size="lg"
+          preventCloseOnClickOutside
+          primaryButtonDisabled={isSaving || calculatorItems.length === 0}
+        >
+          <ServiceCalculator 
+            patientUuid={patientUuid}
+            insuranceCardNo={insuranceCardNo}
+            onClose={handleCalculatorClose}
+            onSave={handleCalculatorUpdate}
+          />
+        </Modal>
+      )}
     </div>
   );
 };

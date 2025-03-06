@@ -2141,6 +2141,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@hookform/resolvers@npm:^4.1.3":
+  version: 4.1.3
+  resolution: "@hookform/resolvers@npm:4.1.3"
+  dependencies:
+    "@standard-schema/utils": "npm:^0.3.0"
+  peerDependencies:
+    react-hook-form: ^7.0.0
+  checksum: 10/7cd4a872509c79053fd3a377bc2831348453b60f1af41564442b574d4f36b6303f751e715d01c2d9291b484581ae0152045e779aefafdd66802055e24eff7762
+  languageName: node
+  linkType: hard
+
 "@humanwhocodes/config-array@npm:^0.13.0":
   version: 0.13.0
   resolution: "@humanwhocodes/config-array@npm:0.13.0"
@@ -3672,6 +3683,7 @@ __metadata:
   resolution: "@openmrs/esm-rwandaemr-billing-app@workspace:."
   dependencies:
     "@carbon/react": "npm:^1.68.0"
+    "@hookform/resolvers": "npm:^4.1.3"
     "@openmrs/esm-framework": "npm:^6.1.1-pre.2729"
     "@openmrs/esm-patient-common-lib": "npm:^9.2.0"
     "@openmrs/esm-styleguide": "npm:^6.1.0"
@@ -3713,6 +3725,7 @@ __metadata:
     prettier: "npm:^3.3.3"
     react: "npm:^18.2.0"
     react-dom: "npm:^18.2.0"
+    react-hook-form: "npm:^7.54.2"
     react-i18next: "npm:^11.18.6"
     react-router-dom: "npm:^6.14.1"
     rxjs: "npm:^6.6.7"
@@ -3721,6 +3734,7 @@ __metadata:
     typescript: "npm:^4.9.5"
     webpack: "npm:^5.88.1"
     webpack-cli: "npm:^5.1.4"
+    zod: "npm:^3.24.2"
   peerDependencies:
     "@openmrs/esm-framework": "*"
     dayjs: 1.x
@@ -5693,6 +5707,13 @@ __metadata:
   dependencies:
     "@sinonjs/commons": "npm:^3.0.0"
   checksum: 10/78155c7bd866a85df85e22028e046b8d46cf3e840f72260954f5e3ed5bd97d66c595524305a6841ffb3f681a08f6e5cef572a2cce5442a8a232dc29fb409b83e
+  languageName: node
+  linkType: hard
+
+"@standard-schema/utils@npm:^0.3.0":
+  version: 0.3.0
+  resolution: "@standard-schema/utils@npm:0.3.0"
+  checksum: 10/7084f875d322792f2e0a5904009434c8374b9345b09ba89828b68fd56fa3c2b366d35bf340d9e8c72736ef01793c2f70d350c372ed79845dc3566c58d34b4b51
   languageName: node
   linkType: hard
 
@@ -16203,6 +16224,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-hook-form@npm:^7.54.2":
+  version: 7.54.2
+  resolution: "react-hook-form@npm:7.54.2"
+  peerDependencies:
+    react: ^16.8.0 || ^17 || ^18 || ^19
+  checksum: 10/b156d15b6246c76d0275e5722d9056014693e014d0e3dec06e44bf2672ee549aaba4366de5144d18c4cab29e631f3b2b84269d4fd5727ca17aad9b970fde6960
+  languageName: node
+  linkType: hard
+
 "react-i18next@npm:^11.18.6":
   version: 11.18.6
   resolution: "react-i18next@npm:11.18.6"
@@ -19713,6 +19743,13 @@ __metadata:
   version: 0.1.0
   resolution: "yocto-queue@npm:0.1.0"
   checksum: 10/f77b3d8d00310def622123df93d4ee654fc6a0096182af8bd60679ddcdfb3474c56c6c7190817c84a2785648cdee9d721c0154eb45698c62176c322fb46fc700
+  languageName: node
+  linkType: hard
+
+"zod@npm:^3.24.2":
+  version: 3.24.2
+  resolution: "zod@npm:3.24.2"
+  checksum: 10/604c62a8cf8e330d78b106a557f4b44f5d14845d20b1360a423ccc09b58cb8525ccf7e4b40cf1bd4852d22393d2c67774b5817ec5a2fedab25f543b36ed15943
   languageName: node
   linkType: hard
 
