@@ -7,6 +7,9 @@ $ui-02: #f4f4f4 !default;
 $ui-03: #dcdcdc !default;
 $ui-04: #8d8d8d !default;
 $text-02: #525252 !default;
+$disabled-01: #f4f4f4 !default;
+$disabled-02: #c6c6c6 !default;
+$disabled-03: #8d8d8d !default;
 
 .container {
   width: 100%;
@@ -41,6 +44,25 @@ $text-02: #525252 !default;
   &:hover {
     background-color: #e5e5e5;
   }
+}
+
+/* Custom styling for disabled checkboxes */
+:global(.cds--checkbox:disabled + .cds--checkbox-label) {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+:global(.cds--checkbox:disabled + .cds--checkbox-label::before) {
+  border-color: $disabled-02;
+  background-color: $disabled-01;
+}
+
+:global(.cds--checkbox:disabled:checked + .cds--checkbox-label::before) {
+  background-color: $disabled-03;
+}
+
+:global(.cds--checkbox-label[data-disabled="true"]) {
+  color: $disabled-03;
 }
 
 .actionsContainer {
@@ -118,6 +140,11 @@ $text-02: #525252 !default;
   background-color: #d0e2ff;
 }
 
+.invalidAmount input {
+  background-color: #fff1f1;
+  border-color: #da1e28;
+}
+
 .errorNotification {
   margin-bottom: layout.$spacing-05;
 }
@@ -129,6 +156,98 @@ $text-02: #525252 !default;
   
   h5 {
     margin-bottom: layout.$spacing-05;
+    font-weight: 600;
+  }
+}
+
+.itemsListHeader {
+  margin-top: layout.$spacing-07;
+  padding-top: layout.$spacing-05;
+  border-top: 1px dashed $ui-03;
+}
+
+.loadingItems {
+  text-align: center;
+  padding: layout.$spacing-05;
+  color: $text-02;
+  font-style: italic;
+}
+
+.noItems {
+  text-align: center;
+  padding: layout.$spacing-05;
+  color: $text-02;
+  font-style: italic;
+  background-color: $ui-02;
+  border-radius: 4px;
+}
+
+.itemsTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: layout.$spacing-06;
+  
+  th, td {
+    padding: layout.$spacing-03;
+    text-align: left;
+    border-bottom: 1px solid $ui-03;
+  }
+  
+  th {
+    font-weight: 600;
+    background-color: $ui-02;
+  }
+  
+  tfoot td {
+    font-weight: 600;
+    border-top: 2px solid $ui-04;
+  }
+}
+
+.itemStatus {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-weight: 500;
+  display: inline-block;
+}
+
+.itemPaid {
+  background-color: #e0f2f1;
+  color: #00695c;
+}
+
+.itemUnpaid {
+  background-color: #ffebee;
+  color: #c62828;
+}
+
+.itemPartiallyPaid {
+  background-color: #fff8e1;
+  color: #ff8f00;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+}
+
+.paidDetails {
+  font-size: 0.75rem;
+  margin-top: 2px;
+  color: #777;
+}
+
+.paymentTotals {
+  margin-top: layout.$spacing-06;
+  border-top: 2px solid $ui-04;
+  padding-top: layout.$spacing-05;
+}
+
+.paymentTotalRow {
+  display: flex;
+  justify-content: space-between;
+  padding: layout.$spacing-03;
+  font-size: 1.1rem;
+  
+  strong {
     font-weight: 600;
   }
 }
@@ -222,4 +341,35 @@ $text-02: #525252 !default;
     flex-direction: column;
     gap: layout.$spacing-03;
   }
+}
+
+.selectedItem {
+  background-color: #e5f6ff;
+}
+
+.paymentError {
+  color: #da1e28;
+  margin-top: layout.$spacing-03;
+  font-size: 0.875rem;
+}
+
+.itemPaid {
+  background-color: #24a148; /* Green color for paid items */
+  color: white;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.itemPartiallyPaid {
+  background-color: #ff8c00; /* Orange color for partially paid items */
+  color: white;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.itemUnpaid {
+  background-color: #da1e28; /* Red color for unpaid items */
+  color: white;
+  padding: 2px 6px;
+  border-radius: 4px;
 }

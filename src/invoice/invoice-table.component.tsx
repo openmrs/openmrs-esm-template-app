@@ -304,7 +304,6 @@ const InvoiceTable: React.FC<InvoiceTableProps> = (props) => {
                 <TableHead>
                   <TableRow>
                     <TableExpandHeader />
-                    {rows.length > 1 ? <TableHeader /> : null}
                     {headers.map((header) => (
                       <TableHeader 
                         className={styles.tableHeader} 
@@ -326,24 +325,12 @@ const InvoiceTable: React.FC<InvoiceTableProps> = (props) => {
                         isExpanded={expandedRowId === row.id}
                         onExpand={() => handleRowExpand(row)}
                       >
-                        {rows.length > 1 && (
-                          <TableSelectRow
-                            aria-label={t('selectRow', 'Select row')}
-                            {...getSelectionProps({ row })}
-                            disabled={tableRows[index]?.paymentStatus === 'PAID'}
-                            onChange={(checked: boolean) => handleRowSelection(row, checked)}
-                            checked={
-                              tableRows[index]?.paymentStatus === 'PAID' ||
-                              Boolean(selectedLineItems?.find((item) => item?.uuid === row?.id))
-                            }
-                          />
-                        )}
                         {row.cells.map((cell) => (
                           <TableCell key={cell.id}>{cell.value?.content ?? cell.value}</TableCell>
                         ))}
                       </TableExpandRow>
                       {expandedRowId === row.id && (
-                        <TableExpandedRow colSpan={headers.length + 2}>
+                        <TableExpandedRow colSpan={headers.length + 1}>
                           {renderConsommationsTable(row.id)}
                         </TableExpandedRow>
                       )}
