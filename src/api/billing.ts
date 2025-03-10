@@ -224,7 +224,6 @@ export const getGlobalBillByIdentifier = async (billIdentifier: string): Promise
   return response.data;
 };
 
-// Update the billItems interface in the Consommation interface to include links
 export interface Consommation {
   consommationId: number;
   department: {
@@ -290,16 +289,12 @@ export const getConsommationById = async (consommationId: string): Promise<Conso
  */
 function extractServiceName(billItem, departmentName = 'Unknown') {
   if (billItem.hopService && billItem.hopService.name) {
-    // Primary option: use the service name directly from hopService
     return billItem.hopService.name;
   } else if (billItem.serviceOtherDescription) {
-    // Secondary option: use the service other description if available
     return billItem.serviceOtherDescription;
   } else if (billItem.serviceOther) {
-    // Third option: use serviceOther if available
     return billItem.serviceOther;
   } else {
-    // Fallback: create a generic name using department
     return `${departmentName} Service Item`;
   }
 }
@@ -311,21 +306,15 @@ function extractServiceName(billItem, departmentName = 'Unknown') {
  */
 export async function getConsommationItems(consommationId: string) {
   try {
-    // Use the existing getConsommationById function to fetch the full consommation data
     const consommationData = await getConsommationById(consommationId);
     
-    // Extract and transform billItems for display
     const items = consommationData.billItems.map((item, index) => {
-      // Get the department name for fallback
       const departmentName = consommationData.department?.name || 'Unknown';
       
-      // Extract a meaningful service name
       const itemName = extractServiceName(item, departmentName);
       
-      // Get patientServiceBillId from links if they exist
       let patientServiceBillId = null;
       
-      // Use type guard to check if links property exists
       if (item.links && Array.isArray(item.links) && item.links.length > 0) {
         const link = item.links.find(link => link.resourceAlias === 'patientServiceBill');
         if (link && link.uri) {
@@ -336,19 +325,14 @@ export async function getConsommationItems(consommationId: string) {
         }
       }
       
-      // Create a unique ID for each item, either from the link or a generated one
       const itemId = patientServiceBillId || 10372855 + index;
       
-      // Calculate total cost of this item
       const itemTotal = item.quantity * item.unitPrice;
       
-      // Calculate paid amount based on paidQuantity
       const paidAmount = item.paidQuantity ? item.paidQuantity * item.unitPrice : (item.paid ? itemTotal : 0);
       
-      // Calculate remaining amount
       const remainingAmount = Math.max(0, itemTotal - paidAmount);
       
-      // Determine payment status
       const isFullyPaid = item.paid || remainingAmount <= 0;
       const isPartiallyPaid = !isFullyPaid && paidAmount > 0;
       
@@ -432,8 +416,6 @@ export const getGlobalBillSummary = async (): Promise<GlobalBillSummary> => {
   return response.data;
 };
 
-// Add these interfaces and function to the billing.ts file
-
 export interface BillPaymentItem {
   billItem: {
     patientServiceBillId: number;
@@ -442,7 +424,7 @@ export interface BillPaymentItem {
 }
 
 export interface BillPaymentRequest {
-  amountPaid: number | string;  // Allow both for flexibility
+  amountPaid: number | string;
   patientBill: {
     patientBillId: number;
   };
@@ -471,7 +453,6 @@ export interface BillPaymentResponse {
  */
 export const submitBillPayment = async (paymentData: BillPaymentRequest): Promise<BillPaymentResponse> => {
   try {
-    // IMPORTANT: Convert amountPaid to a string with decimal places
     let amountPaidAsString: string;
     if (typeof paymentData.amountPaid === 'string') {
       amountPaidAsString = parseFloat(paymentData.amountPaid).toFixed(2);
@@ -479,38 +460,31 @@ export const submitBillPayment = async (paymentData: BillPaymentRequest): Promis
       amountPaidAsString = paymentData.amountPaid.toFixed(2);
     }
     
-    // Ensure paidQty values are integers
     const validatedPaidItems = paymentData.paidItems.map(item => ({
       ...item,
-      paidQty: Math.floor(item.paidQty) // Ensure it's an integer
+      paidQty: Math.floor(item.paidQty)
     }));
     
-    // Create a payload with amountPaid as a string and include creator
     const payloadWithStringAmount = {
       ...paymentData,
       amountPaid: amountPaidAsString,
       paidItems: validatedPaidItems
     };
     
-    // Convert to JSON string
     let jsonPayload = JSON.stringify(payloadWithStringAmount);
     
-    // Manually replace the quoted amountPaid with an unquoted decimal number
     jsonPayload = jsonPayload.replace(
       /"amountPaid":"(\d+\.\d+)"/,
       '"amountPaid":$1'
     );
     
-    console.log('Final JSON payload:', jsonPayload);
-    
-    // Use the manually formatted JSON string
     const response = await openmrsFetch<BillPaymentResponse>(`${BASE_API_URL}/billPayment`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
       },
-      body: jsonPayload // Use the manually formatted string
+      body: jsonPayload
     });
     
     if (response.status >= 400) {
