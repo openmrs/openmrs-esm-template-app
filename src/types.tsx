@@ -75,3 +75,93 @@ export interface MappedBill {
   paymentStatus: string | null;
   bill: boolean;
 }
+
+export interface ConsommationListItem {
+  consommationId?: number;
+  createdDate?: string;
+  department?: {
+    name?: string;
+  };
+  insuranceBill?: {
+    amount?: number;
+    creator?: {
+      person?: {
+        display?: string;
+      };
+    };
+  };
+  thirdPartyBill?: {
+    amount?: number;
+  };
+  patientBill?: {
+    amount?: number;
+    policyIdNumber?: string;
+    status?: string;
+    payments?: Array<{
+      amountPaid?: number;
+    }>;
+  };
+}
+
+export interface ConsommationListResponse {
+  results?: ConsommationListItem[];
+  totalDueAmount?: number;
+  totalPaidAmount?: number;
+}
+
+export interface ConsommationItem {
+  itemId?: number;
+  itemCode?: string;
+  itemName?: string;
+  quantity?: number;
+  unitPrice?: number;
+  total?: number;
+  paidAmount?: number;
+  remainingAmount?: number;
+  serviceDate?: string;
+  paid?: boolean;
+  partiallyPaid?: boolean;
+  paidQuantity?: number;
+  itemType?: number;
+  drugFrequency?: string;
+  patientServiceBillId?: number;
+  selected?: boolean;
+}
+
+export interface RowData {
+  id: string;
+  index: number;
+  createdDate: string;
+  consommationId: string;
+  service: string;
+  createdBy: string;
+  insuranceCardNo: string;
+  insuranceDue: string;
+  thirdPartyDue: string;
+  patientDue: string;
+  paidAmount: string;
+  status: string;
+  rawPatientDue: number;
+  rawPaidAmount: number;
+  select?: React.ReactNode;
+}
+
+export interface BillPaymentItem {
+  billItem: {
+    patientServiceBillId: number;
+  };
+  paidQty: number;
+}
+
+export interface BillPaymentRequest {
+  amountPaid: number;
+  patientBill: {
+    patientBillId: number;
+    creator: string;
+  };
+  dateReceived: string;
+  collector: {
+    uuid: string;
+  };
+  paidItems: BillPaymentItem[];
+}
