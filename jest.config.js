@@ -23,7 +23,7 @@ module.exports = {
     'lodash-es': 'lodash',
     '^dexie$': require.resolve('dexie'),
   },
-  setupFilesAfterEnv: ['<rootDir>/src/setup-tests.ts'],
+  setupFilesAfterEnv: [path.resolve(__dirname, 'tools', 'setup-tests.ts')],
   testPathIgnorePatterns: [path.resolve(__dirname, 'e2e')],
   testEnvironment: 'jsdom',
   testEnvironmentOptions: {

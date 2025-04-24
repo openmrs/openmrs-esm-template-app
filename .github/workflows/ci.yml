@@ -1,4 +1,4 @@
-name: Node.js CI
+name: OpenMRS CI
 
 on:
   push:
@@ -22,7 +22,7 @@ jobs:
       - name: Use Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "18"
+          node-version: 20
       - run: yarn install --immutable
       - run: yarn verify
       - run: yarn build
@@ -48,7 +48,7 @@ jobs:
       # - name: Use Node.js
       #   uses: actions/setup-node@v4
       #   with:
-      #     node-version: "18"
+      #     node-version: 20
       #     registry-url: "https://registry.npmjs.org"
       # - run: yarn install --immutable
       # - run: yarn version "$(node -e "console.log(require('semver').inc(require('./package.json').version, 'patch'))")-pre.${{ github.run_number }}"
@@ -79,7 +79,7 @@ jobs:
       - name: Use Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "18"
+          node-version: 20
           registry-url: 'https://registry.npmjs.org'
       - run: yarn install --immutable
       - run: yarn config set npmAuthToken "${NODE_AUTH_TOKEN}" &&  yarn npm publish
