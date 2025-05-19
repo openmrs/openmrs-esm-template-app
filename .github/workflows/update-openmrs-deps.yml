@@ -24,8 +24,6 @@ jobs:
       # Step 1: Check out repository
       - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 1   # Shallow clone for better performance
 
       # Step 2: Setup Node.js environment
       - name: 🟢 Setup Node.js
@@ -91,4 +89,4 @@ jobs:
         if: steps.cpr.outputs.pull-request-operation == 'created' || steps.cpr.outputs.pull-request-operation == 'updated'
         run: gh pr merge --auto --squash "${{ steps.cpr.outputs.pull-request-number }}"
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.OMRS_BOT_GH_TOKEN }}
