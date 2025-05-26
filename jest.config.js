@@ -13,15 +13,16 @@ module.exports = {
     '!**/e2e/**',
   ],
   transform: {
-    '^.+\\.tsx?$': ['@swc/jest'],
+    '^.+\\.[jt]sx?$': ['@swc/jest'],
   },
-  transformIgnorePatterns: ['/node_modules/(?!@openmrs)'],
+  transformIgnorePatterns: ['/node_modules/(?!@openmrs|.+\\.pnp\\.[^\\/]+$)'],
   moduleNameMapper: {
     '@openmrs/esm-framework': '@openmrs/esm-framework/mock',
     '\\.(s?css)$': 'identity-obj-proxy',
     '^lodash-es/(.*)$': 'lodash/$1',
     'lodash-es': 'lodash',
     '^dexie$': require.resolve('dexie'),
+    '^dayjs$': require.resolve('dayjs'),
   },
   setupFilesAfterEnv: [path.resolve(__dirname, 'tools', 'setup-tests.ts')],
   testPathIgnorePatterns: [path.resolve(__dirname, 'e2e')],
