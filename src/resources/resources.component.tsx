@@ -39,15 +39,17 @@ function Resources() {
 
 function Card({ title, subtitle, link }: { title: string; subtitle: string; link: string }) {
   return (
-    <ClickableTile className={styles.card} href={link} target="_blank" rel="noopener noreferrer">
-      <div className={styles.cardContent}>
-        <div className={styles.title}>
-          <h4>{title}</h4>
-          <ChevronRight />
+    <a href={link} target="_blank" rel="noopener noreferrer" className={styles.cardLink}>
+      <ClickableTile className={styles.card}>
+        <div className={styles.cardContent}>
+          <div className={styles.title}>
+            <h4>{title}</h4>
+            <ChevronRight />
+          </div>
+          <span className={styles.subtitle}>{subtitle}</span>
         </div>
-        <span className={styles.subtitle}>{subtitle}</span>
-      </div>
-    </ClickableTile>
+      </ClickableTile>
+    </a>
   );
 }
 

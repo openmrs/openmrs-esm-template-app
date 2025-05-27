@@ -40,7 +40,7 @@
     "url": "https://github.com/openmrs/openmrs-esm-template-app/issues"
   },
   "dependencies": {
-    "@carbon/react": "^1.76.0",
+    "@carbon/react": "^1.83.0",
     "lodash-es": "^4.17.21"
   },
   "peerDependencies": {
@@ -71,6 +71,7 @@
     "@typescript-eslint/eslint-plugin": "^7.8.0",
     "@typescript-eslint/parser": "^7.8.0",
     "css-loader": "^6.8.1",
+    "dayjs": "^1.11.13",
     "dotenv": "^16.0.3",
     "eslint": "^8.50.0",
     "eslint-config-prettier": "^8.8.0",
@@ -95,8 +96,8 @@
     "swc-loader": "^0.2.3",
     "turbo": "^2.5.2",
     "typescript": "^4.9.5",
-    "webpack": "^5.88.1",
-    "webpack-cli": "^5.1.4"
+    "webpack": "^5.99.9",
+    "webpack-cli": "^6.0.1"
   },
   "lint-staged": {
     "packages/**/src/**/*.{ts,tsx}": "eslint --cache --fix --max-warnings 0",
