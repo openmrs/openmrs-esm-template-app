@@ -20,7 +20,7 @@ function Resources() {
         <Card
           title={t('frontendDocs', 'Frontend docs')}
           subtitle={t('learnExplainer', 'Learn how to use the O3 framework') + '.'}
-          link="https://o3-docs.vercel.app"
+          link="https://openmrs.atlassian.net/wiki/spaces/docs/pages/151093495/Introduction+to+O3+for+Developers"
         />
         <Card
           title={t('designDocs', 'Design docs')}
