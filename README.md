@@ -12,13 +12,30 @@ In particular, the [Setup](https://o3-docs.openmrs.org/docs/frontend-modules/set
 
 ## Running this code
 
-```sh
-yarn  # to install dependencies
-yarn start  # to run the dev server
-```
+1. **Navigate to the Project Directory**
+   ```
+    cd openmrs-esm-template-app
+   ```
+   
+2.**Install Dependencies and Start the Development Server**
 
-Once it is running, a browser window
-should open with the OpenMRS 3 application. Log in and then navigate to `/openmrs/spa/root`.
+  - *Using Yarn*
+    ```sh
+    yarn
+    yarn start
+    ```
+
+  - *Using npm*
+    ```sh
+    npm install
+    npm start
+    ```
+
+
+Once it is running, a browser window should open with the OpenMRS 3 application.
+**Log in and then navigate to `/openmrs/spa/root`.**
+
+---
 
 ## Adapting the code
 
