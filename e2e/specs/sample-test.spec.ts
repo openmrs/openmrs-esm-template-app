@@ -4,10 +4,15 @@ import { expect } from '@playwright/test';
 
 test('Service Queues page loads', async ({ page }) => {
   const homePage = new HomePage(page);
-  await homePage.goto(); // navigates to /openmrs/spa/home/service-queues
-
-  // Scope to a specific section to avoid multiple matches
-  await expect(
-    homePage.page.getByTestId('patient-queue-header').getByText('Service queues')
-  ).toBeVisible();
+  await homePage.goto();
+  
+  // Verify page loaded
+  await expect(page).toHaveURL(/service-queues/);
+  
+  // Verify header exists
+  const header = page.getByTestId('patient-queue-header');
+  await expect(header).toBeVisible();
+  
+  // Verify text content
+  await expect(header).toContainText('Service queues');
 });
