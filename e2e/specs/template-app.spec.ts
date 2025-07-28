@@ -17,7 +17,7 @@ test('Template app loads and displays all core components', async ({ page }) => 
   await expect(rootPage.dataFetchingSection).toBeVisible();
   await expect(rootPage.resourcesSection).toBeVisible();
 
-  await expect(page.getByText('hello World!')).toBeVisible(); // Configuration greeting tile content
-  await expect(page.locator('[class*="boxes"]')).toBeVisible(); // Extension boxes
+  await expect(page.getByText(/hello world!/i)).toBeVisible(); // Configuration greeting tile content
+  await expect(page.locator('[data-extension-slot-name="Boxes"]')).toBeVisible(); // Extension boxes slot
   await expect(page.getByRole('button', { name: /get a patient named 'test'/i })).toBeVisible();
 });
