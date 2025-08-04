@@ -3,12 +3,12 @@
 # OpenMRS ESM Template App
 
 This repository provides a starting point for creating your own
-[OpenMRS Microfrontend](https://wiki.openmrs.org/display/projects/OpenMRS+3.0%3A+A+Frontend+Framework+that+enables+collaboration+and+better+User+Experience).
+[OpenMRS Microfrontend](https://openmrs.atlassian.net/wiki/spaces/projects/pages/26936899).
 
 For more information, please see the
-[OpenMRS Frontend Developer Documentation](https://openmrs.atlassian.net/wiki/spaces/docs/pages/25476048/Developer+Documentation?atlOrigin=eyJpIjoiNmM1NTIxNjU5NTRlNDQ2NTg0MTU3ZDExOGY4Y2JmOGYiLCJwIjoiYyJ9).
+[OpenMRS Frontend Developer Documentation](https://openmrs.atlassian.net/wiki/x/IABBHg).
 
-In particular, the [Setup](https://openmrs.atlassian.net/wiki/spaces/docs/pages/151093820/Set+Up+a+Frontend+Module?atlOrigin=eyJpIjoiZGFkN2Y0MmU4ZDdiNGIwM2EyNjUyMjJkYWU0NmI5M2EiLCJwIjoiYyJ9) section can help you get started developing microfrontends in general. The [Creating a microfrontend](https://openmrs.atlassian.net/wiki/spaces/docs/pages/151093932/Create+a+Frontend+Module?atlOrigin=eyJpIjoiZjNiMDkwMWVkNWNiNGIyYWI1NWE4YWM1YjkzOTIxMTMiLCJwIjoiYyJ9) section provides information about how to use this repository to create your own microfrontend.
+In particular, the [Setup](https://openmrs.atlassian.net/wiki/x/PIIBCQ) section can help you get started developing microfrontends in general. The [Creating a microfrontend](https://openmrs.atlassian.net/wiki/spaces/docs/pages/151093932) section provides information about how to use this repository to create your own microfrontend.
 
 ## Running this code
 
@@ -43,4 +43,4 @@ Check out the [Medication dispensing app](https://github.com/openmrs/openmrs-esm
 
 ## Integrating it into your application
 
-Please see [Creating a Frontend Module]([https://o3-docs.openmrs.org/docs/recipes/create-a-frontend-module](https://openmrs.atlassian.net/wiki/spaces/docs/pages/151093932/Create+a+Frontend+Module?atlOrigin=eyJpIjoiZjNiMDkwMWVkNWNiNGIyYWI1NWE4YWM1YjkzOTIxMTMiLCJwIjoiYyJ9)).
+Please see [Creating a Frontend Module](https://openmrs.atlassian.net/wiki/x/rIIBCQ).
