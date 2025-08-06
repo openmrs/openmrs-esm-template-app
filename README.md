@@ -2,8 +2,8 @@
 
 # OpenMRS ESM Template App
 
-This repository provides a starting point for creating your own
-[OpenMRS Microfrontend](https://openmrs.atlassian.net/wiki/spaces/projects/pages/26936899).
+This repository provides a starting point for creating your own Frontend module. Check out documention on
+[Creating a Frontend Module](https://openmrs.atlassian.net/wiki/x/rIIBCQ).
 
 For more information, please see the
 [OpenMRS Frontend Developer Documentation](https://openmrs.atlassian.net/wiki/x/IABBHg).
