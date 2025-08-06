@@ -8,7 +8,7 @@ This repository provides a starting point for creating your own
 For more information, please see the
 [OpenMRS Frontend Developer Documentation](https://openmrs.atlassian.net/wiki/x/IABBHg).
 
-In particular, the [Setup](https://openmrs.atlassian.net/wiki/x/PIIBCQ) section can help you get started developing microfrontends in general. The [Creating a microfrontend](https://openmrs.atlassian.net/wiki/spaces/docs/pages/151093932) section provides information about how to use this repository to create your own microfrontend.
+In particular, the [Setup](https://openmrs.atlassian.net/wiki/x/PIIBCQ) section can help you get started developing microfrontends in general. The [Creating a microfrontend](https://openmrs.atlassian.net/wiki/x/rIIBCQ) section provides information about how to use this repository to create your own microfrontend.
 
 ## Running this code
 
