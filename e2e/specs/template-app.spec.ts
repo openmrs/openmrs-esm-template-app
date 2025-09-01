@@ -5,7 +5,7 @@ test('Template app loads and displays all core components', async ({ page }) => 
   const rootPage = new RootPage(page);
   await rootPage.goto();
 
-  await expect(page).toHaveURL(/\/openmrs\/spa\/root/);
+  await expect(page).toHaveURL(/\/openmrs\/spa\/home\/service-queues/);
 
   await expect(rootPage.welcomeHeading).toBeVisible();
   await expect(

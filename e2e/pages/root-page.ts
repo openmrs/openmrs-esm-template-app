@@ -18,7 +18,7 @@ export class RootPage {
   }
 
   async goto() {
-    await this.page.goto('/openmrs/spa/root');
+    await this.page.goto('/openmrs/spa/home/service-queues');
     await this.welcomeHeading.waitFor();
   }
 

@@ -24,7 +24,7 @@
   "pages": [
     {
       "component": "root",
-      "route": "root"
+      "route": "home/service-queues"
     }
   ]
 }
