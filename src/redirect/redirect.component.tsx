@@ -1,5 +1,5 @@
 
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 
 const Redirect: React.FC = () => {
   useEffect(() => {
