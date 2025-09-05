@@ -47,5 +47,5 @@ it('renders a landing page for the Template app', () => {
   expect(screen.getByRole('heading', { name: /extension system/i })).toBeInTheDocument();
   expect(screen.getByRole('heading', { name: /data fetching/i })).toBeInTheDocument();
   expect(screen.getByRole('heading', { name: /resources/i })).toBeInTheDocument();
-  expect(screen.getByRole('button', { name: /get a patient named 'test'/i })).toBeInTheDocument();
+  expect(screen.getByRole('button', { name: /get a random patient/i })).toBeInTheDocument();
 });
