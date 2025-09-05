@@ -17,14 +17,14 @@ import styles from './patient-getter.scss';
 
 function PatientGetter() {
   const { t } = useTranslation();
-  const [patientName, setPatientName] = useState(null);
-  const { patient, isLoading } = usePatient(patientName);
+  const [shouldFetch, setShouldFetch] = useState(false);
+  const { patient, isLoading } = usePatient(shouldFetch);
 
   return (
     <div className={styles.container}>
       <h5>{t('dataFetching', 'Data fetching')}</h5>
       <p>{t('patientGetterExplainer', 'Try clicking the button below to fetch a patient from the backend')}:</p>
-      <Button onClick={() => setPatientName('test')}>{t('getPatient', 'Get a patient named')} 'test'</Button>
+      <Button onClick={() => setShouldFetch(true)}>{t('getRandomPatient', 'Get a random patient')}</Button>
       {isLoading ? <InlineLoading description={t('loading', 'Loading') + '...'} role="progressbar" /> : null}
       {patient ? (
         <Tile className={styles.tile}>

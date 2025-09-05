@@ -22,17 +22,23 @@ import { fhirBaseUrl, openmrsFetch } from '@openmrs/esm-framework';
  * @returns The first matching patient
  */
 
-export function usePatient(query: string) {
-  const url = `${fhirBaseUrl}/Patient?name=${query}&_summary=data`;
+export function usePatient(shouldFetch: boolean) {
+  const url = `${fhirBaseUrl}/Patient?_summary=data&_count=100`;
   const { data, error, isLoading } = useSWR<
     {
       data: { entry: Array<{ resource: fhir.Patient }> };
     },
     Error
-  >(query ? url : null, openmrsFetch);
+  >(shouldFetch ? url : null, openmrsFetch);
+
+  let patient = null;
+  if (data && data.data.entry && data.data.entry.length > 0) {
+    const randomIndex = Math.floor(Math.random() * data.data.entry.length);
+    patient = data.data.entry[randomIndex].resource;
+  }
 
   return {
-    patient: data ? data?.data?.entry[0].resource : null,
+    patient: patient,
     error: error,
     isLoading,
   };

@@ -25,6 +25,10 @@
     {
       "component": "root",
       "route": "root"
+    },
+    {
+      "component": "redirect",
+      "route": "home/service-queues"
     }
   ]
 }

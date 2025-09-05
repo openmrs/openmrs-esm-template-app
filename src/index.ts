@@ -47,3 +47,5 @@ export const redBox = getAsyncLifecycle(() => import('./boxes/extensions/red-box
 export const blueBox = getAsyncLifecycle(() => import('./boxes/extensions/blue-box.component'), options);
 
 export const brandBox = getAsyncLifecycle(() => import('./boxes/extensions/brand-box.component'), options);
+
+export const redirect = getAsyncLifecycle(() => import('./redirect/redirect.component'), options);
