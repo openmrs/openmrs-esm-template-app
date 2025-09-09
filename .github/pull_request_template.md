@@ -5,17 +5,13 @@
 
 ## Summary
 <!-- Please describe what problems your PR addresses. -->
-<!-- *None* -->
 
 ## Screenshots
 <!-- Required if you are making UI changes. -->
-<!-- *None* -->
 
 ## Related Issue
 <!-- Paste the link to the Jira ticket here if one exists. -->
 <!-- https://issues.openmrs.org/browse/O3- -->
-<!-- *None* -->
 
 ## Other
 <!-- Anything not covered above -->
-<!-- *None* -->
