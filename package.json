@@ -70,7 +70,6 @@
     "@types/webpack-env": "^1.18.1",
     "@typescript-eslint/eslint-plugin": "^7.8.0",
     "@typescript-eslint/parser": "^7.8.0",
-    "css-loader": "^6.8.1",
     "dayjs": "^1.11.13",
     "dotenv": "^16.0.3",
     "eslint": "^8.50.0",
@@ -93,11 +92,8 @@
     "react-i18next": "^16.0.0",
     "react-router-dom": "^6.14.1",
     "rxjs": "^6.6.7",
-    "swc-loader": "^0.2.3",
     "turbo": "^2.5.2",
-    "typescript": "^5.0.0",
-    "webpack": "^5.99.9",
-    "webpack-cli": "^6.0.1"
+    "typescript": "^5.0.0"
   },
   "lint-staged": {
     "packages/**/src/**/*.{ts,tsx}": "eslint --cache --fix --max-warnings 0",
