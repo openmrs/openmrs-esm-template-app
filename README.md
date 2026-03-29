@@ -10,10 +10,11 @@ The [Setup](https://openmrs.atlassian.net/wiki/x/PIIBCQ) section will help you g
 
 ## Running this code
 
-```sh
-yarn  # to install dependencies
-yarn start  # to run the dev server
-```
+1. Install dependencies
+
+```bash
+yarn install
+
 
 Once it is running, a browser window should open running the O3 reference application. Log in and then navigate to `/openmrs/spa/root`.
 
