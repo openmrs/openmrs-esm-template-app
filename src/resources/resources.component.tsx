@@ -4,6 +4,10 @@ import { ChevronRight } from '@carbon/react/icons';
 import { useTranslation } from 'react-i18next';
 import styles from './resources.scss';
 
+const ExternalLinkTile = ClickableTile as React.ForwardRefExoticComponent<
+  React.ComponentProps<typeof ClickableTile> & Pick<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'target'>
+>;
+
 function Resources() {
   const { t } = useTranslation();
 
@@ -39,17 +43,15 @@ function Resources() {
 
 function Card({ title, subtitle, link }: { title: string; subtitle: string; link: string }) {
   return (
-    <a href={link} target="_blank" rel="noopener noreferrer" className={styles.cardLink}>
-      <ClickableTile className={styles.card}>
-        <div className={styles.cardContent}>
-          <div className={styles.title}>
-            <h4>{title}</h4>
-            <ChevronRight />
-          </div>
-          <span className={styles.subtitle}>{subtitle}</span>
+    <ExternalLinkTile href={link} target="_blank" rel="noopener noreferrer" className={styles.card}>
+      <div className={styles.cardContent}>
+        <div className={styles.title}>
+          <h4>{title}</h4>
+          <ChevronRight />
         </div>
-      </ClickableTile>
-    </a>
+        <span className={styles.subtitle}>{subtitle}</span>
+      </div>
+    </ExternalLinkTile>
   );
 }
 
