@@ -1,20 +1,15 @@
 import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
-  resolve: {
-    alias: {
-      'workbox-window': new URL('./tools/empty-module.ts', import.meta.url).pathname,
-    },
-  },
   test: {
-    environment: 'happy-dom',
+    environment: 'jsdom',
     globals: true,
     mockReset: true,
     setupFiles: ['./tools/setup-tests.ts'],
     exclude: ['**/node_modules/**', '**/e2e/**', '**/dist/**'],
     server: {
       deps: {
-        inline: [/@openmrs/, 'workbox-window'],
+        inline: [/@openmrs/],
       },
     },
     alias: {
