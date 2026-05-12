@@ -1,10 +1,11 @@
 import React from 'react';
+import { expect, it, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { useConfig } from '@openmrs/esm-framework';
 import { Config } from '../config-schema';
 import Greeter from './greeter.component';
 
-const mockUseConfig = jest.mocked(useConfig<Config>);
+const mockUseConfig = vi.mocked(useConfig<Config>);
 
 it('displays the expected default text', () => {
   const config: Config = { casualGreeting: false, whoToGreet: ['World'] };

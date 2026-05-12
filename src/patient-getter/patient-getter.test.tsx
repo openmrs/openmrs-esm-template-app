@@ -1,4 +1,5 @@
 import React from 'react';
+import { expect, it, vi } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import PatientGetter from './patient-getter.component';
@@ -6,8 +7,8 @@ import PatientGetter from './patient-getter.component';
 /**
  * This is an idiomatic mock of a backend resource. We generally mock resource fetching functions like `usePatient`, rather than mocking `fetch` or anything lower-level.
  */
-jest.mock('./patient-getter.resource.ts', () => ({
-  usePatient: jest.fn(() => ({
+vi.mock('./patient-getter.resource.ts', () => ({
+  usePatient: vi.fn(() => ({
     patient: {
       birthDate: '1997-05-21',
       gender: 'male',
