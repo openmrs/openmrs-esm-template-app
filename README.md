@@ -2,6 +2,15 @@
 
 ![Node.js CI](https://github.com/openmrs/openmrs-esm-template-app/workflows/Node.js%20CI/badge.svg)
 
+> [!IMPORTANT]
+> **Starting a new frontend module?** The recommended way is now the [`create-o3-app`](https://github.com/openmrs/create-o3-app) CLI, which scaffolds a ready-to-run module in one command:
+>
+> ```sh
+> npm create @openmrs/o3-app@latest my-module-name
+> ```
+>
+> This repository is still useful as a reference for the structure the CLI generates. See the [Create a frontend module](https://o3-docs.openmrs.org/en-US/docs/recipes/create-a-frontend-module) recipe for details.
+
 This repository serves as a template for building OpenMRS frontend modules. For detailed guidance, see the [Creating a Frontend Module](https://openmrs.atlassian.net/wiki/x/rIIBCQ) documentation.
 
 For more information, please see the [OpenMRS Frontend Developer Documentation](https://openmrs.atlassian.net/wiki/x/IABBHg).
