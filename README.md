@@ -1,6 +1,6 @@
 # OpenMRS ESM Template App
 
-![Node.js CI](https://github.com/openmrs/openmrs-esm-template-app/workflows/Node.js%20CI/badge.svg)
+![OpenMRS CI](https://github.com/openmrs/openmrs-esm-template-app/actions/workflows/ci.yml/badge.svg)
 
 > [!IMPORTANT]
 > **Starting a new frontend module?** The recommended way is now the [`create-o3-app`](https://github.com/openmrs/create-o3-app) CLI, which scaffolds a ready-to-run module in one command:
