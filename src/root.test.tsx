@@ -13,7 +13,7 @@
  * on things that would be visually apparent to a user.
  *
  * To learn more about how we do testing, see the following resources:
- *   https://o3-docs.vercel.app/docs/frontend-modules/testing
+ *   https://o3-docs.openmrs.org/en-US/docs/frontend-modules/unit-and-integration-testing
  *   https://kentcdodds.com/blog/how-to-know-what-to-test
  *   https://kentcdodds.com/blog/testing-implementation-details
  *   https://kentcdodds.com/blog/common-mistakes-with-react-testing-library
