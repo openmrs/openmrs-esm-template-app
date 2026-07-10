@@ -2,7 +2,7 @@
  * This component demonstrates the creation of an extension.
  *
  * Check out the Extension System docs:
- * https://o3-docs.vercel.app/docs/extension-system
+ * https://o3-docs.openmrs.org/en-US/docs/extension-system
  */
 
 import React from 'react';

@@ -1,7 +1,7 @@
 /**
  * This component demonstrates usage of the config object. Its structure
  * comes from `../config-schema.ts`. For more information about the
- * configuration system, read the docs: https://o3-docs.vercel.app/docs/configuration-system
+ * configuration system, read the docs: https://o3-docs.openmrs.org/en-US/docs/configuration-system
  */
 import React from 'react';
 import { Tile } from '@carbon/react';
