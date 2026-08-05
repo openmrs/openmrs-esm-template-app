@@ -14,11 +14,11 @@ import { Type, validator } from '@openmrs/esm-framework';
  *
  * To understand the schema below, please read the configuration system
  * documentation:
- *   https://openmrs.github.io/openmrs-esm-core/#/main/config
+ *   https://o3-docs.openmrs.org/en-US/docs/configuration-system
  * Note especially the section "How do I make my module configurable?"
- *   https://openmrs.github.io/openmrs-esm-core/#/main/config?id=im-developing-an-esm-module-how-do-i-make-it-configurable
+ *   https://o3-docs.openmrs.org/en-US/docs/configuration-system#how-to-make-a-frontend-module-configurable
  * and the Schema Reference
- *   https://openmrs.github.io/openmrs-esm-core/#/main/config?id=schema-reference
+ *   https://o3-docs.openmrs.org/en-US/docs/configuration-system#schema-reference
  */
 export const configSchema = {
   casualGreeting: {
