@@ -15,7 +15,7 @@ import { Type, validator } from '@openmrs/esm-framework';
  * To understand the schema below, please read the configuration system
  * documentation:
  *   https://o3-docs.openmrs.org/en-US/docs/configuration-system
- * Note especially the section "How do I make my module configurable?"
+ * Note especially the section "How to make a frontend module configurable"
  *   https://o3-docs.openmrs.org/en-US/docs/configuration-system#how-to-make-a-frontend-module-configurable
  * and the Schema Reference
  *   https://o3-docs.openmrs.org/en-US/docs/configuration-system#schema-reference
