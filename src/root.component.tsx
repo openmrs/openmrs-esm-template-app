@@ -5,7 +5,7 @@
  * see data fetching using the OpenMRS FHIR API.
  *
  * Check out the Config docs:
- *   https://openmrs.github.io/openmrs-esm-core/#/main/config
+ *   https://o3-docs.openmrs.org/en-US/docs/configuration-system
  */
 
 import React from 'react';
