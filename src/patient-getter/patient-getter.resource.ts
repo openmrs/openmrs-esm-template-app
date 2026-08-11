@@ -15,7 +15,7 @@ import { fhirBaseUrl, openmrsFetch } from '@openmrs/esm-framework';
  *  We recommend using SWR for data fetching in your OpenMRS frontend modules.
  *
  * See the docs for the underlying fhir.js Client object: https://github.com/FHIR/fhir.js#api
- * See the OpenMRS FHIR Module docs: https://github.com/openmrs/openmrs-module-fhir2
+ * See the OpenMRS FHIR Module docs: https://om.rs/fhir
  * See the OpenMRS REST API docs: https://rest.openmrs.org/#openmrs-rest-api
  *
  * @param query A patient name or ID
