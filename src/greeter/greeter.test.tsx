@@ -2,7 +2,7 @@ import React from 'react';
 import { expect, it, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { useConfig } from '@openmrs/esm-framework';
-import { Config } from '../config-schema';
+import { type Config } from '../config-schema';
 import Greeter from './greeter.component';
 
 const mockUseConfig = vi.mocked(useConfig<Config>);
