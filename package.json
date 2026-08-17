@@ -53,7 +53,7 @@
     "rxjs": "6.x"
   },
   "devDependencies": {
-    "@openmrs/eslint-config": "^2.0.0",
+    "@openmrs/eslint-config": "^2.1.0",
     "@openmrs/esm-framework": "next",
     "@openmrs/esm-styleguide": "next",
     "@playwright/test": "^1.52.0",
