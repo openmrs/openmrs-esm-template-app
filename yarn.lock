@@ -2261,9 +2261,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@openmrs/eslint-config@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "@openmrs/eslint-config@npm:2.0.0"
+"@openmrs/eslint-config@npm:^2.1.0":
+  version: 2.1.0
+  resolution: "@openmrs/eslint-config@npm:2.1.0"
   dependencies:
     "@eslint/js": "npm:^9.39.0"
     eslint-config-prettier: "npm:^10.1.8"
@@ -2277,7 +2277,7 @@ __metadata:
   peerDependencies:
     eslint: ^9.39.0
     typescript: ">=5"
-  checksum: 10/9e048e2a43a79365e7fd81ebe8b5d0b7def54ae67614b674f705861df4062eeeaa0a2127a9c713fd76cef9de760140d9014a60155feb158fc67cff1f30b15b51
+  checksum: 10/862013f97f19a03d60089de6511d00b0cc72db4303d6f7cf8f22583bc9663072ce6e223f4fc15409d93bf7cbb83534854b9f8635ca425c7d0180122aabecdcec
   languageName: node
   linkType: hard
 
@@ -2597,7 +2597,7 @@ __metadata:
   resolution: "@openmrs/esm-template-app@workspace:."
   dependencies:
     "@carbon/react": "npm:^1.83.0"
-    "@openmrs/eslint-config": "npm:^2.0.0"
+    "@openmrs/eslint-config": "npm:^2.1.0"
     "@openmrs/esm-framework": "npm:next"
     "@openmrs/esm-styleguide": "npm:next"
     "@playwright/test": "npm:^1.52.0"
