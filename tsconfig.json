@@ -20,5 +20,6 @@
     "resolveJsonModule": true,
     "noEmit": true,
     "target": "esnext"
-  }
+  },
+  "exclude": ["node_modules", "dist"]
 }
